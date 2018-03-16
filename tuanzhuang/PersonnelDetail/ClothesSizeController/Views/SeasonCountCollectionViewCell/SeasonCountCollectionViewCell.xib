@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="rXq-6F-kmS" customClass="SeasonCountCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="420" height="70"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                <rect key="frame" x="0.0" y="0.0" width="420" height="70"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jjH-wj-RfB">
+                        <rect key="frame" x="10" y="15" width="40" height="40"/>
+                        <color key="backgroundColor" red="0.027915326880000001" green="0.73515778779999996" blue="0.90664106609999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="5od-ct-Ktf"/>
+                            <constraint firstAttribute="height" constant="40" id="RWC-GJ-ou1"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <state key="normal" title="A">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="categoryButtonTapAction:" destination="rXq-6F-kmS" eventType="touchUpInside" id="WKX-A4-wdZ"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="夏：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zxF-0i-yAC">
+                        <rect key="frame" x="58" y="27" width="29" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="siG-yy-nsu" userLabel="Summer Button" customClass="PPNumberButton">
+                        <rect key="frame" x="91" y="18" width="104" height="35"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="104" id="1KP-GU-qaG"/>
+                            <constraint firstAttribute="height" constant="35" id="bot-aY-crf"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="decreaseTitle" value="-"/>
+                            <userDefinedRuntimeAttribute type="string" keyPath="increaseTitle" value="+"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="minValue">
+                                <integer key="value" value="0"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="件" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hD7-aa-Lov">
+                        <rect key="frame" x="199" y="27" width="15" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ezk-Ju-rb2" userLabel="Winter Button" customClass="PPNumberButton">
+                        <rect key="frame" x="262" y="17.5" width="104" height="35"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="104" id="hzf-37-y5P"/>
+                            <constraint firstAttribute="height" constant="35" id="luk-wJ-MB1"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="decreaseTitle" value="-"/>
+                            <userDefinedRuntimeAttribute type="string" keyPath="increaseTitle" value="+"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="minValue">
+                                <integer key="value" value="0"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="件" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zdn-2T-CmO">
+                        <rect key="frame" x="370" y="26" width="15" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="冬：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fZf-N9-h7m">
+                        <rect key="frame" x="229" y="26.5" width="29" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="jjH-wj-RfB" firstAttribute="centerY" secondItem="rXq-6F-kmS" secondAttribute="centerY" id="1Rw-GD-9Gg"/>
+                <constraint firstItem="jjH-wj-RfB" firstAttribute="leading" secondItem="rXq-6F-kmS" secondAttribute="leading" constant="10" id="34C-tV-UDD"/>
+                <constraint firstItem="zxF-0i-yAC" firstAttribute="centerY" secondItem="rXq-6F-kmS" secondAttribute="centerY" id="4Dh-fQ-fxC"/>
+                <constraint firstItem="zdn-2T-CmO" firstAttribute="centerY" secondItem="rXq-6F-kmS" secondAttribute="centerY" id="7SX-qU-Rmu"/>
+                <constraint firstItem="ezk-Ju-rb2" firstAttribute="centerY" secondItem="rXq-6F-kmS" secondAttribute="centerY" id="BHJ-JC-sON"/>
+                <constraint firstItem="jjH-wj-RfB" firstAttribute="centerY" secondItem="rXq-6F-kmS" secondAttribute="centerY" id="CLe-2c-s86"/>
+                <constraint firstItem="hD7-aa-Lov" firstAttribute="centerY" secondItem="rXq-6F-kmS" secondAttribute="centerY" id="Hr1-Tx-cv8"/>
+                <constraint firstItem="zxF-0i-yAC" firstAttribute="leading" secondItem="jjH-wj-RfB" secondAttribute="trailing" constant="8" id="KI7-ga-fyQ"/>
+                <constraint firstItem="zdn-2T-CmO" firstAttribute="leading" secondItem="ezk-Ju-rb2" secondAttribute="trailing" constant="4" id="Ofw-Ep-fMQ"/>
+                <constraint firstItem="siG-yy-nsu" firstAttribute="centerY" secondItem="rXq-6F-kmS" secondAttribute="centerY" id="PjX-67-zyp"/>
+                <constraint firstItem="hD7-aa-Lov" firstAttribute="leading" secondItem="siG-yy-nsu" secondAttribute="trailing" constant="4" id="Z7B-OW-mdC"/>
+                <constraint firstItem="fZf-N9-h7m" firstAttribute="leading" secondItem="hD7-aa-Lov" secondAttribute="trailing" constant="15" id="a5P-LR-aSn"/>
+                <constraint firstItem="siG-yy-nsu" firstAttribute="leading" secondItem="zxF-0i-yAC" secondAttribute="trailing" constant="4" id="bdA-2c-Whi"/>
+                <constraint firstItem="fZf-N9-h7m" firstAttribute="centerY" secondItem="rXq-6F-kmS" secondAttribute="centerY" id="fFb-54-jUF"/>
+                <constraint firstItem="ezk-Ju-rb2" firstAttribute="leading" secondItem="fZf-N9-h7m" secondAttribute="trailing" constant="4" id="jSS-yx-J3F"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="tNr-AZ-MuL"/>
+            <connections>
+                <outlet property="categoryButton" destination="jjH-wj-RfB" id="Ntm-3Y-gsY"/>
+                <outlet property="summerButton" destination="siG-yy-nsu" id="d8z-0l-NYv"/>
+                <outlet property="winterButton" destination="ezk-Ju-rb2" id="4CE-rH-i5K"/>
+            </connections>
+            <point key="canvasLocation" x="-84" y="-183"/>
+        </collectionViewCell>
+    </objects>
+</document>

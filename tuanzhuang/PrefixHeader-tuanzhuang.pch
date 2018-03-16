@@ -1,0 +1,108 @@
+//
+//  PrefixHeader-tuanzhuang.pch
+//  tuanzhuang
+//
+//  Created by red on 2017/11/29.
+//  Copyright © 2017年 red. All rights reserved.
+//
+
+#import "SizeConst.h"
+
+#ifndef PrefixHeader_tuanzhuang_pch
+#define PrefixHeader_tuanzhuang_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+/**
+ * Strong, weak 对象
+ */
+#define weakObjc(objc)  __weak typeof(objc)weak##objc = objc
+#define strongObjc(objc)  __strong typeof(objc)strong##objc = objc
+
+//storyboard
+#define MAIN_STORYBOARD [UIStoryboard storyboardWithName:@"Main" bundle:nil]//Main storyboard
+#define VCFromBundleWithIdentifier(identifier) [MAIN_STORYBOARD instantiateViewControllerWithIdentifier:(identifier)]
+//状态栏高度
+#define STATUSBAR_H 20
+//顶部距离
+#define TOPNAVIGATIONBAR_H 64
+//tabbar高度
+#define TABBAR_H 49
+//屏幕宽高
+#define SCREEN_H ([[UIScreen mainScreen] bounds].size.height)
+#define SCREEN_W ([[UIScreen mainScreen] bounds].size.width)
+//颜色
+#define RGBColor(r,g,b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
+#define RGBColorAlpha(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+#define skyColor RGBColor(0,122,255)  // #18AFE5
+#define systemGrayColor RGBColor(204,204,204) // #cccccc
+#define systemBlackColor RGBColor(51,51,51)     // #333333
+#define systemDarkGrayColor RGBColor(170,170,170) // #AAAAAA 深灰
+
+#define COLOR_PERSION_INFO_SELECTED RGBColor(254,203,47) //#fecb2f
+#define COLOR_TABLE_CELL_BORDER     RGBColor(234,234,234)//#eaeaea
+#define SYSTEM_BLUE_COLOR           RGBColor(0, 122, 255)// 系统蓝
+
+/*********搜索布局信息***********/
+#define TOPVIEW_H 50  // 顶部背景view
+#define SEARCH_H 30   // 搜索高度
+#define SEARCH_X 10   // 搜索.x
+#define SEARCH_Y 10   // 搜索.y
+#define CANCLE_W 80   // 取消按钮宽度
+/********************/
+
+/////////// 键盘高度
+#define KEYBOARD_H 0.6*(SCREEN_H-64)
+
+
+/********** Notification Center Key *******************/
+
+#define KEY_NOTIFICATION_CENTER_PERSON_SIZE_OPERATION @"person_size_operation_key_for_notification"
+
+#endif /* PrefixHeader_tuanzhuang_pch */
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "SDWebImage/UIImageView+WebCache.h"
+#import "Userdefined.h"
+#import "UserManager.h"
+#import "NetworkOperation.h"
+#import "SuperViewController.h"
+#import "UIViewController+MethodSwizzling.h"
+#import "UIViewController+NavigationBar.h"
+#import "MainNavigationViewController.h"
+#import <Masonry.h>
+#import "ZZNumberField.h"
+#import "processingTime.h"
+#import "Enum.h"
+#import "UIViewController+MBProgressHUD.h"
+#import "NSDictionary+DIC_Extension.h"
+#import "NSArray+DIC_Extension.h"
+#import "NSString+Extension.h"
+#import "UITextField+shakeAnimation.h"
+#import "NSObject+WN_Extension.h"
+#import <IQKeyboardManager.h>
+#import <IQPreviousNextView.h>
+#import <MagicalRecord/MagicalRecord.h>
+#import "TYPagerController.h"
+#import "MJExtension.h"
+#import "MJRefresh.h"
+/******数据处理接口*****/
+#import "SynchronizeData.h"
+#import "CommonData.h"
+/******数据模型*****/
+#import "CompanyModel+CoreDataClass.h"
+#import "CompanyModel+CoreDataProperties.h"
+#import "PersonnelModel+CoreDataClass.h"
+#import "PersonnelModel+CoreDataProperties.h"
+#import "CategoryModel+CoreDataClass.h"
+#import "CategoryModel+CoreDataProperties.h"
+#import "PositionModel+CoreDataClass.h"
+#import "PositionModel+CoreDataProperties.h"
+#import "AdditionModel+CoreDataClass.h"
+#import "AdditionModel+CoreDataProperties.h"
+
+
+#endif

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="OtherSliderMenuView">
+            <rect key="frame" x="0.0" y="0.0" width="1000" height="160"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="KGk-1m-Tl5">
+                    <rect key="frame" x="60" y="0.0" width="810" height="160"/>
+                    <subviews>
+                        <button opaque="NO" tag="200" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4aZ-nR-Jkp" customClass="CenterAlignButton">
+                            <rect key="frame" x="0.0" y="0.0" width="135" height="160"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <state key="normal" title="复制数据" image="copy_icon_s">
+                                <color key="titleColor" red="0.027915326880000001" green="0.73515778779999996" blue="0.90664106609999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <state key="disabled" image="copy_icon">
+                                <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="selected" image="copy_icon_a">
+                                <color key="titleColor" red="0.99739855529999999" green="0.79720199110000001" blue="0.18202176689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="menuButtonTapAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="267-6N-0Ia"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="201" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mgi-uA-3sp" customClass="CenterAlignButton">
+                            <rect key="frame" x="135" y="0.0" width="135" height="160"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <state key="normal" title="粘贴数据" image="paste_icon_s">
+                                <color key="titleColor" red="0.027915326880000001" green="0.73515778779999996" blue="0.90664106609999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <state key="disabled" image="paste_icon">
+                                <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="selected" title="撤销粘贴" image="cancel_icon_s">
+                                <color key="titleColor" red="0.0" green="0.74333780999999999" blue="0.90251606699999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="menuButtonTapAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="Yoj-Gu-K3g"/>
+                            </connections>
+                        </button>
+                        <button hidden="YES" opaque="NO" tag="206" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZYK-r0-9tP" customClass="CenterAlignButton">
+                            <rect key="frame" x="270" y="0.0" width="0.0" height="160"/>
+                            <state key="normal" title="撤销粘贴" image="cancel_icon_s">
+                                <color key="titleColor" red="0.027915326880000001" green="0.73515778779999996" blue="0.90664106609999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="menuButtonTapAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="7Mu-rL-lzM"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="202" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="foV-xm-wYs" customClass="CenterAlignButton">
+                            <rect key="frame" x="270" y="0.0" width="135" height="160"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <state key="normal" title="参照他人" image="copyothers_icon_s">
+                                <color key="titleColor" red="0.027915326880000001" green="0.73515778779999996" blue="0.90664106609999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <state key="disabled" image="copyothers_icon">
+                                <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="selected" image="copyothers_icon_a">
+                                <color key="titleColor" red="0.99739855529999999" green="0.79720199110000001" blue="0.18202176689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="menuButtonTapAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="0X3-bi-8pf"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="203" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJG-1i-YR2" userLabel="历史尺寸" customClass="CenterAlignButton">
+                            <rect key="frame" x="405" y="0.0" width="135" height="160"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <state key="normal" title="历史尺寸" image="history_icon_s">
+                                <color key="titleColor" red="0.027915326880000001" green="0.73515778779999996" blue="0.90664106609999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <state key="disabled" image="history_icon">
+                                <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="selected" image="history_icon_a">
+                                <color key="titleColor" red="0.99739855529999999" green="0.79720199110000001" blue="0.18202176689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="menuButtonTapAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="AXB-FV-56B"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="204" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IcK-JA-eZa" customClass="CenterAlignButton">
+                            <rect key="frame" x="540" y="0.0" width="135" height="160"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <state key="normal" title="备注信息" image="comments_icon_s">
+                                <color key="titleColor" red="0.027915326880000001" green="0.73515778779999996" blue="0.90664106609999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <state key="disabled" image="comments_icon">
+                                <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="selected" image="comments_icon_a">
+                                <color key="titleColor" red="0.99739855529999999" green="0.79720199110000001" blue="0.18202176689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="menuButtonTapAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="E32-Mf-ttM"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="205" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nev-lr-XST" customClass="CenterAlignButton">
+                            <rect key="frame" x="675" y="0.0" width="135" height="160"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <state key="normal" title="签字确认" image="sign_icon_s">
+                                <color key="titleColor" red="0.027915326880000001" green="0.73515778779999996" blue="0.90664106609999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <state key="disabled" image="sign_icon">
+                                <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="selected" image="sign_icon_a">
+                                <color key="titleColor" red="0.99739855529999999" green="0.79720199110000001" blue="0.18202176689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="menuButtonTapAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="iwC-c6-Ejs"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <viewLayoutGuide key="safeArea" id="zcA-0S-oNV"/>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" red="0.99989169836044312" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="KGk-1m-Tl5" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="9Cp-LD-3Rs"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="KGk-1m-Tl5" secondAttribute="bottom" id="WBS-AS-bWM"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="KGk-1m-Tl5" secondAttribute="trailing" constant="130" id="p6L-0i-nFt"/>
+                <constraint firstItem="KGk-1m-Tl5" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="60" id="w4M-I2-gtU"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="pasteButton" destination="Mgi-uA-3sp" id="ewU-hC-4Va"/>
+                <outlet property="stackView" destination="KGk-1m-Tl5" id="9Og-z9-7yE"/>
+            </connections>
+            <point key="canvasLocation" x="822" y="-179"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="cancel_icon_s" width="58" height="69"/>
+        <image name="comments_icon" width="69" height="69"/>
+        <image name="comments_icon_a" width="69" height="68"/>
+        <image name="comments_icon_s" width="69" height="68"/>
+        <image name="copy_icon" width="59" height="69"/>
+        <image name="copy_icon_a" width="58" height="69"/>
+        <image name="copy_icon_s" width="59" height="69"/>
+        <image name="copyothers_icon" width="65" height="68"/>
+        <image name="copyothers_icon_a" width="65" height="69"/>
+        <image name="copyothers_icon_s" width="65" height="68"/>
+        <image name="history_icon" width="67" height="69"/>
+        <image name="history_icon_a" width="67" height="69"/>
+        <image name="history_icon_s" width="67" height="69"/>
+        <image name="paste_icon" width="58" height="68"/>
+        <image name="paste_icon_s" width="58" height="68"/>
+        <image name="sign_icon" width="70" height="68"/>
+        <image name="sign_icon_a" width="69" height="68"/>
+        <image name="sign_icon_s" width="70" height="68"/>
+    </resources>
+</document>

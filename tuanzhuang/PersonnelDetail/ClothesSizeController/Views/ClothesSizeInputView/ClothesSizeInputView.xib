@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ClothesSizeInputView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="406"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="夏季" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3gr-Nn-gl8">
+                    <rect key="frame" x="72.5" y="100" width="41" height="24"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BKt-SQ-c2D" customClass="PPNumberButton">
+                    <rect key="frame" x="72.5" y="128" width="190" height="50"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="ebp-Q9-BcC"/>
+                        <constraint firstAttribute="width" constant="190" id="iLm-Tm-GzR"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="increaseTitle" value="+"/>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                            <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="string" keyPath="decreaseTitle" value="-"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="minValue">
+                            <integer key="value" value="0"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w7i-lo-A4B" customClass="PPNumberButton">
+                    <rect key="frame" x="72.5" y="256" width="190" height="50"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="Vng-2F-klH"/>
+                        <constraint firstAttribute="width" constant="190" id="uao-Fe-Mj8"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="increaseTitle" value="+"/>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                            <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="string" keyPath="decreaseTitle" value="-"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="minValue">
+                            <integer key="value" value="0"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="cm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IpO-kq-vPn">
+                    <rect key="frame" x="274.5" y="142.5" width="25" height="21.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="cm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kwv-fT-xRi">
+                    <rect key="frame" x="274.5" y="271" width="25" height="21.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="冬季" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lAe-7w-etb">
+                    <rect key="frame" x="72" y="228" width="41" height="24"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="3gr-Nn-gl8" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="100" id="3WV-e3-AwC"/>
+                <constraint firstItem="w7i-lo-A4B" firstAttribute="top" secondItem="lAe-7w-etb" secondAttribute="bottom" constant="4" id="DEc-Cp-xzA"/>
+                <constraint firstItem="w7i-lo-A4B" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" constant="-20" id="FQq-Lx-jf1"/>
+                <constraint firstItem="BKt-SQ-c2D" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" constant="-20" id="MRc-4M-sr5"/>
+                <constraint firstItem="Kwv-fT-xRi" firstAttribute="leading" secondItem="w7i-lo-A4B" secondAttribute="trailing" constant="12" id="VNq-cq-Qyz"/>
+                <constraint firstItem="BKt-SQ-c2D" firstAttribute="leading" secondItem="3gr-Nn-gl8" secondAttribute="leading" id="ZlO-eT-3dQ"/>
+                <constraint firstItem="Kwv-fT-xRi" firstAttribute="centerY" secondItem="w7i-lo-A4B" secondAttribute="centerY" id="gdn-hy-TU3"/>
+                <constraint firstItem="BKt-SQ-c2D" firstAttribute="top" secondItem="3gr-Nn-gl8" secondAttribute="bottom" constant="4" id="hDW-30-9C2"/>
+                <constraint firstItem="w7i-lo-A4B" firstAttribute="leading" secondItem="lAe-7w-etb" secondAttribute="leading" id="hwc-VX-zW3"/>
+                <constraint firstItem="IpO-kq-vPn" firstAttribute="leading" secondItem="BKt-SQ-c2D" secondAttribute="trailing" constant="12" id="p17-4C-1Mk"/>
+                <constraint firstItem="lAe-7w-etb" firstAttribute="top" secondItem="BKt-SQ-c2D" secondAttribute="bottom" constant="50" id="qBd-sl-c6f"/>
+                <constraint firstItem="IpO-kq-vPn" firstAttribute="centerY" secondItem="BKt-SQ-c2D" secondAttribute="centerY" id="uRc-FW-Q9n"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="summerButton" destination="BKt-SQ-c2D" id="dKX-bb-neM"/>
+                <outlet property="winterButton" destination="w7i-lo-A4B" id="Du6-UQ-kKN"/>
+            </connections>
+            <point key="canvasLocation" x="39.5" y="93"/>
+        </view>
+    </objects>
+</document>
