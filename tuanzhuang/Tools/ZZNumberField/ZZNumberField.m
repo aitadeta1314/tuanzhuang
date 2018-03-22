@@ -680,6 +680,11 @@ static NSString * const kNumberButton[] = {
     stop = false;
 }
 
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    NSLog(@"touches取消 被打断了~");
+    UIGraphicsEndImageContext();
+    [self clearImage];
+}
 
 - (void)clearImage
 {
