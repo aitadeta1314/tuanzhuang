@@ -50,9 +50,12 @@
 		47CDDEFA2029862E00D9C261 /* PositionModel+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CDDEF92029862E00D9C261 /* PositionModel+Helper.m */; };
 		47E2FBCA204E69C800568A5A /* PersonnelModel+SyncData.m in Sources */ = {isa = PBXBuildFile; fileRef = 47E2FBC9204E69C800568A5A /* PersonnelModel+SyncData.m */; };
 		47E2FBCD204E7A3600568A5A /* PersonnelModel+Description.m in Sources */ = {isa = PBXBuildFile; fileRef = 47E2FBCC204E7A3600568A5A /* PersonnelModel+Description.m */; };
+		47E2FC132058FBC900568A5A /* PersonnelModel+Additional.m in Sources */ = {isa = PBXBuildFile; fileRef = 47E2FC122058FBC900568A5A /* PersonnelModel+Additional.m */; };
 		47E38A5E201C426200F017CC /* SignLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 47E38A5D201C426200F017CC /* SignLayoutManager.m */; };
 		47E9C31E20468144008250CB /* LockConverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47E9C31D20468144008250CB /* LockConverView.m */; };
 		47E9C3202048DADD008250CB /* BodySizeAddtionalTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47E9C31F2048DADD008250CB /* BodySizeAddtionalTableViewCell.xib */; };
+		47ED337B206B30D300E2B5B3 /* AdditionalTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 47ED3379206B30D300E2B5B3 /* AdditionalTableViewCell.m */; };
+		47ED337C206B30D300E2B5B3 /* AdditionalTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47ED337A206B30D300E2B5B3 /* AdditionalTableViewCell.xib */; };
 		47F2DB912005A28900B96D56 /* ConfigSlideMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F2DB902005A28900B96D56 /* ConfigSlideMenuView.m */; };
 		47FE143C200843CE00C55C3D /* PositionSizeRangeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 47FE143B200843CE00C55C3D /* PositionSizeRangeModel.m */; };
 		752B27781FDE5C7D00E26339 /* StartSyncViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 752B27771FDE5C7D00E26339 /* StartSyncViewController.m */; };
@@ -82,19 +85,19 @@
 		8A42C5052057A8D60060A6A8 /* NetStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A42C5042057A8D60060A6A8 /* NetStatus.m */; };
 		8A42C5072057AB870060A6A8 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A42C5062057AB870060A6A8 /* CoreTelephony.framework */; };
 		8A6686892015907800041B62 /* UITextField+shakeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6686882015907700041B62 /* UITextField+shakeAnimation.m */; };
-		8A837BAB205A477E00C8DBF9 /* autopacking.sh in Resources */ = {isa = PBXBuildFile; fileRef = 8A837BA9205A477D00C8DBF9 /* autopacking.sh */; };
 		8A9374001FD8EB7C005613F5 /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9373FD1FD8EB7B005613F5 /* SearchTableViewCell.m */; };
 		8A9374011FD8EB7C005613F5 /* SearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A9373FF1FD8EB7C005613F5 /* SearchTableViewCell.xib */; };
 		8A9374031FD9131E005613F5 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9374021FD9131E005613F5 /* ExternalAccessory.framework */; };
 		8A9374071FD91394005613F5 /* libhwlibT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9374051FD91394005613F5 /* libhwlibT.a */; };
 		8A9374091FD913B7005613F5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9374081FD913B7005613F5 /* CoreGraphics.framework */; };
+		8AABAB4620687F3A00EB94E0 /* RecycledViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AABAB4520687F3A00EB94E0 /* RecycledViewController.m */; };
+		8AABAB4A20687FB800EB94E0 /* RecycledCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AABAB4820687FB800EB94E0 /* RecycledCollectionViewCell.xib */; };
+		8AABAB4B20687FB800EB94E0 /* RecycledCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AABAB4920687FB800EB94E0 /* RecycledCollectionViewCell.m */; };
 		8AB3CC351FEB50CB00F34D89 /* ReceiveDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB3CC331FEB50CB00F34D89 /* ReceiveDataViewController.m */; };
 		8AB3CC391FEB50DB00F34D89 /* ReceivePersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB3CC361FEB50DB00F34D89 /* ReceivePersonCell.m */; };
 		8AB3CC3A1FEB50DB00F34D89 /* ReceivePersonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AB3CC371FEB50DB00F34D89 /* ReceivePersonCell.xib */; };
 		8AB3CC3E1FEB50E700F34D89 /* ReceiveInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB3CC3C1FEB50E700F34D89 /* ReceiveInfoModel.m */; };
-		8AB3CC581FEB7D7200F34D89 /* SimpleTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB3CC531FEB7D7200F34D89 /* SimpleTableCell.m */; };
 		8AB3CC591FEB7D7200F34D89 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB3CC541FEB7D7200F34D89 /* AboutViewController.m */; };
-		8AB3CC5A1FEB7D7200F34D89 /* SimpleTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AB3CC551FEB7D7200F34D89 /* SimpleTableCell.xib */; };
 		8AB3CC5F1FEB7F2900F34D89 /* ExplainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB3CC5E1FEB7F2900F34D89 /* ExplainViewController.m */; };
 		8AB3CC621FEB7F6300F34D89 /* CopyRightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB3CC611FEB7F6300F34D89 /* CopyRightViewController.m */; };
 		8ABC17C71FD5339000C8541C /* CompanyCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ABC17C51FD5339000C8541C /* CompanyCollectionViewCell.m */; };
@@ -107,9 +110,11 @@
 		8AF0AD0E1FD53F5C000A199C /* CompanyEmptyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF0AD0C1FD53F5C000A199C /* CompanyEmptyCell.m */; };
 		8AF0AD0F1FD53F5C000A199C /* CompanyEmptyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AF0AD0D1FD53F5C000A199C /* CompanyEmptyCell.xib */; };
 		9D18B3701FE3622A009C3B58 /* signView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D18B36F1FE3622A009C3B58 /* signView.m */; };
+		9D1CD1242057C37600E0CB4C /* UploadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D1CD1232057C37600E0CB4C /* UploadModel.m */; };
 		9D216CEF1FFB75210003BDBA /* SynchronizeData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D216CEE1FFB75210003BDBA /* SynchronizeData.m */; };
 		9D274EE120424F37008C93C5 /* SynCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D274EE020424F37008C93C5 /* SynCodeView.m */; };
 		9D298B6E201025BE009FA18B /* UnfinishedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D298B6D201025BE009FA18B /* UnfinishedViewController.m */; };
+		9D45D83F20638C84009BA818 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D45D83E20638C84009BA818 /* DownloadManager.m */; };
 		9D520697204E36A30017987E /* WaterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D520696204E36A30017987E /* WaterView.m */; };
 		9D5695D01FEB9CF100E628EA /* tuanzhuang.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9D5695CE1FEB9CF100E628EA /* tuanzhuang.xcdatamodeld */; };
 		9DB547501FCE473A007E6F9B /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DB5474F1FCE473A007E6F9B /* HomeViewController.m */; };
@@ -246,11 +251,16 @@
 		47E2FBC9204E69C800568A5A /* PersonnelModel+SyncData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "PersonnelModel+SyncData.m"; sourceTree = "<group>"; };
 		47E2FBCB204E7A3600568A5A /* PersonnelModel+Description.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PersonnelModel+Description.h"; sourceTree = "<group>"; };
 		47E2FBCC204E7A3600568A5A /* PersonnelModel+Description.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "PersonnelModel+Description.m"; sourceTree = "<group>"; };
+		47E2FC112058FBC900568A5A /* PersonnelModel+Additional.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PersonnelModel+Additional.h"; sourceTree = "<group>"; };
+		47E2FC122058FBC900568A5A /* PersonnelModel+Additional.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "PersonnelModel+Additional.m"; sourceTree = "<group>"; };
 		47E38A5C201C426200F017CC /* SignLayoutManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignLayoutManager.h; sourceTree = "<group>"; };
 		47E38A5D201C426200F017CC /* SignLayoutManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignLayoutManager.m; sourceTree = "<group>"; };
 		47E9C31C20468144008250CB /* LockConverView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LockConverView.h; sourceTree = "<group>"; };
 		47E9C31D20468144008250CB /* LockConverView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LockConverView.m; sourceTree = "<group>"; };
 		47E9C31F2048DADD008250CB /* BodySizeAddtionalTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BodySizeAddtionalTableViewCell.xib; sourceTree = "<group>"; };
+		47ED3378206B30D300E2B5B3 /* AdditionalTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdditionalTableViewCell.h; sourceTree = "<group>"; };
+		47ED3379206B30D300E2B5B3 /* AdditionalTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdditionalTableViewCell.m; sourceTree = "<group>"; };
+		47ED337A206B30D300E2B5B3 /* AdditionalTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdditionalTableViewCell.xib; sourceTree = "<group>"; };
 		47F2DB8F2005A28900B96D56 /* ConfigSlideMenuView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfigSlideMenuView.h; sourceTree = "<group>"; };
 		47F2DB902005A28900B96D56 /* ConfigSlideMenuView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigSlideMenuView.m; sourceTree = "<group>"; };
 		47FE143A200843CE00C55C3D /* PositionSizeRangeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PositionSizeRangeModel.h; sourceTree = "<group>"; };
@@ -310,7 +320,6 @@
 		8A42C5062057AB870060A6A8 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		8A6686872015907700041B62 /* UITextField+shakeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+shakeAnimation.h"; sourceTree = "<group>"; };
 		8A6686882015907700041B62 /* UITextField+shakeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+shakeAnimation.m"; sourceTree = "<group>"; };
-		8A837BA9205A477D00C8DBF9 /* autopacking.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = autopacking.sh; sourceTree = "<group>"; };
 		8A9373FD1FD8EB7B005613F5 /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
 		8A9373FE1FD8EB7C005613F5 /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
 		8A9373FF1FD8EB7C005613F5 /* SearchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchTableViewCell.xib; sourceTree = "<group>"; };
@@ -318,6 +327,11 @@
 		8A9374051FD91394005613F5 /* libhwlibT.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libhwlibT.a; sourceTree = "<group>"; };
 		8A9374061FD91394005613F5 /* hwlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hwlib.h; sourceTree = "<group>"; };
 		8A9374081FD913B7005613F5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		8AABAB4420687F3A00EB94E0 /* RecycledViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecycledViewController.h; sourceTree = "<group>"; };
+		8AABAB4520687F3A00EB94E0 /* RecycledViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecycledViewController.m; sourceTree = "<group>"; };
+		8AABAB4720687FB800EB94E0 /* RecycledCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecycledCollectionViewCell.h; sourceTree = "<group>"; };
+		8AABAB4820687FB800EB94E0 /* RecycledCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecycledCollectionViewCell.xib; sourceTree = "<group>"; };
+		8AABAB4920687FB800EB94E0 /* RecycledCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecycledCollectionViewCell.m; sourceTree = "<group>"; };
 		8AB3CC331FEB50CB00F34D89 /* ReceiveDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReceiveDataViewController.m; sourceTree = "<group>"; };
 		8AB3CC341FEB50CB00F34D89 /* ReceiveDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReceiveDataViewController.h; sourceTree = "<group>"; };
 		8AB3CC361FEB50DB00F34D89 /* ReceivePersonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReceivePersonCell.m; sourceTree = "<group>"; };
@@ -325,11 +339,8 @@
 		8AB3CC381FEB50DB00F34D89 /* ReceivePersonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReceivePersonCell.h; sourceTree = "<group>"; };
 		8AB3CC3C1FEB50E700F34D89 /* ReceiveInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReceiveInfoModel.m; sourceTree = "<group>"; };
 		8AB3CC3D1FEB50E700F34D89 /* ReceiveInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReceiveInfoModel.h; sourceTree = "<group>"; };
-		8AB3CC531FEB7D7200F34D89 /* SimpleTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleTableCell.m; sourceTree = "<group>"; };
 		8AB3CC541FEB7D7200F34D89 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
-		8AB3CC551FEB7D7200F34D89 /* SimpleTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleTableCell.xib; sourceTree = "<group>"; };
 		8AB3CC561FEB7D7200F34D89 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
-		8AB3CC571FEB7D7200F34D89 /* SimpleTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleTableCell.h; sourceTree = "<group>"; };
 		8AB3CC5D1FEB7F2900F34D89 /* ExplainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExplainViewController.h; sourceTree = "<group>"; };
 		8AB3CC5E1FEB7F2900F34D89 /* ExplainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExplainViewController.m; sourceTree = "<group>"; };
 		8AB3CC601FEB7F6300F34D89 /* CopyRightViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CopyRightViewController.h; sourceTree = "<group>"; };
@@ -352,6 +363,8 @@
 		8AF0AD0D1FD53F5C000A199C /* CompanyEmptyCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CompanyEmptyCell.xib; sourceTree = "<group>"; };
 		9D18B36E1FE3622A009C3B58 /* signView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = signView.h; sourceTree = "<group>"; };
 		9D18B36F1FE3622A009C3B58 /* signView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = signView.m; sourceTree = "<group>"; };
+		9D1CD1222057C37600E0CB4C /* UploadModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadModel.h; sourceTree = "<group>"; };
+		9D1CD1232057C37600E0CB4C /* UploadModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadModel.m; sourceTree = "<group>"; };
 		9D216CED1FFB75210003BDBA /* SynchronizeData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SynchronizeData.h; sourceTree = "<group>"; };
 		9D216CEE1FFB75210003BDBA /* SynchronizeData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SynchronizeData.m; sourceTree = "<group>"; };
 		9D254E791FF61A6400C0ED7E /* CustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomButton.m; sourceTree = "<group>"; };
@@ -375,6 +388,8 @@
 		9D36D1AE1FFCC6F000B8F226 /* PersonnelModel+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "PersonnelModel+CoreDataClass.m"; sourceTree = "<group>"; };
 		9D36D1AF1FFCC6F000B8F226 /* PersonnelModel+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PersonnelModel+CoreDataProperties.h"; sourceTree = "<group>"; };
 		9D36D1B01FFCC6F000B8F226 /* PersonnelModel+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "PersonnelModel+CoreDataProperties.m"; sourceTree = "<group>"; };
+		9D45D83D20638C84009BA818 /* DownloadManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownloadManager.h; sourceTree = "<group>"; };
+		9D45D83E20638C84009BA818 /* DownloadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownloadManager.m; sourceTree = "<group>"; };
 		9D520695204E36A30017987E /* WaterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WaterView.h; sourceTree = "<group>"; };
 		9D520696204E36A30017987E /* WaterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WaterView.m; sourceTree = "<group>"; };
 		9D5695CF1FEB9CF100E628EA /* tuanzhuang.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = tuanzhuang.xcdatamodel; sourceTree = "<group>"; };
@@ -747,6 +762,9 @@
 				47AA52961FFC513A00C0CBA5 /* BodySizeAddtionalTableViewCell.h */,
 				47AA52971FFC513A00C0CBA5 /* BodySizeAddtionalTableViewCell.m */,
 				47E9C31F2048DADD008250CB /* BodySizeAddtionalTableViewCell.xib */,
+				47ED3378206B30D300E2B5B3 /* AdditionalTableViewCell.h */,
+				47ED3379206B30D300E2B5B3 /* AdditionalTableViewCell.m */,
+				47ED337A206B30D300E2B5B3 /* AdditionalTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -771,6 +789,8 @@
 				47E2FBC9204E69C800568A5A /* PersonnelModel+SyncData.m */,
 				47E2FBCB204E7A3600568A5A /* PersonnelModel+Description.h */,
 				47E2FBCC204E7A3600568A5A /* PersonnelModel+Description.m */,
+				47E2FC112058FBC900568A5A /* PersonnelModel+Additional.h */,
+				47E2FC122058FBC900568A5A /* PersonnelModel+Additional.m */,
 			);
 			path = PersonnelModel;
 			sourceTree = "<group>";
@@ -872,15 +892,10 @@
 		75E51B991FDA198E001018AC /* upload */ = {
 			isa = PBXGroup;
 			children = (
+				9D1CD1212057C32300E0CB4C /* model */,
 				75E51BA11FDA1A11001018AC /* cell */,
 				75E51B9E1FDA1A0D001018AC /* UploadView.h */,
 				75E51B9F1FDA1A0D001018AC /* UploadView.m */,
-				9D298B6C201025BE009FA18B /* UnfinishedViewController.h */,
-				9D298B6D201025BE009FA18B /* UnfinishedViewController.m */,
-				9DF5249A2045062200141A3D /* UnfinishedCell.h */,
-				9DF5249B2045062200141A3D /* UnfinishedCell.m */,
-				9DF5249D204523BA00141A3D /* UnfinishedModel.h */,
-				9DF5249E204523BA00141A3D /* UnfinishedModel.m */,
 			);
 			path = upload;
 			sourceTree = "<group>";
@@ -906,14 +921,6 @@
 			path = NetStatus;
 			sourceTree = "<group>";
 		};
-		8A837BA8205A477D00C8DBF9 /* Shell */ = {
-			isa = PBXGroup;
-			children = (
-				8A837BA9205A477D00C8DBF9 /* autopacking.sh */,
-			);
-			path = Shell;
-			sourceTree = "<group>";
-		};
 		8A9374041FD91394005613F5 /* lib_combT */ = {
 			isa = PBXGroup;
 			children = (
@@ -921,6 +928,18 @@
 				8A9374061FD91394005613F5 /* hwlib.h */,
 			);
 			path = lib_combT;
+			sourceTree = "<group>";
+		};
+		8AABAB4320687F1800EB94E0 /* recycled */ = {
+			isa = PBXGroup;
+			children = (
+				8AABAB4720687FB800EB94E0 /* RecycledCollectionViewCell.h */,
+				8AABAB4920687FB800EB94E0 /* RecycledCollectionViewCell.m */,
+				8AABAB4820687FB800EB94E0 /* RecycledCollectionViewCell.xib */,
+				8AABAB4420687F3A00EB94E0 /* RecycledViewController.h */,
+				8AABAB4520687F3A00EB94E0 /* RecycledViewController.m */,
+			);
+			path = recycled;
 			sourceTree = "<group>";
 		};
 		8AB3CC3B1FEB50E700F34D89 /* model */ = {
@@ -937,9 +956,6 @@
 			children = (
 				8AB3CC561FEB7D7200F34D89 /* AboutViewController.h */,
 				8AB3CC541FEB7D7200F34D89 /* AboutViewController.m */,
-				8AB3CC571FEB7D7200F34D89 /* SimpleTableCell.h */,
-				8AB3CC531FEB7D7200F34D89 /* SimpleTableCell.m */,
-				8AB3CC551FEB7D7200F34D89 /* SimpleTableCell.xib */,
 				8AB3CC5D1FEB7F2900F34D89 /* ExplainViewController.h */,
 				8AB3CC5E1FEB7F2900F34D89 /* ExplainViewController.m */,
 				8AB3CC601FEB7F6300F34D89 /* CopyRightViewController.h */,
@@ -964,6 +980,44 @@
 				8ADACF371FD38A8A00256DEF /* ZZNumberField.m */,
 			);
 			path = ZZNumberField;
+			sourceTree = "<group>";
+		};
+		9D1CD1212057C32300E0CB4C /* model */ = {
+			isa = PBXGroup;
+			children = (
+				9D1CD1222057C37600E0CB4C /* UploadModel.h */,
+				9D1CD1232057C37600E0CB4C /* UploadModel.m */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		9D1CD1252057C38600E0CB4C /* unfinished */ = {
+			isa = PBXGroup;
+			children = (
+				9D1CD1272057C3CD00E0CB4C /* model */,
+				9D1CD1262057C3BD00E0CB4C /* cell */,
+				9D298B6C201025BE009FA18B /* UnfinishedViewController.h */,
+				9D298B6D201025BE009FA18B /* UnfinishedViewController.m */,
+			);
+			path = unfinished;
+			sourceTree = "<group>";
+		};
+		9D1CD1262057C3BD00E0CB4C /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				9DF5249A2045062200141A3D /* UnfinishedCell.h */,
+				9DF5249B2045062200141A3D /* UnfinishedCell.m */,
+			);
+			path = cell;
+			sourceTree = "<group>";
+		};
+		9D1CD1272057C3CD00E0CB4C /* model */ = {
+			isa = PBXGroup;
+			children = (
+				9DF5249D204523BA00141A3D /* UnfinishedModel.h */,
+				9DF5249E204523BA00141A3D /* UnfinishedModel.m */,
+			);
+			path = model;
 			sourceTree = "<group>";
 		};
 		9D216CEC1FFB74A40003BDBA /* SynchronizeData */ = {
@@ -1032,6 +1086,8 @@
 		9DB5474D1FCE470C007E6F9B /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				8AABAB4320687F1800EB94E0 /* recycled */,
+				9D1CD1252057C38600E0CB4C /* unfinished */,
 				75E51B991FDA198E001018AC /* upload */,
 				75E0C5801FD6399D001CD29B /* multipeer */,
 				8ADACF271FD1219100256DEF /* configuration */,
@@ -1133,6 +1189,8 @@
 			children = (
 				9DB547641FCE8512007E6F9B /* DownloadListViewController.h */,
 				9DB547651FCE8512007E6F9B /* DownloadListViewController.m */,
+				9D45D83D20638C84009BA818 /* DownloadManager.h */,
+				9D45D83E20638C84009BA818 /* DownloadManager.m */,
 				9DF91D141FCFC968009C7974 /* model */,
 				9DB5476A1FCE98CB007E6F9B /* cell */,
 			);
@@ -1170,7 +1228,6 @@
 		9DEE7F1C1FCD48A600CB075A = {
 			isa = PBXGroup;
 			children = (
-				8A837BA8205A477D00C8DBF9 /* Shell */,
 				9DEE7F271FCD48A600CB075A /* tuanzhuang */,
 				9DEE7F401FCD48A600CB075A /* tuanzhuangTests */,
 				9DEE7F4B1FCD48A600CB075A /* tuanzhuangUITests */,
@@ -1365,6 +1422,7 @@
 				9DEE7F231FCD48A600CB075A /* Resources */,
 				F6C74C4BED22563C42615F45 /* [CP] Embed Pods Frameworks */,
 				E5A4FBBB7AD025099C58F197 /* [CP] Copy Pods Resources */,
+				9D47937D206C6E93002965A3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1428,7 +1486,7 @@
 				TargetAttributes = {
 					9DEE7F241FCD48A600CB075A = {
 						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					9DEE7F3C1FCD48A600CB075A = {
 						CreatedOnToolsVersion = 9.1;
@@ -1468,19 +1526,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				8ABC17C81FD5339000C8541C /* CompanyCollectionViewCell.xib in Resources */,
+				47ED337C206B30D300E2B5B3 /* AdditionalTableViewCell.xib in Resources */,
 				75F4112C1FDA20D000F70051 /* UploadCell.xib in Resources */,
 				47E9C3202048DADD008250CB /* BodySizeAddtionalTableViewCell.xib in Resources */,
 				8AB3CC3A1FEB50DB00F34D89 /* ReceivePersonCell.xib in Resources */,
 				471B277020034E5600AAE6D6 /* OtherSliderMenuView.xib in Resources */,
-				8AB3CC5A1FEB7D7200F34D89 /* SimpleTableCell.xib in Resources */,
 				9DEE7F351FCD48A600CB075A /* LaunchScreen.storyboard in Resources */,
 				9DEE7F321FCD48A600CB075A /* Assets.xcassets in Resources */,
 				9DEE7F301FCD48A600CB075A /* Main.storyboard in Resources */,
 				8A9374011FD8EB7C005613F5 /* SearchTableViewCell.xib in Resources */,
 				8AF0AD0F1FD53F5C000A199C /* CompanyEmptyCell.xib in Resources */,
 				474540B91FFF030B00131C46 /* SeasonCountCollectionViewCell.xib in Resources */,
+				8AABAB4A20687FB800EB94E0 /* RecycledCollectionViewCell.xib in Resources */,
 				471B27662003440500AAE6D6 /* ClothesSizeInputView.xib in Resources */,
-				8A837BAB205A477E00C8DBF9 /* autopacking.sh in Resources */,
 				75E0C5901FD6947E001CD29B /* MultipeerCell.xib in Resources */,
 				9DEF16221FE0CD9200F1BBA9 /* GarmentMessage.plist in Resources */,
 			);
@@ -1587,6 +1645,19 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		9D47937D206C6E93002965A3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n#\n# Copyright 2016 Bugly, Tencent. All rights reserved.\n#\n# V1.4.0\n#\n# 2016.08.03\n#\n#\n#\n######################################################\n# 1. 脚本集成到Xcode工程的Target\n######################################################\n#\n# --- Copy the SCRIPT to the Run Script of Build Phases in the Xcode project ---\n#\n# #\nBUGLY_APP_ID=\"512e155300\"\n# #\nBUGLY_APP_KEY=\"6d1f200a-a197-4259-98d6-58b1eb0613a1\"\n# #\nBUNDLE_IDENTIFIER=\"com.cotteBL.tuanzhuang\"\n# #\nUPLOAD_DSYM_ONLY=1\n#\n# # 脚本默认配置的版本格式为CFBundleShortVersionString(CFBundleVersion),  如果你修改默认的版本格式, 请设置此变量, 如果不想修改, 请忽略此设置\n# CUSTOMIZED_APP_VERSION=\"\"\n#\n# # Debug模式编译是否上传，1＝上传 0＝不上传，默认不上传\n# UPLOAD_DEBUG_SYMBOLS=0\n#\n# # 模拟器编译是否上传，1=上传 0=不上传，默认不上传\nUPLOAD_SIMULATOR_SYMBOLS=1\n#\n# #只有Archive操作时上传, 1=支持Archive上传 0=所有Release模式编译都上传\n# UPLOAD_ARCHIVE_ONLY=0\n#\n# #\n# source dSYMUpload.sh\n#\n# --- END OF SCRIPT ---\n#\n#\n#\n#\n#######################################################\n# 2. 脚本根据输入参数处理\n#######################################################\n#\n# #命令行下输入应用基本信息, .dSYM文件的父目录路径, 输出文件目录即可\n#\n# sh dSYMUpload.sh <bugly_app_id> <bugly_app_key> <app_bundle_identifier> <app_version> <dSYM_src_dir> <bSYMBOL_dest_dir>\n#\n# #\n#\n# #注意:\n# # 1. dSYMUpload.sh会调用buglySymboliOS.jar进行.dSYM解析，所以依赖Java运行时环境\n# # 2. dSYMUpload.sh和buglySymboliOS.jar的文件路径需一致\n#\n#\n\n#\n# --- CONTENT OF SCRIPT ---\n#\n\n# Bugly服务域名\nBUGLY_DSYM_UPLOAD_DOMAIN=\"api.bugly.qq.com\"\n\n# 注意jar工具的路径跟dSYMUpload.sh脚本路径一致, 请务必保证jar路径的正确性\nBUGLY_SYMBOL_JAR_PATH=\"dsymtool/buglySymboliOS.jar\"\n# 查找添加到系统目录的jar工具\nif [ ! -f \"${BUGLY_SYMBOL_JAR_PATH}\" ]; then\nBUGLY_SYMBOL_JAR_PATH=\"$HOME/bin/buglySymboliOS.jar\"\nfi\n\n# 打印错误信息\nfunction exitWithMessage(){\n    echo \"--------------------------------\"\n    echo \"${1}\"\n    echo \"--------------------------------\"\n    exit ${2}\n}\n\n# 上传bSYMBOL文件\nfunction dSYMUpload() {\n    P_APP_ID=\"$1\"\n    P_APP_KEY=\"$2\"\n    P_APP_BUNDLE_ID=\"$3\"\n    P_APP_VERSION=\"$4\"\n    P_BSYMBOL_ZIP_FILE=\"$5\"\n    \n    #\n    P_BSYMBOL_ZIP_FILE_NAME=${P_BSYMBOL_ZIP_FILE##*/}\n        P_BSYMBOL_ZIP_FILE_NAME=${P_BSYMBOL_ZIP_FILE_NAME//&/_}\n            P_BSYMBOL_ZIP_FILE_NAME=\"${P_BSYMBOL_ZIP_FILE_NAME// /_}\"\n            \n            DSYM_UPLOAD_URL=\"https://${BUGLY_DSYM_UPLOAD_DOMAIN}/openapi/file/upload/symbol?app_id=${P_APP_ID}&app_key=${P_APP_KEY}\"\n            echo \"dSYM upload url: ${DSYM_UPLOAD_URL}\"\n            \n            echo \"-----------------------------\"\n            STATUS=$(/usr/bin/curl -k \"${DSYM_UPLOAD_URL}\" --form \"api_version=1\" --form \"app_id=${P_APP_ID}\" --form \"app_key=${P_APP_KEY}\" --form \"symbolType=2\"  --form \"bundleId=${BUNDLE_IDENTIFIER}\" --form \"productVersion=${BUGLY_APP_VERSION}\" --form \"fileName=${P_BSYMBOL_ZIP_FILE_NAME}\" --form \"file=@${P_BSYMBOL_ZIP_FILE}\" --verbose)\n            echo \"-----------------------------\"\n            \n            UPLOAD_RESULT=\"FAILTURE\"\n            echo \"Bugly server response: ${STATUS}\"\n            if [ ! \"${STATUS}\" ]; then\n            echo \"Error: Failed to upload the zip archive file.\"\n            elif [[ \"${STATUS}\" == *\"{\\\"reponseCode\\\":\\\"0\\\"}\"* ]]; then\n            echo \"Success to upload the dSYM for the app [${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION}]\"\n            UPLOAD_RESULT=\"SUCCESS\"\n            else\n            echo \"Error: Failed to upload the zip archive file to Bugly.\"\n            fi\n            \n            #Remove temp dSYM archive\n            #echo \"Remove temporary zip archive: ${DSYM_ZIP_FPATH}\"\n            #/bin/rm -f \"${DSYM_ZIP_FPATH}\"\n            \n            if [ \"$?\" -ne 0 ]; then\n            exitWithMessage \"Error: Failed to remove temporary zip archive.\" 0\n            fi\n            \n            echo \"--------------------------------\"\n            echo \"${UPLOAD_RESULT} - dSYM upload complete.\"\n            \n            if [[ \"${UPLOAD_RESULT}\" == \"FAILTURE\" ]]; then\n            echo \"--------------------------------\"\n            echo \"Failed to upload the dSYM\"\n            echo \"Please check the script and try it again.\"\n            fi\n        }\n        \n        # .dSYM解析为bSYMBOL文件\n        function dSYMParse() {\n            DSYM_FILE=\"$1\"\n            DSYM_SYMBOL_FILE=\"$2\"\n            \n            echo \"--------------------------------\"\n            echo \"Extract symbol info from .dSYM file. to ${DSYM_SYMBOL_FILE}\"\n            (/usr/bin/java -Xms512m -Xmx1024m -Dfile.encoding=UTF8 -jar \"${BUGLY_SYMBOL_JAR_PATH}\" -i \"${DSYM_FILE}\" -o \"${DSYM_SYMBOL_FILE}\" ) || exitWithMessage \"Error: Failed to extract symbols.\" 1\n            echo \"--------------------------------\"\n            \n        }\n        \n        # 执行\n        function run() {\n            \n            CONFIG_BUGLY_APP_ID=\"$1\"\n            CONFIG_BUGLY_APP_KEY=\"$2\"\n            \n            CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER=\"$3\"\n            CONFIG_BUGLY_APP_VERSION=\"$4\"\n            CONFIG_DSYM_SOURCE_DIR=\"$5\"\n            CONFIG_DSYM_DEST_DIR=\"$6\"\n            CONFIG_UPLOAD_DSYM_ONLY=\"$7\"\n            \n            # 检查必须参数是否设置\n            if [ ! \"${CONFIG_BUGLY_APP_ID}\" ]; then\n            exitWithMessage \"Error: Bugly App ID not defined. Please set 'BUGLY_APP_ID' \" 0\n            fi\n            \n            if [[ \"${CONFIG_BUGLY_APP_ID}\" == *\"App ID\"* ]]; then\n            exitWithMessage \"Error: Bugly App ID not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_KEY}\" ]; then\n            exitWithMessage \"Error: Bugly App Key not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER}\" ]; then\n            exitWithMessage \"Error: Bundle Identifier not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_VERSION}\" ]; then\n            exitWithMessage \"Error: App Version not defined.\" 0\n            fi\n            \n            if [ ! -e \"${CONFIG_DSYM_SOURCE_DIR}\" ]; then\n            exitWithMessage \"Error: Invalid dir ${CONFIG_DSYM_SOURCE_DIR}\" 0\n            fi\n            \n            if [ ! \"${CONFIG_DSYM_DEST_DIR}\" ]; then\n            exitWithMessage \"Error: Invalid dir ${CONFIG_DSYM_DEST_DIR}\" 0\n            fi\n            \n            if [ ! -e \"${CONFIG_DSYM_DEST_DIR}\" ]; then\n            mkdir ${CONFIG_DSYM_DEST_DIR}\n            fi\n            \n            DSYM_FOLDER=\"${CONFIG_DSYM_SOURCE_DIR}\"\n            IFS=$'\\n'\n            \n            echo \"Scaning dSYM FOLDER: ${DSYM_FOLDER} ...\"\n            RET=\"F\"\n            \n            #\n            for dsymFile in $(find \"$DSYM_FOLDER\" -name '*.dSYM'); do\n            RET=\"T\"\n            echo \"Found dSYM file: $dsymFile\"\n            \n            DSYM_FILE_NAME=${dsymFile##*/}\n                DSYM_SYMBOL_ZIP_FILE_NAME=\"${DSYM_FILE_NAME}.zip\"\n                DSYM_SYMBOL_ZIP_FILE_NAME=\"${DSYM_SYMBOL_ZIP_FILE_NAME// /_}\"\n                DSYM_SYMBOL_ZIP_FILE=${CONFIG_DSYM_DEST_DIR}/${DSYM_SYMBOL_ZIP_FILE_NAME}\n                \n                if [ $CONFIG_UPLOAD_DSYM_ONLY -eq 1 ]; then\n                if [ -e $DSYM_SYMBOL_ZIP_FILE ]; then\n                rm -f $DSYM_SYMBOL_ZIP_FILE\n                fi\n                # 如果只上传dSYM，直接压缩dSYM目录\n                zip -r -j $DSYM_SYMBOL_ZIP_FILE $dsymFile -x *.plist\n                else\n                # 使用符号表工具来生成Symbol文件\n                dSYMParse $dsymFile $DSYM_SYMBOL_ZIP_FILE\n                fi\n                \n                # 上传\n                dSYMUpload $CONFIG_BUGLY_APP_ID $CONFIG_BUGLY_APP_KEY $CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER $CONFIG_BUGLY_APP_VERSION $DSYM_SYMBOL_ZIP_FILE\n                done\n                \n                if [ $RET = \"F\" ]; then\n                exitWithMessage \"No .dSYM found in ${DSYM_FOLDER}\" 0\n                fi\n            }\n            \n            # 在Xcode工程中执行\n            function runInXcode(){\n                echo \"Uploading dSYM to Bugly in Xcode ...\"\n                \n                echo \"Info.Plist : ${INFOPLIST_FILE}\"\n                \n                BUNDLE_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleVersion' \"${INFOPLIST_FILE}\")\n                BUNDLE_SHORT_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' \"${INFOPLIST_FILE}\")\n                \n                # 组装Bugly默认识别的版本信息(格式为CFBundleShortVersionString(CFBundleVersion), 例如: 1.0(1))\n                if [ ! \"${CUSTOMIZED_APP_VERSION}\" ]; then\n                BUGLY_APP_VERSION=\"${BUNDLE_SHORT_VERSION}(${BUNDLE_VERSION})\"\n                else\n                BUGLY_APP_VERSION=\"${CUSTOMIZED_APP_VERSION}\"\n                fi\n                \n                echo \"--------------------------------\"\n                echo \"Prepare application information.\"\n                echo \"--------------------------------\"\n                \n                echo \"Product Name: ${PRODUCT_NAME}\"\n                echo \"Bundle Identifier: ${BUNDLE_IDENTIFIER}\"\n                echo \"Version: ${BUNDLE_SHORT_VERSION}\"\n                echo \"Build: ${BUNDLE_VERSION}\"\n                \n                echo \"Bugly App ID: ${BUGLY_APP_ID}\"\n                echo \"Bugly App key: ${BUGLY_APP_KEY}\"\n                echo \"Bugly App Version: ${BUGLY_APP_VERSION}\"\n                \n                echo \"--------------------------------\"\n                echo \"Check the arguments ...\"\n                \n                ##检查模拟器编译是否允许上传符号\n                if [ \"$EFFECTIVE_PLATFORM_NAME\" == \"-iphonesimulator\" ]; then\n                if [ $UPLOAD_SIMULATOR_SYMBOLS -eq 0 ]; then\n                exitWithMessage \"Warning: Build for simulator and skipping to upload. \\nYou can modify 'UPLOAD_SIMULATOR_SYMBOLS' to 1 in the script.\" 0\n                fi\n                fi\n                \n                ##检查是否是Release模式编译\n                if [ \"${CONFIGURATION=}\" == \"Debug\" ]; then\n                if [ $UPLOAD_DEBUG_SYMBOLS -eq 0 ]; then\n                exitWithMessage \"Warning: Build for debug mode and skipping to upload. \\nYou can modify 'UPLOAD_DEBUG_SYMBOLS' to 1 in the script.\" 0\n                fi\n                fi\n                \n                ##检查是否Archive操作\n                if [ $UPLOAD_ARCHIVE_ONLY -eq 1 ]; then\n                if [[ \"$TARGET_BUILD_DIR\" == *\"/Archive\"* ]]; then\n                echo \"Archive the package\"\n                else\n                exitWithMessage \"Warning: Build for NOT Archive mode and skipping to upload. \\nYou can modify 'UPLOAD_ARCHIVE_ONLY' to 0 in the script.\" 0\n                fi\n                fi\n                \n                #\n                run ${BUGLY_APP_ID} ${BUGLY_APP_KEY} ${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION} ${DWARF_DSYM_FOLDER_PATH} ${BUILD_DIR}/BuglySymbolTemp ${UPLOAD_DSYM_ONLY}\n            }\n            \n            # 根据Xcode的环境变量判断是否处于Xcode环境\n            INFO_PLIST_FILE=\"${INFOPLIST_FILE}\"\n            \n            BuildInXcode=\"F\"\n            if [ -f \"${INFO_PLIST_FILE}\" ]; then\n            BuildInXcode=\"T\"\n            fi\n            \n            if [ $BuildInXcode = \"T\" ]; then\n            runInXcode\n            else\n            echo \"\\nUsage: dSYMUpload.sh <bugly_app_id> <bugly_app_key> <app_bundle_identifier> <app_version> <dSYM_src_dir> <bSYMBOL_dest_dir> [upload_dsym_only]\\n\"\n            # 你可以在此处直接设置BuglyAppID和BuglyAppKey，排除不常变参数的输入\n            BUGLY_APP_ID=\"$1\"\n            BUGLY_APP_KEY=\"$2\"\n            BUNDLE_IDENTIFIER=\"$3\"\n            BUGLY_APP_VERSION=\"$4\"\n            DWARF_DSYM_FOLDER_PATH=\"$5\"\n            SYMBOL_OUTPUT_PATH=\"$6\"\n            UPLOAD_DSYM_ONLY=$7\n            run ${BUGLY_APP_ID} ${BUGLY_APP_KEY} ${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION} ${DWARF_DSYM_FOLDER_PATH} ${SYMBOL_OUTPUT_PATH} ${UPLOAD_DSYM_ONLY}\n            fi\n";
+		};
 		CEF46F9425B716FDEBBB4AA2 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1615,7 +1686,9 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/IQKeyboardManager.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ZZCircleProgress.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1662,6 +1735,7 @@
 				7592756F201958E0005E0745 /* companyModel.m in Sources */,
 				47AA529F1FFC514300C0CBA5 /* PersonDetailContainerViewController.m in Sources */,
 				470B661E20171C0C005AF3ED /* AdditionModel+Helper.m in Sources */,
+				9D1CD1242057C37600E0CB4C /* UploadModel.m in Sources */,
 				75B627EE20182E3E00D16FD7 /* MessageEntity.m in Sources */,
 				471B2763200343DE00AAE6D6 /* ClothesSizeInputView.m in Sources */,
 				47AA52881FFC511D00C0CBA5 /* CategoryCollectionViewCell.m in Sources */,
@@ -1685,9 +1759,9 @@
 				47E2FBCA204E69C800568A5A /* PersonnelModel+SyncData.m in Sources */,
 				9DEE7F381FCD48A600CB075A /* main.m in Sources */,
 				471B275F2003100900AAE6D6 /* ClothesCountViewController.m in Sources */,
-				8AB3CC581FEB7D7200F34D89 /* SimpleTableCell.m in Sources */,
 				9D520697204E36A30017987E /* WaterView.m in Sources */,
 				47CDDEFA2029862E00D9C261 /* PositionModel+Helper.m in Sources */,
+				8AABAB4B20687FB800EB94E0 /* RecycledCollectionViewCell.m in Sources */,
 				47955B442007355D007A9D67 /* HeaderLabelCollectionReusableView.m in Sources */,
 				47619EF01FFF53A700342848 /* UIView+Inspectable.m in Sources */,
 				8A6686892015907800041B62 /* UITextField+shakeAnimation.m in Sources */,
@@ -1701,8 +1775,10 @@
 				474540B51FFE1AFA00131C46 /* SeasonCountCollectionViewCell.m in Sources */,
 				470B662520182D73005AF3ED /* PersonSignedViewController.m in Sources */,
 				8ABC17C71FD5339000C8541C /* CompanyCollectionViewCell.m in Sources */,
+				47ED337B206B30D300E2B5B3 /* AdditionalTableViewCell.m in Sources */,
 				8ACEDEA61FD62BBC0097DCD6 /* HomeModel.m in Sources */,
 				47AA528A1FFC511D00C0CBA5 /* PersonMsgSlideMenuView.m in Sources */,
+				8AABAB4620687F3A00EB94E0 /* RecycledViewController.m in Sources */,
 				8AB3CC5F1FEB7F2900F34D89 /* ExplainViewController.m in Sources */,
 				9DEA6D831FD77E0300D8241D /* searchPersonViewController.m in Sources */,
 				47E38A5E201C426200F017CC /* SignLayoutManager.m in Sources */,
@@ -1713,12 +1789,14 @@
 				47AA52981FFC513A00C0CBA5 /* ClothesSizeViewController.m in Sources */,
 				470B662120181219005AF3ED /* CategoryModel+Helper.m in Sources */,
 				9DEE7F2A1FCD48A600CB075A /* AppDelegate.m in Sources */,
+				47E2FC132058FBC900568A5A /* PersonnelModel+Additional.m in Sources */,
 				9DF5249C2045062200141A3D /* UnfinishedCell.m in Sources */,
 				75E0C58F1FD6947E001CD29B /* MultipeerCell.m in Sources */,
 				47AA52991FFC513A00C0CBA5 /* BodySizeAddtionalViewController.m in Sources */,
 				47955B4120072EA7007A9D67 /* LabelCollectionViewCell.m in Sources */,
 				47F2DB912005A28900B96D56 /* ConfigSlideMenuView.m in Sources */,
 				754EC8541FE8B4210009269B /* UserListCell.m in Sources */,
+				9D45D83F20638C84009BA818 /* DownloadManager.m in Sources */,
 				8ADACF391FD38A8B00256DEF /* ZZNumberField.m in Sources */,
 				470B65EE200D8B6E005AF3ED /* PersonnelModel+Helper.m in Sources */,
 				471B276E20034E3D00AAE6D6 /* OtherSliderMenuView.m in Sources */,
@@ -1939,8 +2017,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: QING DAO KM FINERY CO.,LTD";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: QING DAO KM FINERY CO.,LTD";
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = H9BGE26LXB;
 				ENABLE_BITCODE = NO;
 				GCC_PREFIX_HEADER = "tuanzhuang/PrefixHeader-tuanzhuang.pch";
@@ -1951,10 +2030,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/tuanzhuang/Tools/lib_combT",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.testtz.tuanzhuang;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cotteBL.tuanzhuang;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b0f91ab3-c166-4456-8b9e-d9f9ccad1dc7";
-				PROVISIONING_PROFILE_SPECIFIER = zidongdabaoprofile;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -1965,8 +2044,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: QING DAO KM FINERY CO.,LTD";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: QING DAO KM FINERY CO.,LTD";
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H9BGE26LXB;
 				ENABLE_BITCODE = NO;
 				GCC_PREFIX_HEADER = "tuanzhuang/PrefixHeader-tuanzhuang.pch";
@@ -1977,10 +2056,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/tuanzhuang/Tools/lib_combT",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.testtz.tuanzhuang;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cotteBL.tuanzhuang;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b0f91ab3-c166-4456-8b9e-d9f9ccad1dc7";
-				PROVISIONING_PROFILE_SPECIFIER = zidongdabaoprofile;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;

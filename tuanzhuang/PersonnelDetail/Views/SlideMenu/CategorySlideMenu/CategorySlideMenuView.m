@@ -113,6 +113,10 @@ static const CGFloat minimumLineSpacing = 20.0f;
     
     NSString *cateCode = [_categoryCodes objectAtIndex:indexPath.row];
     
+    if (![self.personModel canConfigCategory:cateCode]) {
+        count = 0;
+    }
+    
     //设置品类配置中的数量
     [self.personModel setConfigCategoryCount:count byCategoryCode:cateCode];
     
@@ -122,8 +126,8 @@ static const CGFloat minimumLineSpacing = 20.0f;
     }
     
     [self.personModel setCategoryCount:count byCategoryCode:cateCode];
-    
     [self reloadData];
+    
     
     if (self.countChangedBlock) {
         self.countChangedBlock(cateCode, count, categoryLabel);

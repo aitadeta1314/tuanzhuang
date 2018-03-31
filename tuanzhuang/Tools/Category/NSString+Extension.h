@@ -23,6 +23,11 @@
 - (BOOL)isValidString;
 
 /**
+ * 删除两边的空格和回车
+ **/
+- (NSString *)removeSpaceAndNewLine;
+
+/**
  * 将传入的 Objective-C 字典转为 JSon 形式的字典
  */
 + (NSString *)dicToJsonStr:(NSDictionary *)param;

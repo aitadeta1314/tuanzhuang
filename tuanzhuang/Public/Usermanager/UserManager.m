@@ -22,6 +22,10 @@
 }
 
 //获取用户信息
++(NSString *)getMultiName{
+    return [UserManager getUserInfo:@"multiName"];
+}
+
 +(NSString *)getName{
     return [UserManager getUserInfo:@"uname"];
 }
@@ -36,6 +40,16 @@
 
 +(NSString *)getOrgId{
     return [UserManager getUserInfo:@"orgId"];
+}
+
++(NSString *)getShowname
+{
+    return [UserManager getUserInfo:@"showname"];
+}
+
++(NSString *)getToken
+{
+    return [UserManager getUserInfo:@"token"];
 }
 
 +(id)getUserInfo:(NSString*)key{

@@ -122,16 +122,16 @@ static const CGFloat scale = 1.2;
 {
     if (self.remarkView.editing) {
         UIAlertController * alert = [UIAlertController alertControllerWithTitle:nil message:@"是否要保存本次编辑？" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"否" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             [self.navigationController popViewControllerAnimated:YES];
         }];
-        UIAlertAction * sureAction = [UIAlertAction actionWithTitle:@"保存" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertAction * sureAction = [UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             if (self.remarkView.cleared) {
                 self.personnelmodel.remark = nil;
             } else {
                 self.personnelmodel.remark = [generatePicture generateImageDataOfView:_remarkView];
             }
-            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+            //[[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
             [self.navigationController popViewControllerAnimated:YES];
         }];
         [sureAction setValue:[UIColor redColor] forKey:@"titleTextColor"];
@@ -146,14 +146,14 @@ static const CGFloat scale = 1.2;
 -(void)rightButtonPress
 {
     UIAlertController * alert = [UIAlertController alertControllerWithTitle:nil message:@"您确定要保存此备注吗？" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction * sureAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"否" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction * sureAction = [UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         if (self.remarkView.cleared) {
             self.personnelmodel.remark = nil;
         } else {
             self.personnelmodel.remark = [generatePicture generateImageDataOfView:_remarkView];
         }
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+        //[[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         [self.navigationController popViewControllerAnimated:YES];
     }];
     [sureAction setValue:[UIColor redColor] forKey:@"titleTextColor"];
@@ -214,6 +214,11 @@ static const CGFloat scale = 1.2;
 
 -(void)clearAction
 {
+    if ([self.personnelmodel hasShortSleeveSize]) {
+        [self showHUDMessage:@"短袖长有数据不能清除字迹操作" andDelay:1.5];
+        return;
+    }
+    
     UIAlertController * alert = [UIAlertController alertControllerWithTitle:nil message:@"您确定要清除全部字迹吗？" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction * sureAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

@@ -55,6 +55,8 @@
 /////////// 键盘高度
 #define KEYBOARD_H 0.6*(SCREEN_H-64)
 
+/////////// 配置输入最大值
+#define MAXVALUE   30
 
 /********** Notification Center Key *******************/
 

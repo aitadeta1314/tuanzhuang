@@ -29,6 +29,11 @@
 -(void)reset;
 
 /**
+ * 褶皱变更重置默认加放量
+ */
+-(void)resetIncreaseByPleatOption;
+
+/**
  * 获取量体部位关联字典
  **/
 +(NSDictionary *)positionAssociateDic;

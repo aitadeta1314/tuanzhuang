@@ -17,8 +17,10 @@
 #import "PersonSignedViewController.h"
 #import "RemarksViewController.h"
 #import "consultViewController.h"
-
+#import "processingTime.h"
 #import "NSManagedObject+Coping.h"
+
+#import "CategoryModel+Helper.h"
 
 #import "PPNumberButton.h"
 
@@ -79,6 +81,8 @@ static const CGFloat Padding_Tabbar = 7.0;
     [self setupTitleLabel];
     self.titleLabel.text = [self.personModel getCategoryConfigDescription_BySizeType];
     
+    self.view.backgroundColor = COLOR_BACKGROUND_CONTENT;
+    
     //配置“完成”按钮
     [self setupNavigationBarComplete];
     
@@ -86,15 +90,15 @@ static const CGFloat Padding_Tabbar = 7.0;
     [self setupNewPersonModel];
     
     //初始化公司品类配置数据
-    [self setupCompanyCategoryConfigure];
+    if (self.personModel) {
+        [self.personModel setupCompanyCategoryConfigure];
+    }
     
     [self setupTabbarAppearance];
     
     [self setupTabPageControllers];
-
+    
     [self layoutLeftBorderLine];
-
-    self.view.backgroundColor = COLOR_BACKGROUND_CONTENT;
     
     //数据初始化结束后，初始菜单视图
     [self layoutMenuViews];
@@ -104,6 +108,10 @@ static const CGFloat Padding_Tabbar = 7.0;
     
     //添加修改通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(personSizeEditNotification:) name:KEY_NOTIFICATION_CENTER_PERSON_SIZE_OPERATION object:nil];
+    
+    //添加强制退出程序通知,清除数据库暂存数据
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearTempPersonNotification:) name:kMagicalRecordCleanedUpNotification object:nil];
+    
 }
 
 -(void)viewWillLayoutSubviews{
@@ -133,10 +141,8 @@ static const CGFloat Padding_Tabbar = 7.0;
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     
-    if (self.personModelBackup) {
-        [self.personModelBackup MR_deleteEntity];
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-    }
+    //删除用户备份数据
+    [self removePersonBackup];
 }
 
 -(void)dealloc{
@@ -161,15 +167,26 @@ static const CGFloat Padding_Tabbar = 7.0;
     
     weakObjc(self);
     
-    self.personMsgMenuView.sexChanged = ^{
-        //改变性别，重新加载所有的数据
+    self.personMsgMenuView.changedBlock = ^{
+        //重新加载侧边栏按钮
+        [weakself reloadMenuViewData];
+        
+        //重新加载页面数据
         [weakself reloadTabPageSubControllersData];
     };
     
     self.categoryMenuView.countChangedBlock = ^(NSString *cateCode, NSInteger count, UILabel *cateLabel) {
-        [weakself.configSlideMenuView openSlideMenu];
-        [weakself.configSlideMenuView reloadData];
-        [weakself.personModel setPersonSatus_Progressing];
+        if ([weakself.personModel canConfigCategory:cateCode]) {
+            [weakself.configSlideMenuView openSlideMenu];
+            [weakself.configSlideMenuView reloadData];
+            [weakself.personModel setPersonSatus_Progressing];
+        }else{
+            NSString *categoryName = [CategoryModel getNameByCode:cateCode];
+            
+            NSString *gender = weakself.personModel.gender == PERSON_GENDER_MAN ? @"男" : @"女";
+            
+            [weakself showHUDMessage:[NSString stringWithFormat:@"%@性不能配置%@",gender,categoryName] andDelay:1.5];
+        }
     };
     
     self.configSlideMenuView.changedBlock = ^(NSArray *bodyCategoryArray, NSArray *clothesCategoryArray) {
@@ -295,18 +312,23 @@ static const CGFloat Padding_Tabbar = 7.0;
  **/
 -(void)setupNewPersonModel{
     
-#warning 等待确认量体师信息获取后，赋值量体师数据
-    
     if (!self.personModel) {
-        self.personModel = [PersonnelModel MR_createEntity];
+        
+        if (self.personModel_copy) {
+            self.personModel = (PersonnelModel *)[PersonnelModel copyFromObject:self.personModel_copy];
+        }else{
+            self.personModel = [PersonnelModel MR_createEntity];
+            self.personModel.name = @"";
+        }
+        
+        self.personModel.personnelid = nil;
         self.personModel.company = self.companyModel;
         self.personModel.companyid = self.companyModel.companyid;
-        self.personModel.edittime = [NSDate date];
-        self.personModel.name = @"";
-        self.personModel.lname = @"量体师名称";
-        self.personModel.lid = @"";
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-        
+    
+        [self.personModel setEditTimeIsNow];
+        self.personModel.lname = [UserManager getShowname];
+        self.personModel.lid = [UserManager getUserId];
+
         _createPerson = YES;
     }
     
@@ -357,11 +379,24 @@ static const CGFloat Padding_Tabbar = 7.0;
 #pragma mark - UIBarButton Item Action
 -(void)backButtonPressed{
     
+    //删除备份数据
+    [self removePersonBackup];
+    
     if (_createPerson) {
         [self backAlertForNewPerson];
     }else{
-        [self.navigationController popViewControllerAnimated:YES];
+        NSError *error;
+        [self.personModel validateRepeatPerson:&error];
+        
+        if (error) {
+            [self showHUDMessage:[error.userInfo objectForKey:ERROR_DESCRIPTION_KEY] andDelay:1.5];
+        }else{
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }
+    
+    //整体保存数据
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 }
 
 /**
@@ -371,37 +406,41 @@ static const CGFloat Padding_Tabbar = 7.0;
     
     BOOL isPass = YES;
     
+    NSTimeInterval delay = 1.5;
+    
     NSError *error;
     [self.personModel validatePerson:&error];
     
     if (!error) {
         [self.personModel validateRepeatPerson:&error];
-    }
-    
-    if (error) {
-        [self showHUDMessage:[error.userInfo objectForKey:ERROR_DESCRIPTION_KEY] andDelay:1.5];
-        isPass = NO;
-    }else if(!self.personModel.history){
-        [self.personModel validateBodySizeData:&error];
         
         if (error) {
-            [self showHUDMessage:[error.userInfo objectForKey:ERROR_DESCRIPTION_KEY] andDelay:2.0];
-            isPass = NO;
-        }else{
-            [self.personModel validateClothesSizeData:&error];
-            
-            if (error) {
-                [self showHUDMessage:[error.userInfo objectForKey:ERROR_DESCRIPTION_KEY] andDelay:1.5];
-                isPass = NO;
-            }
+            delay = 2.0;
         }
     }
     
+    if (!error) {
+        [self.personModel validatePersonCategoryConfig:&error];
+    }
     
+    if (!self.personModel.history) {
+        if (!error) {
+            [self.personModel validateBodySizeData:&error];
+        }
     
+        if (!error) {
+            [self.personModel validateClothesSizeData:&error];
+        }
+    }
     
+    if (error) {
+        [self showHUDMessage:[error.userInfo objectForKey:ERROR_DESCRIPTION_KEY] andDelay:delay];
+        isPass = NO;
+    }
     
     if (isPass) {
+        _createPerson = NO; //完成操作后，新用户不用提示是否创建
+        
         self.personModel.status = PERSON_STATUS_COMPLETED;
         
         //是否需要标注短袖长
@@ -409,7 +448,10 @@ static const CGFloat Padding_Tabbar = 7.0;
         
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         
-        [self loadSuccessWith:@"已完成量体"];
+        [self.navigationController showHUDMessage:@"量体数据保存成功" andDelay:1.5];
+        
+        //返回到列表页面
+        [self backButtonPressed];
     }
     
 }
@@ -446,11 +488,7 @@ static const CGFloat Padding_Tabbar = 7.0;
             [self showLoading];
             
             //备份量体人量体数据
-            if (!self.personModelBackup) {
-                self.personModelBackup = [PersonnelModel MR_createEntity];
-            }
-            [self.personModelBackup copyAttributesFrom:self.personModel];
-            [self.personModelBackup copyPersonSizeDataFrom:self.personModel];
+            [self createPersonBackup];
             
             //粘贴量体数据
             [self.personModel copyPersonSizeDataFrom:[CommonData shareCommonData].personModelForCoping];
@@ -567,8 +605,6 @@ static const CGFloat Padding_Tabbar = 7.0;
     
     if (self.personModel.history) {
         [self triggerLockEditSize:YES];
-    }else{
-        [self triggerLockEditSize:NO];
     }
     
 }
@@ -662,82 +698,11 @@ static const CGFloat Padding_Tabbar = 7.0;
     }
 }
 
-/**
- * 配置公司全局设置的品类数量
- ***/
--(void)setupCompanyCategoryConfigure{
-    BOOL allowConfig = [self allowCompanyCategoryConfig];
-    
-    if (allowConfig) {
-        
-        if (self.companyModel.configuration.isValidString) {
-            
-            NSMutableDictionary *countDic = [NSMutableDictionary dictionary];
-            NSDictionary *categoryConfigDic = [PersonnelModel convertDicByCategoryConfigStr:self.companyModel.configuration];
-            
-            for (NSString *categoryCode in categoryConfigDic.allKeys) {
-                
-                NSInteger count = [[categoryConfigDic objectForKey:categoryCode] integerValue];
-                
-                if ([categoryCode isEqualToString:Category_Code_T]) {
-                    
-                    NSInteger count_A = [[countDic objectForKey:Category_Code_A] integerValue];
-                    NSInteger count_B = [[countDic objectForKey:Category_Code_B] integerValue];
-                    
-                    [countDic setObject:@(count_A + count) forKey:Category_Code_A];
-                    [countDic setObject:@(count_B + count) forKey:Category_Code_B];
-                }else{
-                    NSInteger count_Category = [[countDic objectForKey:categoryCode] integerValue];
-                    
-                    [countDic setObject:@(count + count_Category) forKey:categoryCode];
-                }
-            }
-            
-            //删除之前的品类
-            for (CategoryModel *category in self.personModel.category) {
-                [category MR_deleteEntity];
-            }
-            
-            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-            
-            //复制默认的品类配置
-            self.personModel.category_config = self.companyModel.configuration;
-            
-            for (NSString *categoryCode in countDic.allKeys) {
-                NSInteger count = [[countDic objectForKey:categoryCode] integerValue];
-                [self.personModel setCategoryCount:count byCategoryCode:categoryCode];
-            }
-        }
-
-    }
-
-}
-
-/**
- * 是否允许使用全局类别配置
- **/
--(BOOL)allowCompanyCategoryConfig{
-    BOOL flag = YES;
-    
-    if ([self.personModel.position count] > 0) {
-        flag = NO;
-    }else{
-        for (CategoryModel *category in self.personModel.category) {
-            if ([category.position count] > 0) {
-                flag = NO;
-                break;
-            }
-        }
-    }
-    
-    return flag;
-}
-
 -(void)backAlertForNewPerson{
     
     weakObjc(self);
     
-    [self confirmDialog:@"是否保留创建的新人员" content:@"" confirmTitle:@"保存" cancelTitle:@"取消" result:^(BOOL confirm) {
+    [self confirmDialog:@"是否保留创建的新人员" content:@"" confirmTitle:@"是" cancelTitle:@"否" result:^(BOOL confirm) {
         
         if (confirm) {
             //保存新创建的人员数据
@@ -759,12 +724,11 @@ static const CGFloat Padding_Tabbar = 7.0;
             [weakself.navigationController popViewControllerAnimated:YES];
             
             [weakself.personModel MR_deleteEntity];
-            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+            //[[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         }
         
     }];
 }
-
 
 #pragma mark - Other Button Action
 
@@ -805,11 +769,17 @@ static const CGFloat Padding_Tabbar = 7.0;
     
     for (UIViewController *controller in self.pageControllers) {
         if ([controller isKindOfClass:[BodySizeContainerViewController class]]) {
-            [(BodySizeContainerViewController *)controller setShowLockView:lock];
+            BodySizeContainerViewController *bodySizeController = (BodySizeContainerViewController *)controller;
+            
+            [bodySizeController setShowLockView:lock];
+            [bodySizeController reloadData];
         }
         
         if ([controller isKindOfClass:[ClothesSizeViewController class]]) {
-            [(ClothesSizeViewController *)controller setShowLockView:lock];
+            ClothesSizeViewController *clothesSizeController = (ClothesSizeViewController *)controller;
+            
+            [clothesSizeController setShowLockView:lock];
+            [clothesSizeController reloadData];
         }
     }
     
@@ -830,19 +800,60 @@ static const CGFloat Padding_Tabbar = 7.0;
         }else{
             [personModel setEditTimeIsNow];
             [personModel setPersonSatus_Progressing];
+            
+            personModel.lname = [UserManager getShowname];
+            personModel.lid = [UserManager getUserId];
         }
         
     }
     
+    //有修改操作后，取消撤销操作
     if (self.otherMenuView.showCancelButton && personModel == self.personModel) {
         self.otherMenuView.showCancelButton = NO;
         [self.otherMenuView reloadData];
 
-        if (self.personModelBackup) {
-            [self.personModelBackup MR_deleteEntity];
-        }
+        [self removePersonBackup];
     }
 }
 
+/**
+ * 清除缓存的用户数据
+ **/
+-(void)clearTempPersonNotification:(NSNotification *)notification{
+    
+    [self removePersonBackup];
+    
+    if (_createPerson && self.personModel) {
+        [self.personModel MR_deleteEntity];
+    }
+}
+
+#pragma mark - Back Person Methods
+
+/**
+ * 创建用户备份
+ **/
+-(void)createPersonBackup{
+    
+    //备份量体人量体数据
+    if (!self.personModelBackup) {
+        self.personModelBackup = [PersonnelModel MR_createEntity];
+    }
+    [self.personModelBackup copyAttributesFrom:self.personModel];
+    [self.personModelBackup copyPersonSizeDataFrom:self.personModel];
+    
+    self.personModelBackup.istemp = YES;   //不作为重复检测对象
+}
+
+/**
+ * 删除用户备份
+ **/
+-(void)removePersonBackup{
+    
+    if (self.personModelBackup) {
+        [self.personModelBackup MR_deleteEntity];
+        //[[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    }
+}
 
 @end

@@ -40,6 +40,11 @@ typedef enum : NSInteger {
     PERSON_STATUS_COMPLETED = 2,                //已完成量体
 } PERSON_STATUS;
 
+typedef enum : NSUInteger {
+    PERSON_GENDER_WOMEN = 0,        //女
+    PERSON_GENDER_MAN,              //男
+} PERSON_GENDER;
+
 
 
 #define BASIC_DATA_PLIST_FILE_PATH  [[NSBundle mainBundle] pathForResource:@"GarmentMessage" ofType:@"plist"]

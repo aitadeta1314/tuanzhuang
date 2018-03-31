@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UITextField * userNameText;/**  */
 @property (nonatomic, strong) UITextField * userPwdText;/**  */
 //
--(void)delUserAction:(NSDictionary*)info;
+-(void) selectUser:(NSDictionary*)one;
+-(void) delUserAction:(NSDictionary*)info;
 
 @end

@@ -60,7 +60,7 @@ static NSString * const kNumberButton[] = {
     /*****手写板使用参数 ↓ *****/
     int timer;
     Boolean stop;
-//    BOOL isChangeChar;
+    BOOL isChangeChar;
     short sTrace[2048];
     int nTraceCount;
     
@@ -143,6 +143,10 @@ static NSString * const kNumberButton[] = {
     if (!_syncBGView) {
         _syncBGView = [[UIView alloc] initWithFrame:self.frame];
         _syncBGView.backgroundColor = syncCode_SpaceInterval_Color;
+        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGes:)];
+        [_syncBGView addGestureRecognizer:pan];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGes:)];
+        [_syncBGView addGestureRecognizer:tap];
         [self addSubview:_syncBGView];
     }
     return _syncBGView;
@@ -205,9 +209,21 @@ static NSString * const kNumberButton[] = {
     if (!_bgView) {
         _bgView = [[UIView alloc] initWithFrame:self.frame];
         _bgView.backgroundColor = BACKGROUND_COLOR;
+        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGes:)]; // 为了避免滑动背景的时候，有可能出现文字的场景...
+        [_bgView addGestureRecognizer:pan];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGes:)];
+        [_bgView addGestureRecognizer:tap];
         [self addSubview:_bgView];
     }
     return _bgView;
+}
+
+- (void)panGes:(UIPanGestureRecognizer *)gesture {
+    NSLog(@"pan 手势");
+}
+
+- (void)tapGes:(UITapGestureRecognizer *)gesture {
+    NSLog(@"tap 手势");
 }
 
 - (void)createButton{
@@ -381,12 +397,16 @@ static NSString * const kNumberButton[] = {
     if ([str isEqualToString:@""]) {
         // 删除
         [activeField doDeleteChar];
+        [self dealHideUnderline];
     } else if ([str isEqualToString:@"清空"]) {
         // 清空
+        [self dealHideUnderline];
         [activeField clearInputTextField];
     } else if ([str isEqualToString:@"上一个"]) {
+        [self dealHideUnderline];
         [[IQKeyboardManager sharedManager] goPrevious];
     } else if ([str isEqualToString:@"下一个"]) {
+        [self dealHideUnderline];
         [[IQKeyboardManager sharedManager] goNext];
     }
 }
@@ -417,10 +437,16 @@ static NSString * const kNumberButton[] = {
 - (void)becomeActiveField:(ZZNumberField *)field
 {
     activeField = field;
+    if (isChangeChar) {  // 如果有下划线
+        isChangeChar = NO;
+    }
 }
 
 - (void)resignActiveField:(ZZNumberField *)field
 {
+    if (isChangeChar) {  // 如果有下划线
+        isChangeChar = NO;
+    }
     if (activeField == field) activeField = nil;
 }
 
@@ -466,6 +492,7 @@ static NSString * const kNumberButton[] = {
         nTraceCount = 0;
         timer = 0;
         stop = true;
+        isChangeChar = NO;
         
         // init hw engine
         [hwlib WWRecognitionInit:0 :0];
@@ -589,6 +616,9 @@ static NSString * const kNumberButton[] = {
             // 清除面板 主线程更新UI
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self clearImage];
+//                [self candButtonClick:cand1];
+                [self addUnderline];
+                isChangeChar = YES; // 加下划线代表能够替换这个字符
             });
             timer = 0;
             stop = true;
@@ -598,9 +628,25 @@ static NSString * const kNumberButton[] = {
     }
 }
 
+- (void)addUnderline {
+    NSString * text = [activeField text];
+    NSString * str = [cand1 titleForState:UIControlStateNormal];
+    [activeField setText:[NSString stringWithFormat:@"%@%@", text, str]];
+    //添加下划线
+    if (activeField != nil && text != nil) {
+    
+        NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:activeField.text];
+        [attributedStr addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:NSMakeRange(activeField.text.length-1,1)];
+        activeField.attributedText = attributedStr;
+    }
+}
+
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     stop = true;
-
+    /// 在写下个字的时候如果还有下划线（代表字符能够修改），则删除下划线，默认选中第一个。
+    if (isChangeChar) {
+        [self candButtonClick:cand1];
+    }
     /// 手按下的时候 隐藏按钮文字
     [cand1 setTitle:@"" forState:UIControlStateNormal];
     [cand2 setTitle:@"" forState:UIControlStateNormal];
@@ -681,10 +727,10 @@ static NSString * const kNumberButton[] = {
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    NSLog(@"touches取消 被打断了~");
     UIGraphicsEndImageContext();
     [self clearImage];
 }
+
 
 - (void)clearImage
 {
@@ -698,10 +744,21 @@ static NSString * const kNumberButton[] = {
 {
     stop = true;
     UIButton * button = (UIButton*)sender;
-    
     NSString * btnStr = [button titleForState:UIControlStateNormal];
     
-    [activeField updateTextfield:btnStr];
+    if (isChangeChar) {
+        // 点击按钮替换默认选择的字符,并且去掉下划线
+        NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithAttributedString:activeField.attributedText];
+        NSUInteger leng = activeField.attributedText.length;
+        [attributedStr removeAttribute:NSUnderlineStyleAttributeName range:NSMakeRange(leng - 1, 1)];
+        [attributedStr replaceCharactersInRange:NSMakeRange(leng-1, 1) withAttributedString:[[NSAttributedString alloc] initWithString:btnStr attributes:nil]];
+        activeField.attributedText = attributedStr;
+        
+    }
+    else {
+        [activeField updateTextfield:btnStr];
+    }
+    isChangeChar = NO;
     
     [self buttonClick:sender];
     
@@ -731,21 +788,59 @@ static NSString * const kNumberButton[] = {
     
     if ([str isEqualToString:@""]) {
         // 删除
-        [activeField doDeleteChar];
+//        [activeField doDeleteChar];
+        NSMutableAttributedString *beforeStr;
+        if (activeField.selectedTextRange.empty) {
+            // 选中的文本为空的话，正常删除
+            beforeStr = [[NSMutableAttributedString alloc] initWithAttributedString:activeField.attributedText];
+            if (beforeStr.length > 0) {
+                NSRange range = NSMakeRange([beforeStr length] - 1, 1);
+                [beforeStr deleteCharactersInRange:range];
+                NSUInteger leng = beforeStr.length;
+                [beforeStr removeAttribute:NSUnderlineStyleAttributeName range:NSMakeRange(0, leng)];
+            }
+            else {
+                beforeStr = nil;
+            }
+        } else {
+            // 选中的文本不为空，这里操作是删除textfield中的text值。
+            beforeStr = nil;
+        }
+        activeField.attributedText = beforeStr;
+        // 在删除一个字符之后需要将此状态改为NO
+        isChangeChar = NO;
     } else if ([str isEqualToString:@"清空"]) {
         // 清空
+        [self dealHideUnderline];
         [activeField clearInputTextField];
     } else if ([str isEqualToString:@"123"]) {
-        
+        [self dealHideUnderline];
         [self changeKeyboardType];
         
     } else if ([str isEqualToString:@"搜索"]) {
         if ([activeField.numDelegate respondsToSelector:@selector(didSearchClicked)]) {
+            [self dealHideUnderline];
             [activeField.numDelegate didSearchClicked];
         }
     } else if ([str isEqualToString:@"确定"]) {
+        [self dealHideUnderline];
         [activeField resignFirstResponder];
     }
+    
+}
+
+/**
+ 处理隐藏下划线
+ */
+- (void)dealHideUnderline {
+    if (isChangeChar) {  // 如果有下划线
+        NSMutableAttributedString * beforeStr = [[NSMutableAttributedString alloc] initWithAttributedString:activeField.attributedText];
+        NSUInteger leng = beforeStr.length;
+        [beforeStr removeAttribute:NSUnderlineStyleAttributeName range:NSMakeRange(0, leng)];
+        activeField.attributedText = beforeStr;
+        isChangeChar = NO;
+    }
+    
 }
 
 #pragma mark -
@@ -758,8 +853,6 @@ static NSString * const kNumberButton[] = {
 - (void)initSubviews
 {
     ZZNumericInputView *view = [ZZNumericInputView sharedInputView];
-    view.customKeyboardType = self.keyboard;
-    view.customWritingPadType = self.writingPadType;
     self.inputView = view;
     if (self.delegate == nil) {
         self.delegate = view;
@@ -774,7 +867,8 @@ static NSString * const kNumberButton[] = {
 - (void)setKeyboard:(KEYBOARDTYPE)keyboard {
     if (_keyboard != keyboard) {
         _keyboard = keyboard;
-        [self initSubviews];
+        ZZNumericInputView *view = [ZZNumericInputView sharedInputView];
+        view.customKeyboardType = keyboard;
     }
 }
 
@@ -864,8 +958,18 @@ static NSString * const kNumberButton[] = {
 
 - (BOOL)becomeFirstResponder
 {
+    // 在成为第一响应者的时候需要将textfield的下划线富文本移除
+    NSMutableAttributedString * beforeStr = [[NSMutableAttributedString alloc] initWithAttributedString:self.attributedText];
+    NSUInteger leng = beforeStr.length;
+    [beforeStr removeAttribute:NSUnderlineStyleAttributeName range:NSMakeRange(0, leng)];
+    self.attributedText = beforeStr;
+    
+    
     if ([super becomeFirstResponder]) {
-        [[ZZNumericInputView sharedInputView] becomeActiveField:self];
+        ZZNumericInputView *view = [ZZNumericInputView sharedInputView];
+        view.customKeyboardType = self.keyboard;
+        view.customWritingPadType = self.writingPadType;
+        [view becomeActiveField:self];
         return YES;
     } else {
         return NO;
@@ -874,6 +978,12 @@ static NSString * const kNumberButton[] = {
 
 - (BOOL)resignFirstResponder
 {
+    // 在释放第一响应者的时候需要将textfield的下划线富文本移除
+    NSMutableAttributedString * beforeStr = [[NSMutableAttributedString alloc] initWithAttributedString:self.attributedText];
+    NSUInteger leng = beforeStr.length;
+    [beforeStr removeAttribute:NSUnderlineStyleAttributeName range:NSMakeRange(0, leng)];
+    self.attributedText = beforeStr;
+    
     if ([super resignFirstResponder]) {
         [[ZZNumericInputView sharedInputView] resignActiveField:self];
         return YES;

@@ -17,6 +17,21 @@
 @implementation PersonnelModel (CategoriesHelper)
 
 /**
+ * 是否可配置该品类
+ **/
+-(BOOL)canConfigCategory:(NSString *)categoryCode{
+    
+    BOOL pass = YES;
+    
+    if ([categoryCode isEqualToString:Category_Code_D] && PERSON_GENDER_MAN == self.gender) {
+        pass = NO;
+    }
+    
+    return pass;
+    
+}
+
+/**
  * 获取指定量体方式的品类
  */
 -(NSArray *)getCategorySizeType:(CategorySizeType)type{
@@ -44,7 +59,7 @@
         [categoryItem associatedSetCategoryAddtional];
     }
     
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    //[[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 }
 
 /**
@@ -87,16 +102,17 @@
             categoryItem.type = CategorySizeType_Body;
         }
         
-        //关联配置冬季与夏季数量
+        //关联配置冬季与夏季数量，并配置对应的加放量数据
         [categoryItem associatedSetCategorySeasonCount];
-    }else{
+    }else if(categoryItem){
+        [self removeCategoryObject:categoryItem];
         [categoryItem MR_deleteEntity];
     }
     
     //同步CY/CD的成衣量体尺寸数据同步
     [self referencePositionSizeByAssociateCategory:categoryItem];
     
-    [[NSManagedObjectContext MR_defaultContext]MR_saveToPersistentStoreAndWait];
+    //[[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 }
 
 /**
@@ -200,7 +216,11 @@
     
     NSMutableDictionary *configDic = [NSMutableDictionary dictionaryWithDictionary:[PersonnelModel convertDicByCategoryConfigStr:self.category_config]];
     
-    [configDic setObject:@(count) forKey:categoryCode];
+    if (count > 0) {
+        [configDic setObject:@(count) forKey:categoryCode];
+    }else if ([configDic.allKeys containsObject:categoryCode]){
+        [configDic removeObjectForKey:categoryCode];
+    }
     
     self.category_config = [PersonnelModel convertStrByCategoryConfigDic:configDic];
 }

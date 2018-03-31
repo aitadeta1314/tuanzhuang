@@ -98,7 +98,7 @@
 {
     if (_finishImageView == nil) {
         _finishImageView = [[UIImageView alloc] init];
-        _finishImageView.image = [UIImage imageNamed:@"finish.png"];
+//        _finishImageView.image = [UIImage imageNamed:@"finish.png"];
         [self.contentView addSubview:_finishImageView];
     }
     return _finishImageView;
@@ -146,7 +146,7 @@
     
     _index = index;
     
-    self.selectImageView.hidden = !show || model.status == 3;
+    self.selectImageView.hidden = !show || model.status >= 3;
     weakObjc(self);
     if (model.selected) {
         self.selectImageView.image = [UIImage imageNamed:@"checked"];
@@ -178,7 +178,7 @@
         make.left.mas_equalTo(weakself.companyNameLabel);
         make.height.mas_equalTo(14);
     }];
-    self.uploadDateLabel.text = [NSString stringWithFormat:@"上传时间：%@",model.uploaddate];
+    self.uploadDateLabel.text = [NSString stringWithFormat:@"更新时间：%@",model.updatetime];
     self.uploadDateLabel.textColor = RGBColor(153, 153, 153);
     self.uploadDateLabel.font = [UIFont systemFontOfSize:14];
     
@@ -187,7 +187,7 @@
         make.left.mas_equalTo(weakself.uploadDateLabel.mas_right).offset(60);
         make.height.mas_equalTo(weakself.uploadDateLabel);
     }];
-    self.downloadTimesLabel.text = [NSString stringWithFormat:@"下载次数：%@",model.downloadtimes];
+    self.downloadTimesLabel.text = [NSString stringWithFormat:@"下载次数：%d",model.downloadtimes];
     self.downloadTimesLabel.textColor = RGBColor(153, 153, 153);
     self.downloadTimesLabel.font = [UIFont systemFontOfSize:14];
     
@@ -215,18 +215,21 @@
         make.center.mas_equalTo(weakself.selectImageView);
     }];
     [self.downloadButton setImage:[UIImage imageNamed:@"download_icon"] forState:UIControlStateNormal];
-    self.downloadButton.hidden = show || model.status == 3;
+    self.downloadButton.hidden = show || model.status >= 3;
     
     [self.finishImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(download_w, download_w));
         make.center.mas_equalTo(weakself.downloadButton);
     }];
-    self.finishImageView.hidden = model.status != 3;
+    
+    if (model.status == 3) {
+        self.finishImageView.image = [UIImage imageNamed:@"finish.png"];
+    } else if (model.status == 4) {
+        self.finishImageView.image = [UIImage imageNamed:@"fail.png"];
+    }
+    self.finishImageView.hidden = model.status < 3;
     
     [self.loadView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.mas_equalTo(weakself.contentView).offset(32);
-//        make.right.mas_equalTo(weakself.contentView).offset(-40);
-//        make.size.mas_equalTo(CGSizeMake(selecticon_size, selecticon_size));
         make.size.mas_equalTo(CGSizeMake(download_w, download_w));
         make.center.mas_equalTo(weakself.downloadButton);
     }];

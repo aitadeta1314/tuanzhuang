@@ -28,7 +28,6 @@ static NSString * const Identifier_Collectionview_Header = @"collectionview_head
 
 @implementation ConfigSlideMenuView
 
-
 -(instancetype)initWithFrame:(CGRect)frame{
     
     self = [super initWithFrame:frame];

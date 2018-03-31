@@ -15,8 +15,12 @@
     return [self.cate componentsSeparatedByString:@","];
 }
 
--(NSArray *)rangeArray{
-    return [self.rangeStr componentsSeparatedByString:@","];
+-(NSArray *)manRangeArray{
+    return [self.manRange componentsSeparatedByString:@","];
+}
+
+-(NSArray *)womenRangeArray{
+    return [self.womenRange componentsSeparatedByString:@","];
 }
 
 #pragma mark - Class Methods

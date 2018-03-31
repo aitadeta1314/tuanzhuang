@@ -8,12 +8,12 @@
 
 #import "CustomSlideMenuView.h"
 
-typedef void(^SexChangedBlock)(void);
+typedef void(^VoidBlock)(void);
 
 @interface PersonMsgSlideMenuView : CustomSlideMenuView
 
 @property(nonatomic,assign) BOOL isNew;
 
-@property(nonatomic,strong) SexChangedBlock sexChanged;
+@property(nonatomic,strong) VoidBlock changedBlock;
 
 @end

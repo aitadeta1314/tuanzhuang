@@ -26,6 +26,11 @@ typedef NS_ENUM(NSUInteger, BodySizeCellStatus) {
 @property(nonatomic,assign) BodySizeCellStatus status;
 
 /**
+ * 启动验证 默认NO
+ **/
+@property(nonatomic,assign) BOOL enableValidate;
+
+/**
  * 尺寸值改变的block回调函数
  */
 @property(nonatomic,copy) BodySizeValueChangedBlock sizeChangedBlock;

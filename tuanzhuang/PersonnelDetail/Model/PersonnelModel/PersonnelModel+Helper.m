@@ -11,6 +11,7 @@
 #import "NSManagedObject+Coping.h"
 #import "PositionSizeRangeModel.h"
 #import "CategoryModel+Helper.h"
+#import "processingTime.h"
 
 NSString * const ERROR_DESCRIPTION_KEY      = @"description";
 NSString * const ERROR_POSITION_BLCODE_KEY  = @"position_blcode";
@@ -115,17 +116,24 @@ NSString * const KEY_ENTITY_USERINFO_NOTIFICATION = @"key_entity_userinfo";
     
 }
 
+/*
+ * 从“已完成”状态恢复到“进行中”状态
+ **/
+-(void)resumePersonSatus_Progressing{
+    
+    if (self.status == PERSON_STATUS_COMPLETED) {
+        self.status = PERSON_STATUS_PROGRESSING;
+    }
+    
+}
+
 /**
  * 设置修改时间为当前时间
  */
 -(void)setEditTimeIsNow{
     NSDate *date = [NSDate date];
-    
-    NSTimeZone *zone = [NSTimeZone systemTimeZone];
-    
-    NSTimeInterval time = [zone secondsFromGMTForDate:date];
 
-    self.edittime = [date dateByAddingTimeInterval:time];
+    self.edittime = [processingTime dateStringWithDate:date andFormatString:@"yyyy-MM-dd HH:mm:ss"];
 }
 
 
@@ -139,6 +147,12 @@ NSString * const KEY_ENTITY_USERINFO_NOTIFICATION = @"key_entity_userinfo";
         self.company = otherPerson.company;
         self.specialoptions = otherPerson.specialoptions;
         self.category_config = otherPerson.category_config;
+        self.mtm = otherPerson.mtm;
+        
+        //根据性别，对数据进行修改
+        if (self.gender != otherPerson.gender) {
+            [self referenceAssociateDataBySexChanged];
+        }
     }
 }
 
@@ -147,20 +161,32 @@ NSString * const KEY_ENTITY_USERINFO_NOTIFICATION = @"key_entity_userinfo";
  ***/
 -(BOOL)validateRepeatPerson:(NSError **)error{
     
+    //如果是临时数据，不用进行重复数据检测
+    if (self.istemp) {
+        return YES;
+    }
+    
     BOOL pass = YES;
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@",self.name];
     
     NSMutableArray *personArray = [NSMutableArray arrayWithArray:[[self.company.personnel filteredSetUsingPredicate:predicate] sortedArrayUsingDescriptors:@[]]];
-    
+
     //删除自身
     [personArray removeObject:self];
     
     //判断是否重复
     for (PersonnelModel *otherPerson in personArray) {
         
-        if (self.gender == otherPerson.gender && [self.department isEqualToString:otherPerson.department]) {
-            //存在重复数据：姓名、性别、部门一致
+        //直接跳过临时数据
+        if (otherPerson.istemp) {
+            continue;
+        }
+        
+        if (self.gender == otherPerson.gender &&
+            [self.department isEqualToString:otherPerson.department] &&
+            self.mtm == otherPerson.mtm) {
+            //存在重复数据：姓名、性别、MTM、部门一致
             pass = NO;
             
             NSString *descriptioin = @"对不起，不能创建重复的量体人员";
@@ -202,15 +228,40 @@ NSString * const KEY_ENTITY_USERINFO_NOTIFICATION = @"key_entity_userinfo";
     
 }
 
+/**
+ * 验证量体人员是否进行品类的配置
+ **/
+-(BOOL)validatePersonCategoryConfig:(NSError **)error{
+    
+    BOOL pass = NO;
+    
+    NSDictionary *categoryDic = [PersonnelModel convertDicByCategoryConfigStr:self.category_config];
+    
+    for (NSString *key in categoryDic.allKeys) {
+        NSInteger count = [[categoryDic objectForKey:key] integerValue];
+        
+        if (count > 0) {
+            pass = YES;
+            break;
+        }
+    }
+    
+    if (!pass) {
+        *error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:0 userInfo:@{ERROR_DESCRIPTION_KEY:@"请进行品类配置"}];
+    }
+    
+    return pass;
+}
+
 -(BOOL)validateBodySizeData:(NSError *__autoreleasing *)error{
     
     BOOL isPass = YES;
     
-    NSArray *bodyPositionArray = [PositionSizeRangeModel getBodyPositionSizeRangeArray];
+    NSArray *bodyPositionArray = [PositionSizeRangeModel getBodyPositionSizeRangeArrayBySex:self.gender andMTM:self.mtm];
     
     NSArray *bodyCategorys = [self getCategorySizeType:CategorySizeType_Body];
     
-    if (1 == self.gender) {
+    if (PERSON_GENDER_MAN == self.gender) {
         //忽略西裙的验证
         NSMutableArray *tempArray = [NSMutableArray arrayWithArray:bodyCategorys];
         
@@ -226,29 +277,82 @@ NSString * const KEY_ENTITY_USERINFO_NOTIFICATION = @"key_entity_userinfo";
     
     
     for (PositionSizeRangeModel *rangeModel in bodyPositionArray) {
-        BOOL isRequired = [rangeModel isRequiredForBodySizeCategorys:bodyCategorys];
+        //验证必填部位尺寸不为空
+        isPass = [self validateBodySizeData_Required:rangeModel forCategorys:bodyCategorys error:error];
         
-        NSString *name = rangeModel.position;
-        NSString *blcode = rangeModel.blcode;
-        
-        if (0 == self.gender) {
-            blcode = rangeModel.wblcode;
+        if (isPass) {
+            //验证部位尺寸是否在规定范围内
+            isPass = [self validateBodySizeData_Range:rangeModel error:error];
         }
         
-        if (isRequired) {
-            NSInteger size = [self getBodyPositionSizeByCode:blcode];
-            
-            if (0 == size) {
-                *error = [NSError errorWithDomain:NSCocoaErrorDomain code:0 userInfo:@{ERROR_DESCRIPTION_KEY:[NSString stringWithFormat:@"请在净体中输入\"%@\"的尺寸",name],ERROR_POSITION_BLCODE_KEY:blcode,ERROR_POSITION_NAME_KEY:name}];
-                
-                isPass = NO;
-                break;
-            }
+        if (!isPass) {
+            break;
         }
     }
     
     return isPass;
 }
+
+/**
+ * 验证净体的部位尺寸的必填
+ **/
+-(BOOL)validateBodySizeData_Required:(PositionSizeRangeModel *)rangeModel forCategorys:(NSArray *)categorys error:(NSError **)error{
+    
+    BOOL isPass = YES;
+    
+    BOOL isRequired = [rangeModel isRequiredForBodySizeCategorys:categorys];
+    
+    NSString *positionName = rangeModel.position;
+    NSString *blcode = rangeModel.blcode;
+    
+    if (PERSON_GENDER_WOMEN == self.gender) {
+        blcode = rangeModel.wblcode;
+    }
+    
+    if (isRequired) {
+        NSInteger size = [self getBodyPositionSizeByCode:blcode];
+        
+        if (0 == size) {
+            *error = [NSError errorWithDomain:NSCocoaErrorDomain code:0 userInfo:@{ERROR_DESCRIPTION_KEY:[NSString stringWithFormat:@"请在净体中输入\"%@\"的尺寸",positionName],ERROR_POSITION_BLCODE_KEY:blcode,ERROR_POSITION_NAME_KEY:positionName}];
+            
+            isPass = NO;
+        }
+    }
+    
+    return isPass;
+}
+
+/**
+ * 验证净体尺寸是否在范围内
+ **/
+-(BOOL)validateBodySizeData_Range:(PositionSizeRangeModel *)rangeModel error:(NSError **)error{
+    
+    BOOL isPass = YES;
+    
+    NSString *positionName = rangeModel.position;
+    NSString *blcode = rangeModel.blcode;
+    NSInteger max = 0;
+    NSInteger min = 0;
+    
+    //获取尺寸范围
+    [rangeModel getRangeMin:&min andRangeMax:&max byIsMan:self.gender];
+    
+    if (PERSON_GENDER_WOMEN == self.gender) {
+        blcode = rangeModel.wblcode;
+    }
+    
+    NSInteger size = [self getBodyPositionSizeByCode:blcode];
+    
+    if (size > 0 && (size < min || size > max)) {
+        
+        *error = [NSError errorWithDomain:NSCocoaErrorDomain code:0 userInfo:@{ERROR_DESCRIPTION_KEY:[NSString stringWithFormat:@"净体中\"%@\"的尺寸不在范围内",positionName],ERROR_POSITION_BLCODE_KEY:blcode,ERROR_POSITION_NAME_KEY:positionName}];
+        
+        isPass = NO;
+    }
+    
+    return isPass;
+}
+
 
 -(BOOL)validateClothesSizeData:(NSError *__autoreleasing *)error{
     
@@ -258,46 +362,115 @@ NSString * const KEY_ENTITY_USERINFO_NOTIFICATION = @"key_entity_userinfo";
     
     for (CategoryModel *categoryItem in categoryArray) {
         
-        if (1 == self.gender && [categoryItem.cate isEqualToString:Category_Code_D]) {
+        if (PERSON_GENDER_MAN == self.gender && [categoryItem.cate isEqualToString:Category_Code_D]) {
             //男性忽略“西裙”的验证
             continue;
         }
         
-        NSArray *rangeModelArray = [PositionSizeRangeModel getClothesPositionSizeRangeArray:categoryItem.cate];
-        
-        NSString *categoryCode = categoryItem.cate;
-        NSString *categoryName = categoryItem.name;
-        
+        NSArray *rangeModelArray = [PositionSizeRangeModel getClothesPositionSizeRangeArray:categoryItem.cate bySex:self.gender andMTM:self.mtm];
+
         for (PositionSizeRangeModel *rangeModel in rangeModelArray) {
             
-            NSString *name = rangeModel.position;
-            NSString *blcode = rangeModel.blcode;
+            //必填尺寸验证
+            isPass = [self validateClothesSizeData_Required:rangeModel forCategory:categoryItem error:error];
             
-            if (0 == self.gender) {
-                blcode = rangeModel.wblcode;
+            if (isPass) {
+                //尺寸范围验证
+                isPass = [self validateClothesSizeData_Range:rangeModel forCategory:categoryItem error:error];
             }
             
-            if ([rangeModel.required isEqualToString:categoryItem.cate]) {
-                //必填尺寸
-                PositionModel *position = [self getPositionByCode:blcode atCategory:categoryItem];
-                
-                isPass = !position ||
-                        (categoryItem.summerCount > 0 && 0 == position.size) ||
-                        (categoryItem.winterCount > 0 && 0 == position.size_winter) ? NO : YES;
-                
-                if (!isPass) {
-                    *error = [NSError errorWithDomain:NSCocoaErrorDomain code:0 userInfo:@{
-                                                                                           ERROR_DESCRIPTION_KEY:[NSString stringWithFormat:@"请在成衣中输入\"%@-%@\"的尺寸",categoryName,name],
-                                                                                           ERROR_POSITION_NAME_KEY:name,
-                                                                                           ERROR_POSITION_BLCODE_KEY:blcode,
-                                                                                           ERROR_CATEGORY_NAME_KEY:categoryName,
-                                                                                           ERROR_CATEGORY_CODE_KEY:categoryCode
-                                                                                           }];
-                    break;
-                }
+            if (!isPass) {
+                break;
             }
         }
         
+        if (!isPass) {
+            break;
+        }
+    }
+    
+    return isPass;
+}
+
+/**
+ * 成衣的部位尺寸针对某个品类的必填验证
+ **/
+-(BOOL)validateClothesSizeData_Required:(PositionSizeRangeModel *)rangeModel forCategory:(CategoryModel *)category error:(NSError **)error{
+    
+    BOOL isPass = YES;
+    
+    NSString *categoryName = category.name;
+    NSString *positionName = rangeModel.position;
+    NSString *blcode = rangeModel.blcode;
+    
+    if (PERSON_GENDER_WOMEN == self.gender) {
+        blcode = rangeModel.wblcode;
+    }
+    
+    if ([rangeModel.required isEqualToString:category.cate]) {
+        //必填尺寸
+        PositionModel *position = [self getPositionByCode:blcode atCategory:category];
+        
+        if (!position) {
+            isPass = NO;
+        }else if (category.summerCount > 0 && 0 == position.size){
+            isPass = NO;
+        }else if (category.winterCount > 0 && 0 == position.size_winter){
+            isPass = NO;
+        }
+    
+        if (!isPass) {
+            *error = [NSError errorWithDomain:NSCocoaErrorDomain code:0 userInfo:@{
+                                                                                   ERROR_DESCRIPTION_KEY:[NSString stringWithFormat:@"请在成衣中输入\"%@-%@\"的尺寸",categoryName,positionName]
+                                                                                   }];
+        }
+    }
+    
+    
+    return isPass;
+}
+
+/**
+ * 验证成衣的部位尺寸范围
+ **/
+-(BOOL)validateClothesSizeData_Range:(PositionSizeRangeModel *)rangeModel forCategory:(CategoryModel *)category error:(NSError **)error{
+    
+    BOOL isPass = YES;
+    
+    NSString *categoryName = category.name;
+    NSString *positionName = rangeModel.position;
+    
+    NSString *blcode = rangeModel.blcode;
+    NSInteger max = 0;
+    NSInteger min = 0;
+    
+    //获取范围
+    [rangeModel getRangeMin:&min andRangeMax:&max byIsMan:self.gender];
+    
+    if (PERSON_GENDER_WOMEN == self.gender) {
+        blcode = rangeModel.wblcode;
+    }
+    
+    PositionModel *position = [self getPositionByCode:blcode atCategory:category];
+    
+    if (position) {
+        
+        if (category.summerCount > 0 && position.size > 0 && (position.size < min || position.size > max)) {
+            //判断夏季尺寸范围
+            isPass = NO;
+        }
+        
+        if (category.winterCount > 0 && position.size_winter > 0 && (position.size_winter < min || position.size_winter > max)) {
+            //判断冬季尺寸范围
+            isPass = NO;
+        }
+        
+        if (!isPass) {
+            //尺寸不在范围内
+            *error = [NSError errorWithDomain:NSCocoaErrorDomain code:0 userInfo:@{
+                                                                                   ERROR_DESCRIPTION_KEY:[NSString stringWithFormat:@"成衣中\"%@-%@\"的尺寸不在范围内",categoryName,positionName]
+                                                                                   }];
+        }
     }
     
     return isPass;
@@ -362,7 +535,7 @@ NSString * const KEY_ENTITY_USERINFO_NOTIFICATION = @"key_entity_userinfo";
 -(void)didChangeValueForKey:(NSString *)key{
     [super didChangeValueForKey:key];
     
-    if (![key isEqualToString:@"edittime"]  && ![key isEqualToString:@"status"]) {
+    if (![key isEqualToString:@"edittime"]  && ![key isEqualToString:@"status"] && ![key isEqualToString:@"lid"] && ![key isEqualToString:@"lname"]) {
         
         NSDictionary *userInfo = @{KEY_PERSON_USERINFO_NOTIFICATION : self,
                                    KEY_ENTITY_USERINFO_NOTIFICATION : [[self entity] name]

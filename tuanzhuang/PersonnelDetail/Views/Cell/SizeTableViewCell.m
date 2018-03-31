@@ -44,6 +44,7 @@
     
     if (self) {
         [self layoutCustomSubviews];
+        self.enableValidate = NO;
     }
     
     return self;
@@ -125,7 +126,7 @@
             break;
         case BodySizeCellStatus_Warning:
             borderColor = [UIColor redColor];
-            borderWidth = 1.0;
+            borderWidth = 0.5;
             
             inputColor = COLOR_INPUT_TEXT_SELECTED;
             titleColor = COLOR_TITLE_SELECTED;
@@ -182,6 +183,12 @@
             textField.text = [NSString stringWithFormat:@"%ld",_oldSizeValue];
         }
     }else if (_oldSizeValue != size){
+        
+        //验证是否在指定范围内
+        if (self.enableValidate && (size < _minSize || size > _maxSize)) {
+            size = 0;
+        }
+        
         _oldSizeValue = size;
         if (size == 0) {
             textField.text = @"";

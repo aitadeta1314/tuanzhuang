@@ -30,7 +30,7 @@ static NSString * const gender_Key_Observer = @"gender";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.dataSource = [PositionSizeRangeModel getBodyPositionSizeRangeArrayBySex:self.personModel.gender];
+    self.dataSource = [PositionSizeRangeModel getBodyPositionSizeRangeArrayBySex:self.personModel.gender andMTM:self.personModel.mtm];
     
     [self setupBodySizeTableView];
 }
@@ -58,7 +58,7 @@ static NSString * const gender_Key_Observer = @"gender";
 
 #pragma mark - Public Methods
 -(void)reloadData{
-    self.dataSource = [PositionSizeRangeModel getBodyPositionSizeRangeArrayBySex:self.personModel.gender];
+    self.dataSource = [PositionSizeRangeModel getBodyPositionSizeRangeArrayBySex:self.personModel.gender andMTM:self.personModel.mtm];
     
     [self.bodySizeTableView reloadData];
 }
@@ -76,32 +76,33 @@ static NSString * const gender_Key_Observer = @"gender";
     
     SizeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([SizeTableViewCell class])];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.enableValidate = YES;
     
     PositionSizeRangeModel *positionModel = [self.dataSource objectAtIndex:indexPath.row];
     
     NSInteger maxRange = 0;
     NSInteger minRange = 0;
-    if (self.personModel.gender == 0) {
-        //女
-        minRange = positionModel.womanMin;
-        maxRange = positionModel.womanMax;
-    }else{
-        //男
-        minRange = positionModel.manMin;
-        maxRange = positionModel.manMax;
-    }
+    NSInteger size = 0;
     
-    cell.status = BodySizeCellStatus_Normal;
+    [self getPositionSize:&size andMinSize:&minRange andMaxSize:&maxRange atIndexPath:indexPath];
     
     BOOL isrequired = [positionModel isRequiredForBodySizeCategorys:[self.personModel getCategorySizeType:CategorySizeType_Body]];
     
-    NSInteger size = [self getPositionSizeAtIndexPath:indexPath];
+    cell.status = BodySizeCellStatus_Normal;
+    [self validatePositionSize:size andMinSize:minRange andMaxSize:maxRange atCell:cell];
     
     [cell setBodySizeTitle:positionModel.position andSizeValue:size andMinSize:minRange andMaxSize:maxRange isRequired:isrequired];
     
     weakObjc(self);
+    weakObjc(cell);
     cell.sizeChangedBlock = ^(NSInteger size) {
         [weakself setPositionSize:size atIndexPath:indexPath];
+        [weakself validatePositionSize:size andMinSize:minRange andMaxSize:maxRange atCell:weakcell];
+        
+        if (size == 0 && isrequired) {
+            //“已完成”状态重置为“进行中”状态
+            [weakself.personModel resumePersonSatus_Progressing];
+        }
     };
     
     return cell;
@@ -137,9 +138,26 @@ static NSString * const gender_Key_Observer = @"gender";
     return size;
 }
 
+-(void)getPositionSize:(NSInteger *)size andMinSize:(NSInteger *)minSize andMaxSize:(NSInteger *)maxSize atIndexPath:(NSIndexPath *)indexPath{
+    
+    *size = 0;
+    *minSize = 0;
+    *maxSize = 0;
+    
+    PositionModel *positionModel = [self getPositionModelAtIndexPath:indexPath];
+    PositionSizeRangeModel *positionRangeModel = [self.dataSource objectAtIndex:indexPath.row];
+    
+    if (positionModel && !self.personModel.history) {
+        *size = positionModel.size;
+    }
+    
+    if (positionRangeModel) {
+        [positionRangeModel getRangeMin:minSize andRangeMax:maxSize byIsMan:self.personModel.gender];
+    }
+}
+
 -(void)setPositionSize:(NSInteger)size atIndexPath:(NSIndexPath *)indexPath{
 
-    
     PositionModel *positionModel = [self getPositionModelAtIndexPath:indexPath];
     
     PositionSizeRangeModel *rangeModel = self.dataSource[indexPath.row];
@@ -171,8 +189,7 @@ static NSString * const gender_Key_Observer = @"gender";
         }
     }];
     
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-    
+    //[[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 }
 
 -(PositionModel *)getPositionModelAtIndexPath:(NSIndexPath *)indexPath{
@@ -202,6 +219,22 @@ static NSString * const gender_Key_Observer = @"gender";
     }
     
     return blcode;
+}
+
+/**
+ * 验证尺寸是否在范围
+ **/
+-(void)validatePositionSize:(NSInteger)size andMinSize:(NSInteger)minSize andMaxSize:(NSInteger)maxSize atCell:(SizeTableViewCell *)cell{
+    
+    if (!cell) {
+        return;
+    }
+
+    cell.status = BodySizeCellStatus_Normal;
+    if (size != 0 && (size < minSize || size > maxSize)) {
+        cell.status = BodySizeCellStatus_Warning;
+    }
+
 }
 
 @end

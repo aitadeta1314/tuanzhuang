@@ -2,7 +2,7 @@
 //  CompanyModel+CoreDataProperties.m
 //  tuanzhuang
 //
-//  Created by red on 2018/3/12.
+//  Created by Fenly on 2018/3/27.
 //  Copyright © 2018年 red. All rights reserved.
 //
 //
@@ -19,12 +19,15 @@
 @dynamic companyid;
 @dynamic companyname;
 @dynamic configuration;
+@dynamic del;
 @dynamic lock_status;
+@dynamic missionname;
+@dynamic rev;
 @dynamic tb_frequency;
 @dynamic tb_lasttime;
 @dynamic upload_frequency;
 @dynamic upload_lasttime;
-@dynamic rev;
+@dynamic delTime;
 @dynamic personnel;
 
 @end

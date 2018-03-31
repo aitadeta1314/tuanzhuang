@@ -2,13 +2,983 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>special_body_mtm</key>
+	<array>
+		<dict>
+			<key>type</key>
+			<integer>1</integer>
+			<key>group</key>
+			<string>人体形态</string>
+			<key>options</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>弯腰体</string>
+					<key>code</key>
+					<integer>184</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>后仰体</string>
+					<key>code</key>
+					<integer>186</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>前弓体</string>
+					<key>code</key>
+					<integer>209</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>group</key>
+			<string>肩部</string>
+			<key>options</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>肩端骨里侧凸出</string>
+					<key>code</key>
+					<integer>189</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>group</key>
+			<string>肩胛骨</string>
+			<key>options</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>肩胛骨凸出</string>
+					<key>code</key>
+					<integer>192</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>肩胛骨靠上且凸出</string>
+					<key>code</key>
+					<integer>193</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>type</key>
+			<integer>2</integer>
+			<key>group</key>
+			<string>颈部</string>
+			<key>options</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>轻微头前倾</string>
+					<key>code</key>
+					<integer>201</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>中度头前倾</string>
+					<key>code</key>
+					<integer>202</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>严重头前倾</string>
+					<key>code</key>
+					<integer>203</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>group</key>
+			<string>胸型</string>
+			<key>options</key>
+			<array>
+				<dict>
+					<key>type</key>
+					<integer>2</integer>
+					<key>name</key>
+					<string>轻微挺胸</string>
+					<key>code</key>
+					<integer>210</integer>
+				</dict>
+				<dict>
+					<key>type</key>
+					<integer>2</integer>
+					<key>name</key>
+					<string>严重挺胸</string>
+					<key>code</key>
+					<integer>211</integer>
+				</dict>
+				<dict>
+					<key>type</key>
+					<integer>1</integer>
+					<key>name</key>
+					<string>挺胸</string>
+					<key>code</key>
+					<integer>182</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>胸肌发达</string>
+					<key>code</key>
+					<integer>194</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>group</key>
+			<string>颈型</string>
+			<key>options</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>颈细长</string>
+					<key>code</key>
+					<integer>195</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>颈粗短</string>
+					<key>code</key>
+					<integer>196</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>type</key>
+			<integer>2</integer>
+			<key>group</key>
+			<string>前冲后掰肩</string>
+			<key>options</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>轻微前冲肩</string>
+					<key>code</key>
+					<integer>41</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>严重前冲肩</string>
+					<key>code</key>
+					<integer>42</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>轻微后掰肩</string>
+					<key>code</key>
+					<integer>43</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>严重后掰肩</string>
+					<key>code</key>
+					<integer>44</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>type</key>
+			<integer>2</integer>
+			<key>group</key>
+			<string>前弓后仰体</string>
+			<key>options</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>后仰体(0.5)</string>
+					<key>code</key>
+					<integer>37</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>后仰体(0.8)</string>
+					<key>code</key>
+					<integer>38</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>后仰体(1.0)</string>
+					<key>code</key>
+					<integer>39</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>后仰体(1.5)</string>
+					<key>code</key>
+					<integer>157</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>后仰体(2.0)</string>
+					<key>code</key>
+					<integer>158</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>前弓体(0.5)</string>
+					<key>code</key>
+					<integer>50</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>前弓体(0.8)</string>
+					<key>code</key>
+					<integer>49</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>前弓体(1.0)</string>
+					<key>code</key>
+					<integer>40</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>前弓体(1.5)</string>
+					<key>code</key>
+					<integer>207</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>前弓体(2.0)</string>
+					<key>code</key>
+					<integer>208</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>group</key>
+			<string>左肩型</string>
+			<key>options</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>轻微溜肩-B</string>
+					<key>code</key>
+					<integer>51</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>中度溜肩-C</string>
+					<key>code</key>
+					<integer>2</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>严重溜肩-D</string>
+					<key>code</key>
+					<integer>31</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>轻微耸肩-E</string>
+					<key>code</key>
+					<integer>54</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>中度耸肩-F</string>
+					<key>code</key>
+					<integer>4</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>严重耸肩-G</string>
+					<key>code</key>
+					<integer>34</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>group</key>
+			<string>右肩型</string>
+			<key>options</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>轻微溜肩-B</string>
+					<key>code</key>
+					<integer>52</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>中度溜肩-C</string>
+					<key>code</key>
+					<integer>7</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>严重溜肩-D</string>
+					<key>code</key>
+					<integer>32</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>轻微耸肩-E</string>
+					<key>code</key>
+					<integer>53</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>中度耸肩-F</string>
+					<key>code</key>
+					<integer>9</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>严重耸肩-G</string>
+					<key>code</key>
+					<integer>33</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>type</key>
+			<integer>2</integer>
+			<key>group</key>
+			<string>驼背</string>
+			<key>options</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>轻微驼背</string>
+					<key>code</key>
+					<integer>12</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>中度驼背</string>
+					<key>code</key>
+					<integer>35</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>严重驼背</string>
+					<key>code</key>
+					<integer>36</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>轻微挺腹凹腰</string>
+					<key>code</key>
+					<integer>152</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>严重挺腹凹腰</string>
+					<key>code</key>
+					<integer>153</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>弯腰(1.0)</string>
+					<key>code</key>
+					<integer>204</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>弯腰(2.0)</string>
+					<key>code</key>
+					<integer>205</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>弯腰(3.0)</string>
+					<key>code</key>
+					<integer>206</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>group</key>
+			<string>肚型</string>
+			<key>options</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>凸肚</string>
+					<key>code</key>
+					<integer>16</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>正常肚(四周胖)</string>
+					<key>code</key>
+					<integer>136</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>凸肚-腹高点下坠</string>
+					<key>code</key>
+					<integer>187</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>小腹、臀部前倾</string>
+					<key>code</key>
+					<integer>188</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>group</key>
+			<string>臂型</string>
+			<key>options</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>弯臂</string>
+					<key>code</key>
+					<integer>190</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>直臂</string>
+					<key>code</key>
+					<integer>191</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>手臂靠前</string>
+					<key>code</key>
+					<integer>17</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>轻微手臂靠后</string>
+					<key>code</key>
+					<integer>18</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>严重手臂靠后</string>
+					<key>code</key>
+					<integer>84</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>group</key>
+			<string>臀型</string>
+			<key>options</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>翘臀</string>
+					<key>code</key>
+					<integer>23</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>坠臀</string>
+					<key>code</key>
+					<integer>25</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>平臀</string>
+					<key>code</key>
+					<integer>21</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>type</key>
+			<integer>2</integer>
+			<key>group</key>
+			<string>腰高低</string>
+			<key>options</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>腰前高1.0</string>
+					<key>code</key>
+					<integer>29</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>腰前高2.0</string>
+					<key>code</key>
+					<integer>30</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>腰前高3.0</string>
+					<key>code</key>
+					<integer>134</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>腰前高4.0</string>
+					<key>code</key>
+					<integer>135</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>腰前低1.0</string>
+					<key>code</key>
+					<integer>27</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>腰前低2.0</string>
+					<key>code</key>
+					<integer>28</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>腰前低3.0</string>
+					<key>code</key>
+					<integer>130</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>腰前低4.0</string>
+					<key>code</key>
+					<integer>131</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>腰前低5.0</string>
+					<key>code</key>
+					<integer>132</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>腰前低6.0</string>
+					<key>code</key>
+					<integer>133</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>腰前低7.0</string>
+					<key>code</key>
+					<integer>154</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>腰前低8.0</string>
+					<key>code</key>
+					<integer>155</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>腰前低9.0</string>
+					<key>code</key>
+					<integer>156</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>type</key>
+			<integer>1</integer>
+			<key>group</key>
+			<string>背型</string>
+			<key>options</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>轻微挺腹凹腰</string>
+					<key>code</key>
+					<integer>152</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>严重挺腹凹腰</string>
+					<key>code</key>
+					<integer>153</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>头前倾</string>
+					<key>code</key>
+					<integer>183</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>驼背</string>
+					<key>code</key>
+					<integer>13</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>驼背+头前倾</string>
+					<key>code</key>
+					<integer>185</integer>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>S型(头前倾+驼背+凸肚)</string>
+					<key>code</key>
+					<integer>212</integer>
+				</dict>
+			</array>
+		</dict>
+	</array>
+	<key>body_mtm</key>
+	<array>
+		<dict>
+			<key>position</key>
+			<string>领围</string>
+			<key>man</key>
+			<string>30-70</string>
+			<key>woman</key>
+			<string>30-70</string>
+			<key>required</key>
+			<string>A,CY,CD,E,C</string>
+			<key>blcode</key>
+			<string>1</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>胸围</string>
+			<key>man</key>
+			<string>66-189</string>
+			<key>woman</key>
+			<string>66-189</string>
+			<key>required</key>
+			<string>A,CY,CD,E,C</string>
+			<key>blcode</key>
+			<string>2</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>中腰围</string>
+			<key>man</key>
+			<string>55-232</string>
+			<key>woman</key>
+			<string>55-232</string>
+			<key>required</key>
+			<string>A,CY,CD,E,C</string>
+			<key>blcode</key>
+			<string>3</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>裤腰围</string>
+			<key>man</key>
+			<string>42-190</string>
+			<key>woman</key>
+			<string>42-190</string>
+			<key>required</key>
+			<string>B,D</string>
+			<key>blcode</key>
+			<string>4</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>臀围</string>
+			<key>man</key>
+			<string>68-220</string>
+			<key>woman</key>
+			<string>68-220</string>
+			<key>required</key>
+			<string>A,B,D,CY,CD,E</string>
+			<key>blcode</key>
+			<string>5</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>腿根围</string>
+			<key>man</key>
+			<string>38-113</string>
+			<key>woman</key>
+			<string>38-113</string>
+			<key>required</key>
+			<string>B</string>
+			<key>blcode</key>
+			<string>6</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>总肩宽</string>
+			<key>man</key>
+			<string>30-72</string>
+			<key>woman</key>
+			<string>30-72</string>
+			<key>required</key>
+			<string>A,CY,CD,E</string>
+			<key>blcode</key>
+			<string>11</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>腕围</string>
+			<key>man</key>
+			<string>12-33</string>
+			<key>woman</key>
+			<string>12-33</string>
+			<key>required</key>
+			<string>CY,CD</string>
+			<key>blcode</key>
+			<string>9</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>袖长</string>
+			<key>man</key>
+			<string>30-92</string>
+			<key>woman</key>
+			<string>30-92</string>
+			<key>required</key>
+			<string>A,CY,CD,E</string>
+			<key>blcode</key>
+			<string>13</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>后衣长</string>
+			<key>man</key>
+			<string>40-105</string>
+			<key>woman</key>
+			<string>40-105</string>
+			<key>required</key>
+			<string>A,CY,CD,E</string>
+			<key>blcode</key>
+			<string>15</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>上臂围</string>
+			<key>man</key>
+			<string>19-68</string>
+			<key>woman</key>
+			<string>19-68</string>
+			<key>required</key>
+			<string>A,CY,CD,E</string>
+			<key>blcode</key>
+			<string>8</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>裤长</string>
+			<key>man</key>
+			<string>60-135</string>
+			<key>woman</key>
+			<string>60-135</string>
+			<key>required</key>
+			<string>B</string>
+			<key>blcode</key>
+			<string>16</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>裙长</string>
+			<key>man</key>
+			<string>35-80</string>
+			<key>woman</key>
+			<string>35-80</string>
+			<key>required</key>
+			<string></string>
+			<key>blcode</key>
+			<string>35</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>短袖长</string>
+			<key>man</key>
+			<string>17-45</string>
+			<key>woman</key>
+			<string>17-45</string>
+			<key>required</key>
+			<string></string>
+			<key>blcode</key>
+			<string>31</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>后腰节</string>
+			<key>man</key>
+			<string>27-63</string>
+			<key>woman</key>
+			<string>27-63</string>
+			<key>required</key>
+			<string>A,CY,CD,E,C</string>
+			<key>blcode</key>
+			<string>18</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>后腰高</string>
+			<key>man</key>
+			<string>0-21</string>
+			<key>woman</key>
+			<string>0-21</string>
+			<key>required</key>
+			<string>B,C</string>
+			<key>blcode</key>
+			<string>21</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>前腰节</string>
+			<key>man</key>
+			<string>31-75</string>
+			<key>woman</key>
+			<string>31-75</string>
+			<key>required</key>
+			<string>A,CY,CD,E,C</string>
+			<key>blcode</key>
+			<string>19</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>前腰高</string>
+			<key>man</key>
+			<string>0-30</string>
+			<key>woman</key>
+			<string>0-30</string>
+			<key>required</key>
+			<string>B,C</string>
+			<key>blcode</key>
+			<string>20</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>前肩宽</string>
+			<key>man</key>
+			<string>28-72</string>
+			<key>woman</key>
+			<string>28-72</string>
+			<key>required</key>
+			<string>A,CY,CD,E</string>
+			<key>blcode</key>
+			<string>12</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>通裆</string>
+			<key>man</key>
+			<string>45-120</string>
+			<key>woman</key>
+			<string>45-120</string>
+			<key>required</key>
+			<string>B</string>
+			<key>blcode</key>
+			<string>7</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>膝围</string>
+			<key>man</key>
+			<string>25-103</string>
+			<key>woman</key>
+			<string>25-103</string>
+			<key>required</key>
+			<string></string>
+			<key>blcode</key>
+			<string>23</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>小腿围</string>
+			<key>man</key>
+			<string>25-70</string>
+			<key>woman</key>
+			<string>25-70</string>
+			<key>required</key>
+			<string></string>
+			<key>blcode</key>
+			<string>33</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>脚口</string>
+			<key>man</key>
+			<string>28-80</string>
+			<key>woman</key>
+			<string>28-80</string>
+			<key>required</key>
+			<string></string>
+			<key>blcode</key>
+			<string>22</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>腹围(凸高点)</string>
+			<key>man</key>
+			<string>58-185</string>
+			<key>woman</key>
+			<string>58-185</string>
+			<key>required</key>
+			<string></string>
+			<key>blcode</key>
+			<string>34</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>position</key>
+			<string>BP点高</string>
+			<key>man</key>
+			<string>23-32</string>
+			<key>woman</key>
+			<string>23-32</string>
+			<key>required</key>
+			<string></string>
+			<key>blcode</key>
+			<string>39</string>
+			<key>wblcode</key>
+			<string></string>
+		</dict>
+	</array>
 	<key>categoryaddrange</key>
 	<array>
 		<dict>
 			<key>cate</key>
 			<string>A</string>
-			<key>rangeStr</key>
-			<string>0,6,7,8,10,12,14,16,18,20</string>
+			<key>manRange</key>
+			<string>6,7,8,10,12,14,16,18,20</string>
+			<key>womenRange</key>
+			<string>3,4,5,6,8</string>
 			<key>manValue</key>
 			<integer>14</integer>
 			<key>womenValue</key>
@@ -17,8 +987,12 @@
 		<dict>
 			<key>cate</key>
 			<string>B</string>
-			<key>rangeStr</key>
-			<string>0,3,4,5,6,7,8,9</string>
+			<key>manRange</key>
+			<string>3,4,5,6,7,8,9</string>
+			<key>womenRange</key>
+			<string>2,3,4,5</string>
+			<key>manValue</key>
+			<integer>6</integer>
 			<key>womenValue</key>
 			<string>3</string>
 			<key>type</key>
@@ -27,8 +1001,8 @@
 		<dict>
 			<key>cate</key>
 			<string>B</string>
-			<key>rangeStr</key>
-			<string>0,7,8,9,10,11,12</string>
+			<key>manRange</key>
+			<string>7,8,9,10,11,12</string>
 			<key>manValue</key>
 			<integer>9</integer>
 			<key>type</key>
@@ -37,16 +1011,20 @@
 		<dict>
 			<key>cate</key>
 			<string>B</string>
-			<key>rangeStr</key>
-			<string>0,9,10,11,12,13,14</string>
+			<key>manRange</key>
+			<string>9,10,11,12,13,14</string>
+			<key>manValue</key>
+			<integer>11</integer>
 			<key>type</key>
 			<string>2</string>
 		</dict>
 		<dict>
 			<key>cate</key>
 			<string>C</string>
-			<key>rangeStr</key>
+			<key>manRange</key>
 			<string>3,4,5,6,7,8</string>
+			<key>womenRange</key>
+			<string>2,3,4</string>
 			<key>manValue</key>
 			<integer>5</integer>
 			<key>womenValue</key>
@@ -55,8 +1033,10 @@
 		<dict>
 			<key>cate</key>
 			<string>CY,CD</string>
-			<key>rangeStr</key>
+			<key>manRange</key>
 			<string>6,7,8,9,10,11,12,14,16</string>
+			<key>womenRange</key>
+			<string>6,7,8,9,10</string>
 			<key>manValue</key>
 			<integer>16</integer>
 			<key>womenValue</key>
@@ -65,15 +1045,25 @@
 		<dict>
 			<key>cate</key>
 			<string>E</string>
-			<key>rangeStr</key>
+			<key>manRange</key>
 			<string>6,7,8,10,12,14,16,18,20</string>
+			<key>womenRange</key>
+			<string>5,6,8,10,12</string>
 			<key>manValue</key>
 			<integer>14</integer>
 			<key>womenValue</key>
 			<string>8</string>
 		</dict>
+		<dict>
+			<key>cate</key>
+			<string>D</string>
+			<key>womenRange</key>
+			<string>2,3,4</string>
+			<key>womenValue</key>
+			<string>2</string>
+		</dict>
 	</array>
-	<key>netbody</key>
+	<key>body</key>
 	<array>
 		<dict>
 			<key>position</key>
@@ -97,7 +1087,7 @@
 			<key>woman</key>
 			<string>50-160</string>
 			<key>required</key>
-			<string>T,A,C,W,CY,CD</string>
+			<string>T,A,C,E,CY,CD</string>
 			<key>blcode</key>
 			<string>2</string>
 			<key>wblcode</key>
@@ -111,7 +1101,7 @@
 			<key>woman</key>
 			<string>40-150</string>
 			<key>required</key>
-			<string>T,A,C,W,CY,CD</string>
+			<string>T,A,C,E,CY,CD</string>
 			<key>blcode</key>
 			<string>3</string>
 			<key>wblcode</key>
@@ -139,7 +1129,7 @@
 			<key>woman</key>
 			<string>60-160</string>
 			<key>required</key>
-			<string>T,A,B,D,W,CY,CD</string>
+			<string>T,A,B,D,E,CY,CD</string>
 			<key>blcode</key>
 			<string>5</string>
 			<key>wblcode</key>
@@ -167,7 +1157,7 @@
 			<key>woman</key>
 			<string>30-60</string>
 			<key>required</key>
-			<string>T,A,W,CY,CD</string>
+			<string>T,A,E,CY,CD</string>
 			<key>blcode</key>
 			<string>11</string>
 			<key>wblcode</key>
@@ -181,9 +1171,9 @@
 			<key>woman</key>
 			<string>40-80</string>
 			<key>required</key>
-			<string>T,A,W,CY,CD</string>
+			<string>T,A,E,CY,CD</string>
 			<key>blcode</key>
-			<string>13,14</string>
+			<string>13</string>
 			<key>wblcode</key>
 			<string></string>
 		</dict>
@@ -195,7 +1185,7 @@
 			<key>woman</key>
 			<string>40-90</string>
 			<key>required</key>
-			<string>T,A,C,W,CY,CD</string>
+			<string>T,A,C,E,CY,CD</string>
 			<key>blcode</key>
 			<string>15</string>
 			<key>wblcode</key>
@@ -209,7 +1199,7 @@
 			<key>woman</key>
 			<string>20-50</string>
 			<key>required</key>
-			<string>T,A,W,CY,CD</string>
+			<string>T,A,E,CY,CD</string>
 			<key>blcode</key>
 			<string>8</string>
 			<key>wblcode</key>
@@ -225,7 +1215,7 @@
 			<key>required</key>
 			<string>T,B</string>
 			<key>blcode</key>
-			<string>16,17</string>
+			<string>16</string>
 			<key>wblcode</key>
 			<string></string>
 		</dict>
@@ -253,7 +1243,7 @@
 			<key>required</key>
 			<string></string>
 			<key>blcode</key>
-			<string>31,32</string>
+			<string>31</string>
 			<key>wblcode</key>
 			<string></string>
 		</dict>
@@ -329,7 +1319,7 @@
 		</dict>
 		<dict>
 			<key>position</key>
-			<string>通档</string>
+			<string>通裆</string>
 			<key>man</key>
 			<string>30-100</string>
 			<key>woman</key>
@@ -886,7 +1876,7 @@
 			</dict>
 			<dict>
 				<key>position</key>
-				<string>横档</string>
+				<string>横裆</string>
 				<key>man</key>
 				<string>40-100</string>
 				<key>woman</key>
@@ -956,7 +1946,7 @@
 			</dict>
 			<dict>
 				<key>position</key>
-				<string>立档</string>
+				<string>立裆</string>
 				<key>man</key>
 				<string>20-65</string>
 				<key>woman</key>
@@ -970,7 +1960,7 @@
 			</dict>
 			<dict>
 				<key>position</key>
-				<string>通档</string>
+				<string>通裆</string>
 				<key>man</key>
 				<string>50-120</string>
 				<key>woman</key>
@@ -1151,7 +2141,7 @@
 				<key>man</key>
 				<string>70-170</string>
 				<key>woman</key>
-				<string>77-170</string>
+				<string>60-160</string>
 				<key>required</key>
 				<string>E</string>
 				<key>blcode</key>
@@ -1258,7 +2248,7 @@
 				<key>blcode</key>
 				<string>CY11</string>
 				<key>wblcode</key>
-				<string>CY11</string>
+				<string>WCY11</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1272,7 +2262,7 @@
 				<key>blcode</key>
 				<string>CY01</string>
 				<key>wblcode</key>
-				<string>CY01</string>
+				<string>WCY01</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1286,7 +2276,7 @@
 				<key>blcode</key>
 				<string>CY02</string>
 				<key>wblcode</key>
-				<string>CY02</string>
+				<string>WCY02</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1300,7 +2290,7 @@
 				<key>blcode</key>
 				<string>CY03</string>
 				<key>wblcode</key>
-				<string>CY03</string>
+				<string>WCY03</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1314,7 +2304,7 @@
 				<key>blcode</key>
 				<string>CY04</string>
 				<key>wblcode</key>
-				<string>CY04</string>
+				<string>WCY04</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1328,7 +2318,7 @@
 				<key>blcode</key>
 				<string>CY06</string>
 				<key>wblcode</key>
-				<string>CY06</string>
+				<string>WCY06</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1342,7 +2332,7 @@
 				<key>blcode</key>
 				<string>CY07</string>
 				<key>wblcode</key>
-				<string>CY07</string>
+				<string>WCY07</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1356,7 +2346,7 @@
 				<key>blcode</key>
 				<string>CY10</string>
 				<key>wblcode</key>
-				<string>CY10</string>
+				<string>WCY10</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1370,7 +2360,7 @@
 				<key>blcode</key>
 				<string>CY05</string>
 				<key>wblcode</key>
-				<string>CY05</string>
+				<string>WCY05</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1384,7 +2374,7 @@
 				<key>blcode</key>
 				<string>CY08</string>
 				<key>wblcode</key>
-				<string>CY08</string>
+				<string>WCY08</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1398,7 +2388,7 @@
 				<key>blcode</key>
 				<string>CY09</string>
 				<key>wblcode</key>
-				<string>CY09</string>
+				<string>WCY09</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1412,7 +2402,7 @@
 				<key>blcode</key>
 				<string>CY14</string>
 				<key>wblcode</key>
-				<string>CY14</string>
+				<string>WCY14</string>
 			</dict>
 		</array>
 		<key>CD</key>
@@ -1429,7 +2419,7 @@
 				<key>blcode</key>
 				<string>CY11</string>
 				<key>wblcode</key>
-				<string>CY11</string>
+				<string>WCY11</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1443,7 +2433,7 @@
 				<key>blcode</key>
 				<string>CY01</string>
 				<key>wblcode</key>
-				<string>CY01</string>
+				<string>WCY01</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1457,7 +2447,7 @@
 				<key>blcode</key>
 				<string>CY02</string>
 				<key>wblcode</key>
-				<string>CY02</string>
+				<string>WCY02</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1471,7 +2461,7 @@
 				<key>blcode</key>
 				<string>CY03</string>
 				<key>wblcode</key>
-				<string>CY03</string>
+				<string>WCY03</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1485,7 +2475,7 @@
 				<key>blcode</key>
 				<string>CY04</string>
 				<key>wblcode</key>
-				<string>CY04</string>
+				<string>WCY04</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1499,7 +2489,7 @@
 				<key>blcode</key>
 				<string>CY06</string>
 				<key>wblcode</key>
-				<string>CY06</string>
+				<string>WCY06</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1513,7 +2503,7 @@
 				<key>blcode</key>
 				<string>CY07</string>
 				<key>wblcode</key>
-				<string>CY07</string>
+				<string>WCY07</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1527,7 +2517,7 @@
 				<key>blcode</key>
 				<string>CY10</string>
 				<key>wblcode</key>
-				<string>CY10</string>
+				<string>WCY10</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1541,7 +2531,7 @@
 				<key>blcode</key>
 				<string>CY05</string>
 				<key>wblcode</key>
-				<string>CY05</string>
+				<string>WCY05</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1555,7 +2545,7 @@
 				<key>blcode</key>
 				<string>CY08</string>
 				<key>wblcode</key>
-				<string>CY08</string>
+				<string>WCY08</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1569,7 +2559,7 @@
 				<key>blcode</key>
 				<string>CY09</string>
 				<key>wblcode</key>
-				<string>CY09</string>
+				<string>WCY09</string>
 			</dict>
 			<dict>
 				<key>position</key>
@@ -1583,7 +2573,899 @@
 				<key>blcode</key>
 				<string>CY14</string>
 				<key>wblcode</key>
-				<string>CY14</string>
+				<string>WCY14</string>
+			</dict>
+		</array>
+	</dict>
+	<key>clothes_mtm</key>
+	<dict>
+		<key>A</key>
+		<array>
+			<dict>
+				<key>position</key>
+				<string>胸围</string>
+				<key>man</key>
+				<string>75-200</string>
+				<key>woman</key>
+				<string>73-140</string>
+				<key>required</key>
+				<string>A</string>
+				<key>blcode</key>
+				<string>XF01</string>
+				<key>wblcode</key>
+				<string>WXF04</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>中腰围</string>
+				<key>man</key>
+				<string>60-200</string>
+				<key>woman</key>
+				<string>53-135</string>
+				<key>required</key>
+				<string>A</string>
+				<key>blcode</key>
+				<string>XF02</string>
+				<key>wblcode</key>
+				<string>WXF05</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>臀围</string>
+				<key>man</key>
+				<string>77-208</string>
+				<key>woman</key>
+				<string>75-150</string>
+				<key>required</key>
+				<string>A</string>
+				<key>blcode</key>
+				<string>XF03</string>
+				<key>wblcode</key>
+				<string>WXF06</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>袖肥</string>
+				<key>man</key>
+				<string>28-74</string>
+				<key>woman</key>
+				<string>25-50</string>
+				<key>required</key>
+				<string>A</string>
+				<key>blcode</key>
+				<string>XF04</string>
+				<key>wblcode</key>
+				<string>WXF07</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>肩宽</string>
+				<key>man</key>
+				<string>31-72</string>
+				<key>woman</key>
+				<string>30-50</string>
+				<key>required</key>
+				<string>A</string>
+				<key>blcode</key>
+				<string>XF08</string>
+				<key>wblcode</key>
+				<string>WXF03</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>左袖长</string>
+				<key>man</key>
+				<string>20-85</string>
+				<key>woman</key>
+				<string>35-80</string>
+				<key>required</key>
+				<string>A</string>
+				<key>blcode</key>
+				<string>XF05</string>
+				<key>wblcode</key>
+				<string>WXF02</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>右袖长</string>
+				<key>man</key>
+				<string>20-85</string>
+				<key>woman</key>
+				<string>35-80</string>
+				<key>required</key>
+				<string>A</string>
+				<key>blcode</key>
+				<string>XF06</string>
+				<key>wblcode</key>
+				<string>WXF08</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>后衣长</string>
+				<key>man</key>
+				<string>47-101</string>
+				<key>woman</key>
+				<string>40-80</string>
+				<key>required</key>
+				<string>A</string>
+				<key>blcode</key>
+				<string>XF07</string>
+				<key>wblcode</key>
+				<string>WXF01</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>前衣长</string>
+				<key>man</key>
+				<string>5-200</string>
+				<key>woman</key>
+				<string></string>
+				<key>required</key>
+				<string></string>
+				<key>blcode</key>
+				<string>XF11</string>
+				<key>wblcode</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>首扣距肩</string>
+				<key>man</key>
+				<string>5-200</string>
+				<key>woman</key>
+				<string></string>
+				<key>required</key>
+				<string></string>
+				<key>blcode</key>
+				<string>XF10</string>
+				<key>wblcode</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>袖口</string>
+				<key>man</key>
+				<string>20-90</string>
+				<key>woman</key>
+				<string></string>
+				<key>required</key>
+				<string></string>
+				<key>blcode</key>
+				<string>XF12</string>
+				<key>wblcode</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>衬衣领围</string>
+				<key>man</key>
+				<string>32-64</string>
+				<key>woman</key>
+				<string>30-50</string>
+				<key>required</key>
+				<string></string>
+				<key>blcode</key>
+				<string>XF09</string>
+				<key>wblcode</key>
+				<string>WXF00</string>
+			</dict>
+		</array>
+		<key>B</key>
+		<array>
+			<dict>
+				<key>position</key>
+				<string>腰围</string>
+				<key>man</key>
+				<string>60-200</string>
+				<key>woman</key>
+				<string>42-134</string>
+				<key>required</key>
+				<string>B</string>
+				<key>blcode</key>
+				<string>XK01</string>
+				<key>wblcode</key>
+				<string>WXK01</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>臀围</string>
+				<key>man</key>
+				<string>75-225</string>
+				<key>woman</key>
+				<string>76-144</string>
+				<key>required</key>
+				<string>B</string>
+				<key>blcode</key>
+				<string>XK02</string>
+				<key>wblcode</key>
+				<string>WXK02</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>横裆</string>
+				<key>man</key>
+				<string>46-137</string>
+				<key>woman</key>
+				<string>44-95</string>
+				<key>required</key>
+				<string>B</string>
+				<key>blcode</key>
+				<string>XK03</string>
+				<key>wblcode</key>
+				<string>WXK06</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>通裆</string>
+				<key>man</key>
+				<string>50-132</string>
+				<key>woman</key>
+				<string>45-96</string>
+				<key>required</key>
+				<string>B</string>
+				<key>blcode</key>
+				<string>XK04</string>
+				<key>wblcode</key>
+				<string>WXK07</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>左裤长</string>
+				<key>man</key>
+				<string>60-135</string>
+				<key>woman</key>
+				<string>66-130</string>
+				<key>required</key>
+				<string>B</string>
+				<key>blcode</key>
+				<string>XK05</string>
+				<key>wblcode</key>
+				<string>WXK03</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>右裤长</string>
+				<key>man</key>
+				<string>60-135</string>
+				<key>woman</key>
+				<string>66-130</string>
+				<key>required</key>
+				<string>B</string>
+				<key>blcode</key>
+				<string>XK06</string>
+				<key>wblcode</key>
+				<string>WXK08</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>膝围</string>
+				<key>man</key>
+				<string>30-103</string>
+				<key>woman</key>
+				<string>30-75</string>
+				<key>required</key>
+				<string></string>
+				<key>blcode</key>
+				<string>XK08</string>
+				<key>wblcode</key>
+				<string>WXK05</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>裤口</string>
+				<key>man</key>
+				<string>28-80</string>
+				<key>woman</key>
+				<string>23-80</string>
+				<key>required</key>
+				<string>B</string>
+				<key>blcode</key>
+				<string>XK07</string>
+				<key>wblcode</key>
+				<string>WXK04</string>
+			</dict>
+		</array>
+		<key>C</key>
+		<array>
+			<dict>
+				<key>position</key>
+				<string>胸围</string>
+				<key>man</key>
+				<string>71-187</string>
+				<key>woman</key>
+				<string>73-140</string>
+				<key>required</key>
+				<string>C</string>
+				<key>blcode</key>
+				<string>MJ01</string>
+				<key>wblcode</key>
+				<string>WMJ01</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>中腰围</string>
+				<key>man</key>
+				<string>66-204</string>
+				<key>woman</key>
+				<string>53-135</string>
+				<key>required</key>
+				<string>C</string>
+				<key>blcode</key>
+				<string>MJ02</string>
+				<key>wblcode</key>
+				<string>WMJ02</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>后衣长</string>
+				<key>man</key>
+				<string>40-78</string>
+				<key>woman</key>
+				<string>36-65</string>
+				<key>required</key>
+				<string>C</string>
+				<key>blcode</key>
+				<string>MJ04</string>
+				<key>wblcode</key>
+				<string>WMJ04</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>前衣长</string>
+				<key>man</key>
+				<string>5-200</string>
+				<key>woman</key>
+				<string></string>
+				<key>required</key>
+				<string></string>
+				<key>blcode</key>
+				<string>MJ07</string>
+				<key>wblcode</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>首扣距肩</string>
+				<key>man</key>
+				<string>5-200</string>
+				<key>woman</key>
+				<string></string>
+				<key>required</key>
+				<string></string>
+				<key>blcode</key>
+				<string>MJ05</string>
+				<key>wblcode</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>下摆</string>
+				<key>man</key>
+				<string>60-200</string>
+				<key>woman</key>
+				<string></string>
+				<key>required</key>
+				<string></string>
+				<key>blcode</key>
+				<string>MJ08</string>
+				<key>wblcode</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>D</key>
+		<array>
+			<dict>
+				<key>position</key>
+				<string>腰围</string>
+				<key>man</key>
+				<string></string>
+				<key>woman</key>
+				<string>42-140</string>
+				<key>required</key>
+				<string>D</string>
+				<key>blcode</key>
+				<string></string>
+				<key>wblcode</key>
+				<string>WXQ01</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>下摆</string>
+				<key>man</key>
+				<string></string>
+				<key>woman</key>
+				<string>65-140</string>
+				<key>required</key>
+				<string>D</string>
+				<key>blcode</key>
+				<string></string>
+				<key>wblcode</key>
+				<string>WXQ04</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>裙长</string>
+				<key>man</key>
+				<string></string>
+				<key>woman</key>
+				<string>35-80</string>
+				<key>required</key>
+				<string>D</string>
+				<key>blcode</key>
+				<string></string>
+				<key>wblcode</key>
+				<string>WXQ03</string>
+			</dict>
+		</array>
+		<key>E</key>
+		<array>
+			<dict>
+				<key>position</key>
+				<string>胸围</string>
+				<key>man</key>
+				<string>84-190</string>
+				<key>woman</key>
+				<string>82-146</string>
+				<key>required</key>
+				<string>E</string>
+				<key>blcode</key>
+				<string>DY01</string>
+				<key>wblcode</key>
+				<string>WDY04</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>中腰围</string>
+				<key>man</key>
+				<string>60-195</string>
+				<key>woman</key>
+				<string>65-140</string>
+				<key>required</key>
+				<string>E</string>
+				<key>blcode</key>
+				<string>DY02</string>
+				<key>wblcode</key>
+				<string>WDY05</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>臀围</string>
+				<key>man</key>
+				<string>77-205</string>
+				<key>woman</key>
+				<string>80-150</string>
+				<key>required</key>
+				<string>E</string>
+				<key>blcode</key>
+				<string>DY03</string>
+				<key>wblcode</key>
+				<string>WDY06</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>袖肥</string>
+				<key>man</key>
+				<string>28-74</string>
+				<key>woman</key>
+				<string>25-50</string>
+				<key>required</key>
+				<string>E</string>
+				<key>blcode</key>
+				<string>DY04</string>
+				<key>wblcode</key>
+				<string>WDY07</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>左袖长</string>
+				<key>man</key>
+				<string>30-85</string>
+				<key>woman</key>
+				<string>40-75</string>
+				<key>required</key>
+				<string>E</string>
+				<key>blcode</key>
+				<string>DY05</string>
+				<key>wblcode</key>
+				<string>WDY02</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>右袖长</string>
+				<key>man</key>
+				<string>30-85</string>
+				<key>woman</key>
+				<string>40-75</string>
+				<key>required</key>
+				<string>E</string>
+				<key>blcode</key>
+				<string>DY06</string>
+				<key>wblcode</key>
+				<string>WDY08</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>后衣长</string>
+				<key>man</key>
+				<string>68-150</string>
+				<key>woman</key>
+				<string>68-130</string>
+				<key>required</key>
+				<string>E</string>
+				<key>blcode</key>
+				<string>DY07</string>
+				<key>wblcode</key>
+				<string>WDY01</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>肩宽</string>
+				<key>man</key>
+				<string>35-72</string>
+				<key>woman</key>
+				<string>32-56</string>
+				<key>required</key>
+				<string>E</string>
+				<key>blcode</key>
+				<string>DY08</string>
+				<key>wblcode</key>
+				<string>WDY03</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>衬衣领围</string>
+				<key>man</key>
+				<string>32-64</string>
+				<key>woman</key>
+				<string>30-50</string>
+				<key>required</key>
+				<string></string>
+				<key>blcode</key>
+				<string>DY09</string>
+				<key>wblcode</key>
+				<string>WDY09</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>前衣长</string>
+				<key>man</key>
+				<string>5-200</string>
+				<key>woman</key>
+				<string></string>
+				<key>required</key>
+				<string></string>
+				<key>blcode</key>
+				<string>DY10</string>
+				<key>wblcode</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>袖口</string>
+				<key>man</key>
+				<string>20-90</string>
+				<key>woman</key>
+				<string></string>
+				<key>required</key>
+				<string></string>
+				<key>blcode</key>
+				<string>DY12</string>
+				<key>wblcode</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>CY</key>
+		<array>
+			<dict>
+				<key>position</key>
+				<string>领围</string>
+				<key>man</key>
+				<string>32-64</string>
+				<key>woman</key>
+				<string>32-64</string>
+				<key>required</key>
+				<string>CY</string>
+				<key>blcode</key>
+				<string>CY11</string>
+				<key>wblcode</key>
+				<string>WCY11</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>胸围</string>
+				<key>man</key>
+				<string>80-210</string>
+				<key>woman</key>
+				<string>80-210</string>
+				<key>required</key>
+				<string>CY</string>
+				<key>blcode</key>
+				<string>CY01</string>
+				<key>wblcode</key>
+				<string>WCY01</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>腹围</string>
+				<key>man</key>
+				<string>70-227</string>
+				<key>woman</key>
+				<string>54-132</string>
+				<key>required</key>
+				<string>CY</string>
+				<key>blcode</key>
+				<string>CY02</string>
+				<key>wblcode</key>
+				<string>WCY02</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>臀围</string>
+				<key>man</key>
+				<string>80-228</string>
+				<key>woman</key>
+				<string>80-210</string>
+				<key>required</key>
+				<string>CY</string>
+				<key>blcode</key>
+				<string>CY03</string>
+				<key>wblcode</key>
+				<string>WCY03</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>袖肥</string>
+				<key>man</key>
+				<string>28-72</string>
+				<key>woman</key>
+				<string>20-58</string>
+				<key>required</key>
+				<string>CY</string>
+				<key>blcode</key>
+				<string>CY05</string>
+				<key>wblcode</key>
+				<string>WCY05</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>左袖长</string>
+				<key>man</key>
+				<string>35-92</string>
+				<key>woman</key>
+				<string>40-70</string>
+				<key>required</key>
+				<string>CY</string>
+				<key>blcode</key>
+				<string>CY06</string>
+				<key>wblcode</key>
+				<string>WCY06</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>右袖长</string>
+				<key>man</key>
+				<string>35-92</string>
+				<key>woman</key>
+				<string>40-70</string>
+				<key>required</key>
+				<string>CY</string>
+				<key>blcode</key>
+				<string>CY07</string>
+				<key>wblcode</key>
+				<string>WCY07</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>左袖口</string>
+				<key>man</key>
+				<string>18-60</string>
+				<key>woman</key>
+				<string>18-60</string>
+				<key>required</key>
+				<string>CY</string>
+				<key>blcode</key>
+				<string>CY08</string>
+				<key>wblcode</key>
+				<string>WCY08</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>右袖口</string>
+				<key>man</key>
+				<string>18-60</string>
+				<key>woman</key>
+				<string>18-60</string>
+				<key>required</key>
+				<string>CY</string>
+				<key>blcode</key>
+				<string>CY09</string>
+				<key>wblcode</key>
+				<string>WCY09</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>肩宽</string>
+				<key>man</key>
+				<string>35-72</string>
+				<key>woman</key>
+				<string>35-70</string>
+				<key>required</key>
+				<string>CY</string>
+				<key>blcode</key>
+				<string>CY04</string>
+				<key>wblcode</key>
+				<string>WCY04</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>后衣长</string>
+				<key>man</key>
+				<string>50-120</string>
+				<key>woman</key>
+				<string>50-120</string>
+				<key>required</key>
+				<string>CY</string>
+				<key>blcode</key>
+				<string>CY10</string>
+				<key>wblcode</key>
+				<string>WCY10</string>
+			</dict>
+		</array>
+		<key>CD</key>
+		<array>
+			<dict>
+				<key>position</key>
+				<string>领围</string>
+				<key>man</key>
+				<string>32-64</string>
+				<key>woman</key>
+				<string>32-64</string>
+				<key>required</key>
+				<string>CY</string>
+				<key>blcode</key>
+				<string>CY11</string>
+				<key>wblcode</key>
+				<string>WCY11</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>胸围</string>
+				<key>man</key>
+				<string>80-210</string>
+				<key>woman</key>
+				<string>80-210</string>
+				<key>required</key>
+				<string>CY</string>
+				<key>blcode</key>
+				<string>CY01</string>
+				<key>wblcode</key>
+				<string>WCY01</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>腹围</string>
+				<key>man</key>
+				<string>70-227</string>
+				<key>woman</key>
+				<string>54-132</string>
+				<key>required</key>
+				<string>CY</string>
+				<key>blcode</key>
+				<string>CY02</string>
+				<key>wblcode</key>
+				<string>WCY02</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>臀围</string>
+				<key>man</key>
+				<string>80-228</string>
+				<key>woman</key>
+				<string>80-210</string>
+				<key>required</key>
+				<string>CY</string>
+				<key>blcode</key>
+				<string>CY03</string>
+				<key>wblcode</key>
+				<string>WCY03</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>袖肥</string>
+				<key>man</key>
+				<string>28-72</string>
+				<key>woman</key>
+				<string>20-58</string>
+				<key>required</key>
+				<string>CY</string>
+				<key>blcode</key>
+				<string>CY05</string>
+				<key>wblcode</key>
+				<string>WCY05</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>左袖长(短)</string>
+				<key>man</key>
+				<string>19-45</string>
+				<key>woman</key>
+				<string>15-45</string>
+				<key>required</key>
+				<string></string>
+				<key>blcode</key>
+				<string>CY06</string>
+				<key>wblcode</key>
+				<string>WCY06</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>右袖长(短)</string>
+				<key>man</key>
+				<string>19-45</string>
+				<key>woman</key>
+				<string>15-45</string>
+				<key>required</key>
+				<string></string>
+				<key>blcode</key>
+				<string>CY07</string>
+				<key>wblcode</key>
+				<string>WCY07</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>左袖口(短)</string>
+				<key>man</key>
+				<string>28-70</string>
+				<key>woman</key>
+				<string>28-70</string>
+				<key>required</key>
+				<string></string>
+				<key>blcode</key>
+				<string>CY08</string>
+				<key>wblcode</key>
+				<string>WCY08</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>右袖口(短)</string>
+				<key>man</key>
+				<string>28-70</string>
+				<key>woman</key>
+				<string>28-70</string>
+				<key>required</key>
+				<string></string>
+				<key>blcode</key>
+				<string>CY09</string>
+				<key>wblcode</key>
+				<string>WCY09</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>肩宽</string>
+				<key>man</key>
+				<string>35-72</string>
+				<key>woman</key>
+				<string>35-70</string>
+				<key>required</key>
+				<string>CY</string>
+				<key>blcode</key>
+				<string>CY04</string>
+				<key>wblcode</key>
+				<string>WCY04</string>
+			</dict>
+			<dict>
+				<key>position</key>
+				<string>后衣长</string>
+				<key>man</key>
+				<string>50-120</string>
+				<key>woman</key>
+				<string>50-120</string>
+				<key>required</key>
+				<string>CY</string>
+				<key>blcode</key>
+				<string>CY10</string>
+				<key>wblcode</key>
+				<string>WCY10</string>
 			</dict>
 		</array>
 	</dict>

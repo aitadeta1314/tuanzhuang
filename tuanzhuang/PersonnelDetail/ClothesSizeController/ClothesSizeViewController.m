@@ -189,7 +189,7 @@ static const CGFloat ClothesCountHeight = 70.0f;
 -(void)reloadClothesSizeTableView{
     
     if (self.currentCategory) {
-        self.postionsArray = [PositionSizeRangeModel getClothesPositionSizeRangeArray:self.currentCategory.cate bySex:self.personModel.gender];
+        self.postionsArray = [PositionSizeRangeModel getClothesPositionSizeRangeArray:self.currentCategory.cate bySex:self.personModel.gender andMTM:self.personModel.mtm];
         
     }else{
         self.postionsArray = nil;
@@ -218,23 +218,43 @@ static const CGFloat ClothesCountHeight = 70.0f;
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
+    [self configCellData:cell atIndexPath:indexPath];
+    
+    return cell;
+}
+
+/**
+ * 为CELL配置数据
+ **/
+-(void)configCellData:(SizeTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath{
+    
     PositionSizeRangeModel *rangeModel = self.postionsArray[indexPath.row];
     
     //获取范围
     NSInteger maxSize = 0,minSize = 0;
-    [self getPositionRangeMin:&maxSize andRangeMax:&minSize atIndexPath:indexPath];
+    [self getPositionRangeMin:&minSize andRangeMax:&maxSize atIndexPath:indexPath];
     
     //是否为必需项
     BOOL isRequired = [self getRequiredAtIndexPath:indexPath];
     
     //cell显示的冬季与夏季尺寸内容
-    NSString *sizeStr = [self getPositionSizeDescriptionAtIndexPath:indexPath];
+    NSString *sizeStr = @"";
     
-    [cell setClothSizeTitle:rangeModel.position andSizeValue:sizeStr andMinSize:maxSize andMaxSize:minSize isRequired:isRequired];
+    if (!self.personModel.history) {
+        sizeStr = [self getPositionSizeDescriptionAtIndexPath:indexPath];
+    }
     
+    [cell setClothSizeTitle:rangeModel.position andSizeValue:sizeStr andMinSize:minSize andMaxSize:maxSize isRequired:isRequired];
+    
+    //cell的验证状态
+    cell.status = BodySizeCellStatus_Normal;
+    BOOL pass = [self validatePositionMinSize:minSize andMaxSize:maxSize atIndexPath:indexPath];
+    if (!pass) {
+        cell.status = BodySizeCellStatus_Warning;
+    }
+    
+    //cell的选中状态
     [self setSelectedStatusCell:cell atIndexPath:indexPath];
-    
-    return cell;
 }
 
 #pragma mark - UITableView Delegte Methods
@@ -256,13 +276,15 @@ static const CGFloat ClothesCountHeight = 70.0f;
     
     [array addObject:indexPath];
     
-    [tableView reloadRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
+    for (NSIndexPath *itemIndexPath in array) {
+        SizeTableViewCell *cell = [tableView cellForRowAtIndexPath:itemIndexPath];
+        [self configCellData:cell atIndexPath:itemIndexPath];
+    }
+    
+    //[tableView reloadRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
 }
 
 -(void)setSelectedStatusCell:(SizeTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath{
-    
-    cell.status = BodySizeCellStatus_Normal;
-    
     if (_selectedIndex == indexPath.row) {
         cell.status = BodySizeCellStatus_Selected;
     }
@@ -367,26 +389,25 @@ static const CGFloat ClothesCountHeight = 70.0f;
         }
     }
     
+    //将“已完成”状态重置为“进行中”
+    if (self.currentCategory.summerCount > 0) {
+        [self.personModel resumePersonSatus_Progressing];
+    }
+    if (self.currentCategory.winterCount > 0) {
+        [self.personModel resumePersonSatus_Progressing];
+    }
+    
     //同步处理CY、CD的尺寸
     [self.personModel syncAssociationCategory:self.currentCategory andPositionSize:positionModel];
     
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    //[[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 }
 
 -(void)getPositionRangeMin:(NSInteger *)min andRangeMax:(NSInteger *)max atIndexPath:(NSIndexPath *)indexPath{
     
     PositionSizeRangeModel *rangeModel = self.postionsArray[indexPath.row];
     
-    NSInteger maxSize = rangeModel.manMax;
-    NSInteger minSize = rangeModel.manMin;
-    
-    if (0 == self.personModel.gender) {
-        maxSize = rangeModel.womanMax;
-        minSize = rangeModel.womanMin;
-    }
-    
-    *min = minSize;
-    *max = maxSize;
+    [rangeModel getRangeMin:min andRangeMax:max byIsMan:self.personModel.gender];
 }
 
 -(BOOL)getRequiredAtIndexPath:(NSIndexPath *)indexPath{
@@ -404,22 +425,18 @@ static const CGFloat ClothesCountHeight = 70.0f;
     
     NSString *description;
     
-    PositionModel *positionModel = [self getPositionModelAtIndexPath:indexPath];
-    
     //夏季尺寸与冬季尺寸
     NSInteger summerSize = 0,winterSize = 0;
-    if (positionModel) {
-        summerSize = positionModel.size;
-        winterSize = positionModel.size_winter;
-    }
+    
+    [self getPositionSummerSize:&summerSize andWinterSize:&winterSize atIndexPath:indexPath];
     
     NSMutableArray *tempArray = [NSMutableArray array];
     
-    if (self.currentCategory.summerCount > 0 && summerSize > 0) {
+    if (summerSize > 0) {
         [tempArray addObject:[NSString stringWithFormat:@"夏:%ld",summerSize]];
     }
     
-    if (self.currentCategory.winterCount > 0 && winterSize > 0) {
+    if (winterSize > 0) {
         [tempArray addObject:[NSString stringWithFormat:@"冬:%ld",winterSize]];
     }
     
@@ -427,6 +444,55 @@ static const CGFloat ClothesCountHeight = 70.0f;
     
     return description;
     
+}
+
+/**
+ * 获取部位的夏季与冬季尺寸
+ *  尺寸为0时候，不显示
+ **/
+-(void)getPositionSummerSize:(NSInteger *)summerSize andWinterSize:(NSInteger *)winterSize atIndexPath:(NSIndexPath *)indexPath{
+    
+    PositionModel *positionModel = [self getPositionModelAtIndexPath:indexPath];
+    
+    //夏季尺寸与冬季尺寸
+    *summerSize = 0;
+    *winterSize = 0;
+    
+    if (positionModel) {
+        *summerSize = positionModel.size;
+        *winterSize = positionModel.size_winter;
+    }
+    
+    if (self.currentCategory.summerCount == 0) {
+        *summerSize = 0;
+    }
+    
+    if (self.currentCategory.winterCount == 0) {
+        *winterSize = 0;
+    }
+    
+}
+
+/**
+ * 验证成衣的部位尺寸范围
+ **/
+-(BOOL)validatePositionMinSize:(NSInteger)minSize andMaxSize:(NSInteger)maxSize atIndexPath:(NSIndexPath *)indexPath{
+    
+    NSInteger summerSize = 0,winterSize = 0;
+    
+    [self getPositionSummerSize:&summerSize andWinterSize:&winterSize atIndexPath:indexPath];
+    
+    BOOL pass = YES;
+    
+    if (summerSize > 0 && (summerSize < minSize || summerSize > maxSize)) {
+        pass = NO;
+    }
+    
+    if (winterSize > 0 && (winterSize < minSize || winterSize > maxSize)) {
+        pass = NO;
+    }
+    
+    return pass;
 }
 
 @end

@@ -139,7 +139,7 @@
         category.summerCount = summerCount;
         category.winterCount = winterCount;
         
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+        //[[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         
         [self changedActionnAtIndexPath:indexPath];
     }

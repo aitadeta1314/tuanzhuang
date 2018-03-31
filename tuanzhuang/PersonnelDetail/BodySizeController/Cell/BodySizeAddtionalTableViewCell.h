@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "CategoryAddRangeModel.h"
+#import "AdditionalTableViewCell.h"
 
 
 
-static NSString * const STRING_CLOTHES_NO_PLEAT = @"无褶";
-static NSString * const STRING_CLOTHES_SINGLE_PLEAT = @"单褶";
-static NSString * const STRING_CLOTHES_DOUBLE_PLEAT = @"双褶";
+//static NSString * const STRING_CLOTHES_NO_PLEAT = @"无褶";
+//static NSString * const STRING_CLOTHES_SINGLE_PLEAT = @"单褶";
+//static NSString * const STRING_CLOTHES_DOUBLE_PLEAT = @"双褶";
 
 typedef void(^ValueChangedBlock)(NSArray<AdditionModel *> * changedAdditions);
 

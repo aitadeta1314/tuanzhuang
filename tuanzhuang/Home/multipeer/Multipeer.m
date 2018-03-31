@@ -42,9 +42,7 @@ static Multipeer* instance = nil;// 永存不休
 }
 
 -(NSString *)currentName{
-    if(!_currentName){
-        _currentName = [NSString stringWithFormat:@"%@(%@)",[UserManager getUserInfo:@"uname"],[SynCodeView randomString]];
-    }
+    _currentName = [UserManager getMultiName];
     return _currentName;
 }
 
@@ -292,7 +290,7 @@ static Multipeer* instance = nil;// 永存不休
             [self receiveDataAction:localURL peerID:peerID];
             // 合并-存储
             if(_masterMergeDictory==nil){
-                _masterMergeDictory = (NSMutableDictionary*)[[NSDictionary alloc] initWithContentsOfFile:[UserManager getUserInfo:@"syncPlistUrl"]];
+                _masterMergeDictory = (NSMutableDictionary*)[SynchronizeData synchronizeDataWithCompanyid:[UserManager getUserInfo:@"companyId"]];
             }
             // 合并-返回
             [self onMergeBlock:(NSMutableDictionary*)[SynchronizeData handleMasterDic:_masterMergeDictory andSlaveDic:dic]];
@@ -558,7 +556,8 @@ static Multipeer* instance = nil;// 永存不休
         DeviceEntity* one = nil;
         for(int j=0;j<_syncList.count;j++){
             one = _syncList[j];
-            if([one.name substringToIndex:one.name.length - 6]==[device.name substringToIndex:device.name.length - 6]){
+            //if([one.name substringToIndex:one.name.length - 6]==[device.name substringToIndex:device.name.length - 6]){
+            if(one.name==device.name){
                 i = j;
                 break;
             }

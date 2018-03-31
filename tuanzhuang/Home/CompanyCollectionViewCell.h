@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HomeModel.h"
+#import "CustomButton.h"
 
 typedef void (^configurationBlockClick)(void);
 typedef void (^deleteBlockClick)(void);
@@ -53,6 +54,25 @@ typedef void (^tapOnShadeViewBlock)(void);
 
 // HomeModel
 @property (nonatomic, strong) HomeModel *homeModel;
+
+// cell按钮
+/**
+ 配置按钮
+ */
+@property (weak, nonatomic) IBOutlet CustomButton *configurationBtn;
+/**
+ 删除按钮
+ */
+@property (weak, nonatomic) IBOutlet CustomButton *deleteBtn;
+/**
+ 同步按钮
+ */
+@property (weak, nonatomic) IBOutlet CustomButton *syncBtn;
+/**
+ 上传按钮
+ */
+@property (weak, nonatomic) IBOutlet CustomButton *uploadBtn;
+
 
 /**
  *  配置block

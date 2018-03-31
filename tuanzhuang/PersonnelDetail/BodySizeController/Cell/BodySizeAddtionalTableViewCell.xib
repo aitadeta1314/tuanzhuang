@@ -11,11 +11,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="509" id="0ui-cy-pZa" customClass="BodySizeAddtionalTableViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="486" height="509"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="596" id="0ui-cy-pZa" customClass="BodySizeAddtionalTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="486" height="596"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0ui-cy-pZa" id="36O-hi-IxN">
-                <rect key="frame" x="0.0" y="0.0" width="486" height="508.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="486" height="595.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="BTh-Ge-v9D">
@@ -361,13 +361,14 @@
                 <outlet property="shoulderInputButton" destination="crB-ux-rwY" id="62Q-4L-Vs4"/>
                 <outlet property="skirtLongInputButton" destination="Ck2-yc-x86" id="9cX-6m-Fim"/>
                 <outlet property="sleevesInputButton" destination="7Ba-iO-ZEb" id="ftl-2z-XzR"/>
+                <outlet property="stackView" destination="BTh-Ge-v9D" id="4yF-hQ-uWJ"/>
                 <outlet property="summerButton" destination="lZW-Wq-9OY" id="r0W-GD-5St"/>
                 <outlet property="titleLabel" destination="xc1-3R-7pi" id="lSK-7q-R4e"/>
                 <outlet property="valueTextFiled" destination="h2G-0d-sJ5" id="XsG-AN-JbW"/>
                 <outlet property="waistInputButton" destination="QJR-w6-Qrk" id="69A-Rn-4bc"/>
                 <outlet property="winterButton" destination="xPG-gL-DTu" id="itj-5f-FMX"/>
             </connections>
-            <point key="canvasLocation" x="225" y="307.5"/>
+            <point key="canvasLocation" x="225" y="351"/>
         </tableViewCell>
     </objects>
 </document>

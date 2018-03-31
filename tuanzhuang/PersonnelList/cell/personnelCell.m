@@ -124,7 +124,6 @@
     CGFloat x = 20;
     CGFloat y = 20;
     CGFloat space = 15;
-//    UIColor * textcolor = model.ignored ? systemGrayColor : RGBColor(51, 51, 51);
     UIColor * textcolor = RGBColor(51, 51, 51);
     
     weakObjc(self);
@@ -170,7 +169,8 @@
         make.left.mas_equalTo(weakself.nameLabel);
         make.height.mas_equalTo(14);
     }];
-    self.genderAndDepartmentLabel.text = [NSString stringWithFormat:@"%@  -  %@",model.gender == 0? @"女":@"男",model.department];
+    NSString * department = model.department.length > 0 ? model.department:@"";
+    self.genderAndDepartmentLabel.text = [NSString stringWithFormat:@"%@  -  %@",model.gender == PERSON_GENDER_WOMEN? @"女":@"男",department];
     self.genderAndDepartmentLabel.textColor = textcolor;
     self.genderAndDepartmentLabel.font = [UIFont systemFontOfSize:14];
     
@@ -181,7 +181,7 @@
         make.top.mas_equalTo(weakself.nameLabel);
         make.right.mas_equalTo(weakself.contentView).offset(-rightspace);
         make.height.mas_equalTo(16);
-        make.width.mas_equalTo(50);
+        make.width.mas_equalTo(60);
     }];
     NSString * status = @"";
     NSString * statusiconname = @"";
@@ -227,7 +227,13 @@
         make.width.mas_equalTo(weakself.statusLabel);
         make.height.mas_equalTo(weakself.statusLabel);
     }];
-    self.jobnumberLabel.text = model.lname;
+    if (model.history) {
+        self.jobnumberLabel.text = @"历史尺寸";
+    } else if (model.sign != NULL) {
+        self.jobnumberLabel.text = @"客人自报";
+    } else {
+        self.jobnumberLabel.text = model.lname;
+    }
     self.jobnumberLabel.textColor = textcolor;
     self.jobnumberLabel.font = [UIFont systemFontOfSize:14];
     

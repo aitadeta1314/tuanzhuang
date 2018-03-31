@@ -13,7 +13,7 @@
 @implementation NetStatus
 
 + (NSString *)internetStatus {
-    Reachability *reach = [Reachability reachabilityWithHostName:@"www.baidu.com"];
+    Reachability *reach = [Reachability reachabilityWithHostName:@"https://www.baidu.com"];
     NetworkStatus networkStatus = [reach currentReachabilityStatus];
     NSString *net = @"WIFI";
     switch (networkStatus) {

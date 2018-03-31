@@ -13,6 +13,7 @@ pod 'TYPagerController'
 pod 'MJExtension'
 pod 'MJRefresh'
 pod 'MGSwipeTableCell'
+pod 'Bugly'
 
   target 'tuanzhuangTests' do
     inherit! :search_paths

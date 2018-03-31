@@ -369,7 +369,7 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <view hidden="YES" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r55-WC-xLx" userLabel="lock最上层的view">
-                        <rect key="frame" x="0.0" y="0.0" width="280" height="320"/>
+                        <rect key="frame" x="0.0" y="0.0" width="280" height="230.5"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="selected" translatesAutoresizingMaskIntoConstraints="NO" id="Kq7-7N-8mn">
@@ -379,7 +379,7 @@
                         </constraints>
                     </imageView>
                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lock_icon" translatesAutoresizingMaskIntoConstraints="NO" id="tsg-ai-rYB" userLabel="locked">
-                        <rect key="frame" x="120" y="137.5" width="40" height="45"/>
+                        <rect key="frame" x="120" y="93" width="40" height="45"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="45" id="TM1-FP-uQy"/>
                             <constraint firstAttribute="width" constant="40" id="pXb-kH-Ax8"/>
@@ -390,20 +390,20 @@
             <constraints>
                 <constraint firstItem="cPk-Fy-Etd" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="1wz-E5-vNc"/>
                 <constraint firstItem="3wI-0Z-NKK" firstAttribute="top" secondItem="cPk-Fy-Etd" secondAttribute="top" id="716-0y-5iZ"/>
+                <constraint firstItem="r55-WC-xLx" firstAttribute="bottom" secondItem="6wN-sa-QFc" secondAttribute="bottom" id="CxB-cH-fCC"/>
                 <constraint firstItem="cPk-Fy-Etd" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="E5G-P0-wcm"/>
-                <constraint firstItem="r55-WC-xLx" firstAttribute="height" secondItem="3wI-0Z-NKK" secondAttribute="height" id="KkH-Kw-daY"/>
+                <constraint firstItem="tsg-ai-rYB" firstAttribute="centerX" secondItem="r55-WC-xLx" secondAttribute="centerX" id="G6s-l6-UP7"/>
                 <constraint firstItem="Kq7-7N-8mn" firstAttribute="width" secondItem="cPk-Fy-Etd" secondAttribute="width" multiplier="4:9" id="LZY-8l-dNb"/>
-                <constraint firstItem="tsg-ai-rYB" firstAttribute="centerY" secondItem="Kq7-7N-8mn" secondAttribute="centerY" id="NGX-JX-jjM"/>
-                <constraint firstItem="tsg-ai-rYB" firstAttribute="centerX" secondItem="Kq7-7N-8mn" secondAttribute="centerX" id="NcC-5P-t4J"/>
                 <constraint firstItem="r55-WC-xLx" firstAttribute="centerX" secondItem="3wI-0Z-NKK" secondAttribute="centerX" id="VnY-ew-OMn"/>
                 <constraint firstItem="3wI-0Z-NKK" firstAttribute="width" secondItem="cPk-Fy-Etd" secondAttribute="width" id="Y6j-mV-lcH"/>
                 <constraint firstItem="3wI-0Z-NKK" firstAttribute="centerX" secondItem="cPk-Fy-Etd" secondAttribute="centerX" id="bNk-GP-QX0"/>
+                <constraint firstItem="r55-WC-xLx" firstAttribute="top" secondItem="SEy-5g-ep8" secondAttribute="top" id="bbg-4h-jkO"/>
                 <constraint firstItem="r55-WC-xLx" firstAttribute="width" secondItem="3wI-0Z-NKK" secondAttribute="width" id="g8u-dm-3c9"/>
                 <constraint firstItem="Kq7-7N-8mn" firstAttribute="centerX" secondItem="3wI-0Z-NKK" secondAttribute="centerX" id="gVe-Zl-IAC"/>
                 <constraint firstItem="3wI-0Z-NKK" firstAttribute="height" secondItem="cPk-Fy-Etd" secondAttribute="height" id="o1Z-Iy-qu2"/>
                 <constraint firstItem="cPk-Fy-Etd" firstAttribute="width" secondItem="SEy-5g-ep8" secondAttribute="width" id="ouD-X8-eEi"/>
-                <constraint firstItem="r55-WC-xLx" firstAttribute="centerY" secondItem="3wI-0Z-NKK" secondAttribute="centerY" id="puZ-V9-JgZ"/>
                 <constraint firstItem="Kq7-7N-8mn" firstAttribute="centerY" secondItem="3wI-0Z-NKK" secondAttribute="centerY" id="tnK-xV-pFO"/>
+                <constraint firstItem="tsg-ai-rYB" firstAttribute="centerY" secondItem="r55-WC-xLx" secondAttribute="centerY" id="v0C-qo-5TM"/>
                 <constraint firstItem="cPk-Fy-Etd" firstAttribute="height" secondItem="SEy-5g-ep8" secondAttribute="height" id="yVM-ul-9wv"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
@@ -411,7 +411,9 @@
             <connections>
                 <outlet property="beingNumLb" destination="w3n-jk-KMM" id="dzh-Pa-L6x"/>
                 <outlet property="companyNameLb" destination="EuM-p8-pec" id="g1d-bb-HaK"/>
+                <outlet property="configurationBtn" destination="qcE-rX-09U" id="EPt-eH-QWU"/>
                 <outlet property="createTimeLb" destination="8HO-Ym-hIe" id="NsM-mf-DO4"/>
+                <outlet property="deleteBtn" destination="f21-ai-nm1" id="V2R-4B-vZh"/>
                 <outlet property="deleteImgView" destination="Kq7-7N-8mn" id="avm-Dh-Ja1"/>
                 <outlet property="doneNumLb" destination="VgF-ps-IMU" id="sh5-IP-3Gc"/>
                 <outlet property="lockImgView" destination="tsg-ai-rYB" id="QuU-M8-YOW"/>
@@ -419,8 +421,10 @@
                 <outlet property="numberOfPersonLb" destination="Yld-yQ-MVI" id="MlT-6G-b3a"/>
                 <outlet property="shadeTopView" destination="3wI-0Z-NKK" id="iYU-ZM-uGw"/>
                 <outlet property="showView" destination="cPk-Fy-Etd" id="fOb-US-YPo"/>
+                <outlet property="syncBtn" destination="f21-ai-nm1" id="7RY-TT-Blc"/>
                 <outlet property="syncRecentTimeLb" destination="XYz-LZ-bQr" id="XIa-rq-rpC"/>
                 <outlet property="syncTimesLb" destination="M4j-NW-LyT" id="fnv-3l-EtQ"/>
+                <outlet property="uploadBtn" destination="7Fn-us-aal" id="xh8-Ik-e3n"/>
                 <outlet property="uploadRecentTimeLb" destination="Hpf-Ik-lEe" id="ZB7-We-aoN"/>
                 <outlet property="uploadTimesLb" destination="hVH-Wp-1hT" id="g3s-Id-SDu"/>
                 <outlet property="waitNumLb" destination="TiV-Ew-Lq0" id="SUa-nV-Lb0"/>

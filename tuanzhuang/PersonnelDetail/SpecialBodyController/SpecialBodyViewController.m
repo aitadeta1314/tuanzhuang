@@ -57,7 +57,7 @@ static NSString * const Separated_Str = @",";
     layout.minimumLineSpacing = 20;
     layout.minimumInteritemSpacing = 16;
     layout.sectionInset = UIEdgeInsetsMake(20, 40, 20, 40);
-    layout.headerReferenceSize = CGSizeMake(90, 42);
+    layout.headerReferenceSize = CGSizeMake(100, 42);
     layout.headerSpacing = 26;
     layout.headerAlignTop = YES;
     
@@ -85,7 +85,7 @@ static NSString * const Separated_Str = @",";
     NSInteger bodyCount = [[self.personModel getCategorySizeType:CategorySizeType_Body] count];
     NSInteger clothesCount = [[self.personModel getCategorySizeType:CategorySizeType_Clothes] count];
     
-    self.dataArray = [SpecialBodyOptionModel getSpecialBodyOptions:bodyCount andHasClothes:clothesCount];
+    self.dataArray = [SpecialBodyOptionModel getSpecialBodyOptions:bodyCount andHasClothes:clothesCount isMTMData:self.personModel.mtm];
     
     [self reloadSelectedIndexPaths];
     
@@ -240,9 +240,14 @@ static NSString * const Separated_Str = @",";
         [optionsArray addObject:code];
     }
     
-    self.personModel.specialoptions = [optionsArray componentsJoinedByString:Separated_Str];
-     
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    NSString *specialOptions = [optionsArray componentsJoinedByString:Separated_Str];
+    
+    if (![self.personModel.specialoptions isEqualToString:specialOptions]) {
+        self.personModel.specialoptions = specialOptions;
+        //[[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    }
+
+    
 }
 
 @end

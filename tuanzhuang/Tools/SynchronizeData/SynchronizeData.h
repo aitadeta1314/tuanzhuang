@@ -18,7 +18,8 @@
 //生成plist文件
 +(NSURL *)createSyncFile:(NSMutableDictionary*)dic;
 +(NSURL *)fileUrlWithCompany:(CompanyModel*)companymodel;
-
+//获取公司信息
++(NSDictionary *)synchronizeDataWithCompanyid:(NSString *)companyid;
 //删除plist文件
 +(void)deletFile:(NSString *)filename;
 
@@ -58,7 +59,7 @@
 +(NSArray *)handleNonrepeatArray:(NSArray *)array;
 
 //将人员信息字典转化为model
-+(PersonnelModel *)personnelModelByDic:(NSDictionary *)dic;
++(PersonnelModel *)personnelModelByDic:(NSDictionary *)dic isTemp:(BOOL)istemp;
 //将人员信息model转化为字典
 +(NSDictionary *)personnelDicByModel:(PersonnelModel *)pmodel;
 

@@ -130,6 +130,8 @@ static const CGFloat scrollline_w = 50.0;
     }];
     _datatype = 0;
     
+    //清除无用的缓存数据
+    [[CommonData shareCommonData] clearTempPersonDataByCompany:self.companymodel];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -175,10 +177,7 @@ static const CGFloat scrollline_w = 50.0;
 -(NSMutableArray *)allArray
 {
     if (_allArray == nil) {
-        NSPredicate *peopleFilter = [NSPredicate predicateWithFormat:@"companyid = %@", self.companymodel.companyid];
-        NSFetchRequest *peopleRequest = [PersonnelModel MR_requestAllWithPredicate:peopleFilter];
-        [peopleRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"firstletter"ascending:YES]]];
-        _allArray = [NSMutableArray arrayWithArray:[self handleData:[PersonnelModel MR_executeFetchRequest:peopleRequest]]];
+        _allArray = [NSMutableArray arrayWithArray:[self typerArray:-1]];
     }
     return _allArray;
 }
@@ -187,10 +186,7 @@ static const CGFloat scrollline_w = 50.0;
 -(NSMutableArray *)dailiangtiArray
 {
     if (_waitingArray == nil) {
-        NSPredicate *peopleFilter = [NSPredicate predicateWithFormat:@"status = 0 AND companyid = %@", self.companymodel.companyid];
-        NSFetchRequest *peopleRequest = [PersonnelModel MR_requestAllWithPredicate:peopleFilter];
-        [peopleRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"firstletter"ascending:YES]]];
-        _waitingArray = [NSMutableArray arrayWithArray:[self handleData:[PersonnelModel MR_executeFetchRequest:peopleRequest]]];
+        _waitingArray = [NSMutableArray arrayWithArray:[self typerArray:0]];
     }
     return _waitingArray;
 }
@@ -199,10 +195,7 @@ static const CGFloat scrollline_w = 50.0;
 -(NSMutableArray *)jinxingArray
 {
     if (_processingArray == nil) {
-        NSPredicate *peopleFilter = [NSPredicate predicateWithFormat:@"status = 1 AND companyid = %@", self.companymodel.companyid];
-        NSFetchRequest *peopleRequest = [PersonnelModel MR_requestAllWithPredicate:peopleFilter];
-        [peopleRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"firstletter"ascending:YES]]];
-        _processingArray = [NSMutableArray arrayWithArray:[self handleData:[PersonnelModel MR_executeFetchRequest:peopleRequest]]];
+        _processingArray = [NSMutableArray arrayWithArray:[self typerArray:1]];
     }
     return _processingArray;
 }
@@ -211,12 +204,42 @@ static const CGFloat scrollline_w = 50.0;
 -(NSMutableArray *)wanchengArray
 {
     if (_finishedArray == nil) {
-        NSPredicate *peopleFilter = [NSPredicate predicateWithFormat:@"status = 2 AND companyid = %@", self.companymodel.companyid];
-        NSFetchRequest *peopleRequest = [PersonnelModel MR_requestAllWithPredicate:peopleFilter];
-        [peopleRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"firstletter"ascending:YES]]];
-        _finishedArray = [NSMutableArray arrayWithArray:[self handleData:[PersonnelModel MR_executeFetchRequest:peopleRequest]]];
+        _finishedArray = [NSMutableArray arrayWithArray:[self typerArray:2]];
     }
     return _finishedArray;
+}
+
+-(NSArray *)typerArray:(int)type
+{
+    NSPredicate *peopleFilter;
+    switch (type) {
+        case 0:
+        {
+            peopleFilter = [NSPredicate predicateWithFormat:@"status = 0 AND company = %@", self.companymodel];
+        }
+            break;
+        case 1:
+        {
+            peopleFilter = [NSPredicate predicateWithFormat:@"status = 1 AND company = %@", self.companymodel];
+        }
+            break;
+        case 2:
+        {
+            peopleFilter = [NSPredicate predicateWithFormat:@"status = 2 AND company = %@", self.companymodel];
+        }
+            break;
+        default:
+        {
+            peopleFilter = [NSPredicate predicateWithFormat:@"company = %@", self.companymodel];
+        }
+            break;
+    }
+    NSFetchRequest *peopleRequest = [PersonnelModel MR_requestAllWithPredicate:peopleFilter];
+    NSSortDescriptor * sort0 = [NSSortDescriptor sortDescriptorWithKey:@"firstletter"ascending:YES];
+    NSSortDescriptor * sort1 = [NSSortDescriptor sortDescriptorWithKey:@"name"ascending:NO];
+    NSArray * sortDescriptors = @[sort0,sort1];
+    [peopleRequest setSortDescriptors:sortDescriptors];
+    return [self handleData:[PersonnelModel MR_executeFetchRequest:peopleRequest]];
 }
 
 #pragma mark -- 索引数组
@@ -224,7 +247,12 @@ static const CGFloat scrollline_w = 50.0;
 {
     _indexArray = [[NSMutableArray alloc] init];
     for (NSDictionary * dic in self.dataArray) {
-        [_indexArray addObject:[dic valueForKey:@"firstletter"]];
+        NSString *filterLetter = [dic valueForKey:@"firstletter"];
+        
+        if (filterLetter.isValidString) {
+            [_indexArray addObject:filterLetter];
+        }
+        
     }
     return _indexArray;
 }
@@ -371,13 +399,10 @@ static const CGFloat scrollline_w = 50.0;
         NSArray * array = [[self.dataArray objectAtIndex:indexPath.section] valueForKey:@"data"];
         PersonnelModel * pmodel = [array objectAtIndex:indexPath.row];
         
-        PersonnelModel *copyPersonModel = [PersonnelModel copyFromObject:pmodel];
-        copyPersonModel.personnelid = nil;
-        copyPersonModel.company = self.companymodel;
-        
         PersonDetailContainerViewController *detailViewController = [[PersonDetailContainerViewController alloc] init];
         detailViewController.companyModel = self.companymodel;
-        detailViewController.personModel = copyPersonModel;
+        detailViewController.personModel = nil;
+        detailViewController.personModel_copy = pmodel;
         [weakself.navigationController pushViewController:detailViewController animated:YES];
     }];
     action.backgroundColor = RGBColor(0, 122, 255);
@@ -436,13 +461,19 @@ static const CGFloat scrollline_w = 50.0;
 #pragma mark -- 获取各个状态对应的数量
 -(NSInteger)numberWithType:(NSString *)type
 {
-    NSString * filter = @"";
-    if (type.length == 0) {
-        filter = [NSString stringWithFormat:@"companyid = %@",self.companymodel.companyid];
+    NSInteger number = 0;
+    NSPredicate *doneFilter;
+    if ([type isEqualToString:@"0"]) {
+        doneFilter = [NSPredicate predicateWithFormat:@"status  == 0 AND company == %@",self.companymodel];
+    } else if ([type isEqualToString:@"1"]) {
+        doneFilter = [NSPredicate predicateWithFormat:@"status  == 1 AND company == %@",self.companymodel];
+    } else if ([type isEqualToString:@"2"]) {
+        doneFilter = [NSPredicate predicateWithFormat:@"status  == 2 AND company == %@",self.companymodel];
     } else {
-        filter = [NSString stringWithFormat:@"status = %@ AND companyid = %@",type,self.companymodel.companyid];
+        doneFilter = [NSPredicate predicateWithFormat:@"company == %@",self.companymodel];
     }
-    return [[PersonnelModel MR_numberOfEntitiesWithPredicate:[NSPredicate predicateWithFormat:filter]] integerValue];
+    number = [PersonnelModel MR_findAllWithPredicate:doneFilter].count;
+    return number;
 }
 
 - (void)didReceiveMemoryWarning {

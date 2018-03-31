@@ -9,8 +9,6 @@
 #import "UIButton+AlignContent.h"
 #import <objc/runtime.h>
 
-static char centerContentKey;
-
 @implementation UIButton (AlignContent)
 
 - (void)centerImageAndTitle:(float)spacing

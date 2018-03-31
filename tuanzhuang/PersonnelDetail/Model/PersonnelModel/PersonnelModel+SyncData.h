@@ -21,14 +21,9 @@ typedef void(^ChangedBlock)(BOOL changed);
 
 /**
  * 根据部位尺寸，更新加放量中的对应部位尺寸
- **/
--(void)referenceAdditionByPosition:(PositionModel *)position;
-
-/**
- * 根据部位尺寸，更新加放量中的对应部位尺寸
  * @param positionName 部位名称
  * @param size         尺寸
- * @param changed      修改触发block
+ * @param complete      修改触发block
  **/
 -(void)referenceAdditionByPositionName:(NSString *)positionName andSize:(NSInteger)size complete:(ChangedBlock)complete;
 
@@ -37,5 +32,24 @@ typedef void(^ChangedBlock)(BOOL changed);
  * 同步关联的品类的成衣尺寸
  ***/
 -(void)syncAssociationCategory:(CategoryModel *)category andPositionSize:(PositionModel *)position;
+
+/**
+ * 修改性别，更新部位尺寸的BLCode
+ **/
+-(void)referenceCategoryPositionsBLCode:(CategoryModel *)category;
+
+/**
+ * 修改性别，更新所有的的成衣的部位尺寸的BLCode
+ **/
+-(void)referenceClothesCategoryPositionsBLCode;
+
+#pragma mark - 配置公司全局设置的品类数量
+-(void)setupCompanyCategoryConfigure;
+
+#pragma mark - 修改性别关联修改数据
+/**
+ * 修改性别修改关联数据
+ **/
+-(void)referenceAssociateDataBySexChanged;
 
 @end

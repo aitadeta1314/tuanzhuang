@@ -53,7 +53,7 @@
 
 -(void)dealloc{
     NSLog(@"multipeer : dealloc");
-    self.multipeer.onRefresh = nil;
+//    self.multipeer.onRefresh = nil;
 }
 
 #pragma mark - 懒加载

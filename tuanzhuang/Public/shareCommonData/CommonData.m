@@ -88,5 +88,20 @@ static NSString * const KEY_HISTORY_LIST_PERSON = @"key_history_list_person";
     
 }
 
+/**
+ * 清除指定公司无用的缓存数据
+ **/
+-(void)clearTempPersonDataByCompany:(CompanyModel *)company{
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"companyid == %@ && (name == NULL || name == '')",company.companyid];
+    
+    NSSet *personSet = [company.personnel filteredSetUsingPredicate:predicate];
+    
+    for (PersonnelModel *personModel in personSet) {
+        [personModel MR_deleteEntity];
+    }
+    
+}
+
 
 @end

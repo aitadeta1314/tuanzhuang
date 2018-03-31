@@ -19,10 +19,12 @@
         
         NSArray *pyArray = [ms componentsSeparatedByString:@" "];
         if(pyArray && pyArray.count > 0){
-            return [[[pyArray firstObject] substringToIndex:1] uppercaseString];
+            if ([[pyArray firstObject] length] > 0) {
+                return [[[pyArray firstObject] substringToIndex:1] uppercaseString];
+            }
         }
         ms = nil;
     }
-    return nil;
+    return @"#";
 }
 @end

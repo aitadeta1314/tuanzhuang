@@ -10,6 +10,7 @@
 #import "HomeViewController.h"
 #import "UserListView.h"
 #import "MainNavigationViewController.h"
+#import "SynCodeView.h"
 
 @interface LoginViewController ()
 
@@ -153,7 +154,10 @@
 
 -(UIView *)company{
     if(!_company){
-        _company = [self createInput:@"组织名称" leftIcon:@"company_icon"  result:^(UIView *row,UITextField *input) {_companyText = input;}];
+        _company = [self createInput:@"组织名称" leftIcon:@"company_icon"  result:^(UIView *row,UITextField *input) {
+            _companyText = input;
+            _companyText.autocorrectionType = UITextAutocorrectionTypeNo;
+        }];
         [_inputBox addSubview:_company];
         [_company mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.top.left.equalTo(self.inputBox);
@@ -167,6 +171,7 @@
     if(!_userName){
         _userName = [self createInput:@"用户名" leftIcon:@"user_icon" result:^(UIView *row,UITextField *input) {
             _userNameText = input;
+            _userNameText.autocorrectionType = UITextAutocorrectionTypeNo;
             _userNameButton = [[UIButton alloc] init];
             _userNameButton.hidden = YES;
             [_userNameButton setImage:[UIImage imageNamed:@"drop_down_icon"] forState:UIControlStateNormal];
@@ -312,6 +317,14 @@
     _userName.tag = !_userName.tag;
 }
 
+-(void) selectUser:(NSDictionary*)one{
+    NSString* name = [one objectForKey:@"uname"];
+    self.selectUser = one;
+    self.userNameText.text = name;
+    self.userName.tag = 1;
+    [self.userNameButton sendActionsForControlEvents:UIControlEventTouchDown];
+}
+
 -(void) endChangeInputAction:(id)sender{
     // 刷新按钮样式
     NSString* v1 = [_companyText text];
@@ -327,7 +340,7 @@
     if([sender isEqual:_userNameText]){
         self.selectUser = nil;
     }
-    // cahnge：组织名称
+    // change：组织名称
     if([v1 length]>0 && [sender isEqual:_companyText]){
         NSArray* arr = [UserManager getLoginUsers:v1];
         // 隐藏
@@ -349,32 +362,29 @@
     NSString* cname = [_companyText text];
     NSString* uname = [_userNameText text];
     NSString* upwd = [_userPwdText text];
-    //
-    if(self.selectUser != nil){
-        NSDictionary* info = [UserManager getLoginUser:cname uname:uname upwd:upwd];
-        if(info!=nil){
-            if([[info objectForKey:@"upwd"] isEqualToString:upwd]){
-                [UserManager saveUser:info];
-                MainNavigationViewController * homeVc = VCFromBundleWithIdentifier(@"MainNavigationViewController");
-                [self presentViewController:homeVc animated:YES completion:^{}];
-            }else{
-                [self onSubmit_error];
-                return;
-            }
-        }
-    }
-    //
     NSMutableDictionary * param = [NSMutableDictionary dictionary];
-    [param setValue:cname forKey:@"orgname"];
-    [param setValue:uname forKey:@"username"];
-    [param setValue:upwd forKey:@"password"];
-    [NetworkOperation networkWithHost:@"login" andParameters:param andSuccess:^(id rootobject) {
-        //
-    } andFailure:^(NSError *error) {
-        // error
-        [UserManager saveUser:@{@"userId":@1,@"orgId":@1,@"cname":cname,@"uname":uname,@"upwd":upwd}];
+    [param setValue:@{@"code":cname} forKey:@"sOrganization"];
+    [param setValue:uname forKey:@"usercode"];
+    [param setValue:self.userPwdText.text forKey:@"password"];
+    [param setValue:@"ios" forKey:@"device"];
+    [self showLoadingWith:@"正在登录..."];
+    [NetworkOperation postWithHost:[NSString stringWithFormat:@"%@suser/login",HTTP_HEADER] andToken:@"" andType:JSONOBJECT andParameters:param andSuccess:^(id rootobject) {
+        [self hideLoading];
+        [UserManager saveUser:@{
+                                @"multiName":[NSString stringWithFormat:@"%@(%@)",[rootobject valueForKey:@"userName"],[SynCodeView randomString]],
+                                @"userId":[rootobject valueForKey:@"userId"],
+                                @"orgId":[rootobject valueForKey:@"organizationCode"],
+                                @"cname":cname,
+                                @"uname":uname,
+                                @"upwd":upwd,
+                                @"token":[rootobject valueForKey:@"tokenId"],
+                                @"showname":[rootobject valueForKey:@"userName"]
+                                }];
         MainNavigationViewController * homeVc = VCFromBundleWithIdentifier(@"MainNavigationViewController");
         [self presentViewController:homeVc animated:YES completion:^{}];
+    } andFailure:^(NSError *error, NSString *errorMessage) {
+        [self hideLoading];
+        [self showHUDMessage:errorMessage];
     }];
 }
 

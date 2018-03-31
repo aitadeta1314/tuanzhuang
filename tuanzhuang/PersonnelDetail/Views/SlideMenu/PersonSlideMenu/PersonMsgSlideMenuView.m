@@ -317,6 +317,7 @@ static const CGFloat Content_Padding_Left = Slide_Content_Padding_Left + 20.0f;
     self.departmentTextField = [[ZZNumberField alloc] init];
     [self addTextField:self.departmentTextField withStyle:TextFieldStyle_Background];
     self.departmentTextField.delegate = self;
+    self.departmentTextField.adjustsFontSizeToFitWidth = YES;
     
     self.sexButton = [[UIButton alloc] init];
     self.sexButton.backgroundColor = COLOR_PERSION_INFO_SELECTED;
@@ -399,10 +400,11 @@ static const CGFloat Content_Padding_Left = Slide_Content_Padding_Left + 20.0f;
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{
     if (self.nameTextField == textField) {
-        self.personModel.name = self.nameTextField.text;
-        if (self.nameTextField.text.isValidString) {
-            self.menuTitle = self.nameTextField.text;
-            self.personModel.firstletter = [GetLetter firstLetterOfString:self.nameTextField.text];
+        NSString *name = [self.nameTextField.text removeSpaceAndNewLine];
+        self.personModel.name = name;
+        if (name.isValidString) {
+            self.menuTitle = name;
+            self.personModel.firstletter = [GetLetter firstLetterOfString:name];
         }else{
             self.menuTitle = @"输入姓名";
         }
@@ -412,7 +414,7 @@ static const CGFloat Content_Padding_Left = Slide_Content_Padding_Left + 20.0f;
     }else if (self.heightField == textField){
         CGFloat height = [self.heightField.text floatValue];
         
-        if (height > 0) {
+        if (height > 0 && height <= 240) {
             self.personModel.height = height;
             self.heightField.text = [NSString stringWithFormat:@"%.1f",self.personModel.height];
         }else{
@@ -426,7 +428,7 @@ static const CGFloat Content_Padding_Left = Slide_Content_Padding_Left + 20.0f;
     }else if (self.weightField == textField){
         CGFloat weight = [self.weightField.text floatValue];
         
-        if (weight > 0) {
+        if (weight > 0 && weight <= 300) {
             self.personModel.weight = weight;
             self.weightField.text = [NSString stringWithFormat:@"%.1f",self.personModel.weight];
         }else{
@@ -438,7 +440,7 @@ static const CGFloat Content_Padding_Left = Slide_Content_Padding_Left + 20.0f;
         }
     }
     
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    //[[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 }
 
 #pragma mark - Button Action
@@ -452,15 +454,17 @@ static const CGFloat Content_Padding_Left = Slide_Content_Padding_Left + 20.0f;
         self.personModel.gender = 1;
     }
     
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    //[[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     
     [self resignFirstResponder];
     
     [self reloadData];
     
+    [self.personModel referenceAssociateDataBySexChanged];
+    
     //性别修改
-    if (self.sexChanged) {
-        self.sexChanged();
+    if (self.changedBlock) {
+        self.changedBlock();
     }
     
 }
@@ -473,8 +477,12 @@ static const CGFloat Content_Padding_Left = Slide_Content_Padding_Left + 20.0f;
     
     self.personModel.mtm = selected;
     
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    //[[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     
+    //mtm修改
+    if (self.changedBlock) {
+        self.changedBlock();
+    }
 }
 
 -(void)setMTMButtonSelected:(BOOL)selected{

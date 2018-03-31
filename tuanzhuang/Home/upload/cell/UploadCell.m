@@ -77,27 +77,66 @@
     return _lineView;
 }
 
-#pragma mark - self
--(void)loadData:(CGFloat)i{
-    if(i){// 选择
-        self.leftImg.image = [UIImage imageNamed:@"ipad_icon"];
-        self.titleLabel.text = @"青岛库特智能有限公司";
-        self.subTitleLabel.text = @"数据上传成功";
-        self.rightImg.image = nil;
-        self.loadingImg.hidden = YES;
-        self.progressView.hidden = NO;
-        
-    }else{
-        self.leftImg.image = [UIImage imageNamed:@"ipad_icon"];
-        self.titleLabel.text = @"青岛库特智能有限公司";
-        self.subTitleLabel.text = @"数据未上传";
-        self.subTitleLabel.textColor = [UIColor redColor];
-        self.rightImg.image = nil;
-        self.loadingImg.hidden = NO;
-        self.progressView.hidden = YES;
+#pragma mark -
+-(void)fillWithModel:(UploadModel *)model
+{
+    self.leftImg.image = [UIImage imageNamed:@"ipad_icon"];
+    self.titleLabel.text = model.companymodel.companyname;
+    UploadStatus status = model.status;
+    switch (status) {
+        case UPLOADING:
+        {
+            self.subTitleLabel.text = @"数据正在上传";
+            self.subTitleLabel.textColor = RGBColor(150, 150, 150);
+            self.rightImg.hidden = YES;
+            self.loadingImg.hidden = NO;
+            [self.loadingImg startAnimating];
+        }
+            break;
+        case UPLOADED:
+        {
+            self.subTitleLabel.text = @"数据已上传";
+            self.subTitleLabel.textColor = RGBColor(150, 150, 150);
+            self.rightImg.hidden = NO;
+            self.rightImg.image = [UIImage imageNamed:@"finish.png"];
+            self.loadingImg.hidden = YES;
+            [self.loadingImg stopAnimating];
+        }
+            break;
+        case UNFINISH:
+        {
+            self.subTitleLabel.text = @"存在未完成数据";
+            self.subTitleLabel.textColor = [UIColor redColor];
+            self.rightImg.hidden = NO;
+            self.rightImg.image = [UIImage imageNamed:@"enter_unfinish.png"];
+            self.loadingImg.hidden = YES;
+            [self.loadingImg stopAnimating];
+        }
+            break;
+        case UPLOADFAILURE:
+        {
+            self.subTitleLabel.text = @"数据上传失败";
+            self.subTitleLabel.textColor = [UIColor redColor];
+            self.rightImg.hidden = NO;
+            self.rightImg.image = [UIImage imageNamed:@"fail.png"];
+            self.loadingImg.hidden = YES;
+            [self.loadingImg stopAnimating];
+        }
+            break;
+        case NOUPLOADDATAS:
+        {
+            self.subTitleLabel.text = @"无可上传数据";
+            self.subTitleLabel.textColor = [UIColor redColor];
+            self.rightImg.hidden = NO;
+            self.rightImg.image = [UIImage imageNamed:@"fail.png"];
+            self.loadingImg.hidden = YES;
+            [self.loadingImg stopAnimating];
+        }
+            break;
+        default:
+            break;
     }
 }
-
 
 
 @end

@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13533" systemVersion="17B1003" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17C88" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="AdditionModel" representedClassName="AdditionModel" syncable="YES" codeGenerationType="class">
+        <attribute name="blcode_clothes" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="blcode_pants" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="blcode_pleat" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="blcode_shoulder" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="blcode_skirt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="blcode_sleeve" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="blcode_waist" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="increase" optional="YES" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="season" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="value_clothes" optional="YES" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
@@ -10,6 +17,7 @@
         <attribute name="value_skirt" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="value_sleeve" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="value_waist" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="values" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="category" maxCount="1" deletionRule="Nullify" destinationEntity="CategoryModel" inverseName="addition" inverseEntity="CategoryModel" syncable="YES"/>
     </entity>
     <entity name="CategoryModel" representedClassName="CategoryModel" syncable="YES" codeGenerationType="class">
@@ -28,7 +36,10 @@
         <attribute name="companyid" attributeType="String" syncable="YES"/>
         <attribute name="companyname" attributeType="String" syncable="YES"/>
         <attribute name="configuration" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="del" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="delTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="lock_status" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="missionname" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="rev" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="tb_frequency" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="tb_lasttime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -40,14 +51,15 @@
         <attribute name="category_config" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="companyid" attributeType="String" syncable="YES"/>
         <attribute name="department" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="edittime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="edittime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="firstletter" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gender" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="height" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="history" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="ignored" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="lid" attributeType="String" syncable="YES"/>
-        <attribute name="lname" attributeType="String" syncable="YES"/>
+        <attribute name="istemp" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="lid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lname" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="mtm" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="personnelid" optional="YES" attributeType="String" syncable="YES"/>
@@ -71,10 +83,10 @@
         <relationship name="personnel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersonnelModel" inverseName="position" inverseEntity="PersonnelModel" syncable="YES"/>
     </entity>
     <elements>
-        <element name="AdditionModel" positionX="349" positionY="27" width="128" height="193"/>
+        <element name="AdditionModel" positionX="349" positionY="27" width="128" height="315"/>
         <element name="CategoryModel" positionX="178" positionY="14" width="128" height="180"/>
-        <element name="CompanyModel" positionX="-162" positionY="117" width="128" height="208"/>
-        <element name="PersonnelModel" positionX="7" positionY="27" width="128" height="375"/>
+        <element name="CompanyModel" positionX="-162" positionY="117" width="128" height="255"/>
+        <element name="PersonnelModel" positionX="7" positionY="27" width="128" height="390"/>
         <element name="PositionModel" positionX="196" positionY="308" width="128" height="165"/>
     </elements>
 </model>

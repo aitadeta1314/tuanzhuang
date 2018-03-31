@@ -23,6 +23,18 @@
     return ([self isValidObject] && self.length > 0);
 }
 
+/**
+ * 删除两边的空格和回车
+ **/
+- (NSString *)removeSpaceAndNewLine{
+    
+    NSString *temp = [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    NSString *text = [temp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    return text;
+}
+
 
 + (NSString *)dicToJsonStr:(NSDictionary *)param {
     NSData *data = [NSJSONSerialization dataWithJSONObject:param options:0 error:nil];

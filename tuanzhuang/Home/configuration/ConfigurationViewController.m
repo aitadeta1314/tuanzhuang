@@ -233,7 +233,7 @@
         CGFloat y = (CGRectGetHeight(self.headerView.frame) - h) / 2;
         _nameTextField.frame = CGRectMake(x, y, w, h);
         _nameTextField.borderStyle = UITextBorderStyleNone;
-        _nameTextField.textAlignment = UITextAlignmentCenter;
+        _nameTextField.textAlignment = NSTextAlignmentCenter;
         _nameTextField.userInteractionEnabled = NO;
         _nameTextField.text = _companyName;
         _nameTextField.font = [UIFont boldSystemFontOfSize:18];
@@ -289,7 +289,7 @@
                 CGFloat minus_y = itemSub_y;
                 CGFloat minus_w = itemSub_w;
                 CGFloat minus_h = itemSub_h;
-                
+                    
                 PPNumberButton *ppView = [[PPNumberButton alloc] initWithFrame:CGRectMake(minus_x, minus_y, minus_w*3, minus_h)];
                 ppView.textField.delegate = self;
                 ppView.textField.tintColor = [UIColor orangeColor];
@@ -301,12 +301,13 @@
                 ppView.inputFieldFont = 20;
                 ppView.borderColor = [UIColor lightGrayColor];
                 ppView.minValue = 0;
+                ppView.maxValue = MAXVALUE;
                 ppView.tag = i * 3 + j + 1000;
                 ppView.currentNumber = [self.dataArr[i*3+j] integerValue];
                 [itemView addSubview:ppView];
                 weakObjc(ppView);
                 ppView.resultBlock = ^(NSInteger number, BOOL increaseStatus) {
-                    NSLog(@"number:%d",number);
+                    NSLog(@"number:%ld",number);
                     [_becomeFirstNumberField resignFirstResponder];
                     NSInteger index = weakppView.tag-1000;
                     for (int i = 0; i < 3; i ++) {
@@ -338,7 +339,7 @@
                 CGFloat itemlb_h = itemSub_h;
                 itemLb.frame = CGRectMake(itemlb_x, itemlb_y, itemlb_w, itemlb_h);
                 itemLb.text = _itemArr[i*3+j];
-                itemLb.textAlignment = UITextAlignmentCenter;
+                itemLb.textAlignment = NSTextAlignmentCenter;
                 [itemView addSubview:itemLb];
                 
             }
@@ -377,7 +378,9 @@
     if (![NSString isNumber:textField.text]) {
         textField.text = @"";
     } else {
-
+        if ([textField.text intValue] > MAXVALUE) {
+            textField.text = [NSString stringWithFormat:@"%d", MAXVALUE];
+        }
         NSInteger index = textField.tag - 100;
         // 结束编辑的时候更新self.dataArr数组 和 配置信息
         [self syncConfigurationInfoWithIndex:index andTextStr:textField.text];

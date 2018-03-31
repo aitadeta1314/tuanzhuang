@@ -8,6 +8,7 @@
 
 #import "ExplainViewController.h"
 
+#define scale (6566/2048)
 @interface ExplainViewController ()
 
 @end
@@ -18,7 +19,21 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = RGBColor(230, 230, 230);
+    
+    [self layoutScrollView];
+}
+    
+- (void)layoutScrollView {
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_W, SCREEN_H - 64)];
+    scrollView.contentSize = CGSizeMake(SCREEN_W, scale*SCREEN_W);
+    scrollView.bounces = NO;
+    scrollView.showsVerticalScrollIndicator = NO;
+    [self.view addSubview:scrollView];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, scale * SCREEN_W)];
+    [scrollView addSubview:imageView];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    imageView.image = [UIImage imageNamed:@"版本特性.png"];
 }
 
 - (void)didReceiveMemoryWarning {

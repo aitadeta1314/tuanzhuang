@@ -16,10 +16,13 @@
 //获取用户信息
 +(id)getUserInfo:(NSString*)key;
 +(void)setUserInfo:(NSString *)key value:(id)val;
++(NSString *)getMultiName;
 +(NSString *)getName;
 +(NSString *)getCname;
 +(NSString *)getUserId;
 +(NSString *)getOrgId;
++(NSString *)getToken;
++(NSString *)getShowname;
 //获取已登录用户信息
 +(NSArray *)getLoginUsers:(NSString*)cname;
 +(NSDictionary*)getLoginUser:(NSString *)cname uname:(NSString *)uname upwd:(NSString *)upwd;

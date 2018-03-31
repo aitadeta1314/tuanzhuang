@@ -93,9 +93,9 @@
 }
 
 /**
- 判断是否含有重复的数据
+ 判断是否 含有重复的数据 或者 可编辑数据中含有未完成的量体数据
 
- @return YES表示有重复数据，NO表示没有重复的数据
+ @return YES表示有重复数据 或者有未完成的量体数据，NO表示没有重复的数据
  */
 - (BOOL)judgeRepeatData {
     // 判断是否有重复的数据
@@ -104,6 +104,11 @@
         NSArray *refArray = self.fuzhiDataArr[i];
         NSArray *usArray = self.mainDataArr[i];
         ReceiveInfoModel *referToModel = refArray[0];
+        for (ReceiveInfoModel *model in usArray) {
+            if (model.dataStatus != DATAIN_STATUS_DONE) {
+                return YES;
+            }
+        }
         if (referToModel.dataEditStatus == DATA_EDIT_YES && referToModel.dataRepeatLogo == DATA_REPEAT_LOGO_repeat) {
             // 只考虑可编辑&&重复的数据，对可编辑数据进行判断是否有重复数据
             for (ReceiveInfoModel *model in usArray) {
@@ -291,7 +296,7 @@
 #pragma mark -
 
 -(void)dealloc{
-    self.multipeer.onMerge = nil;
+//    self.multipeer.onMerge = nil;
 }
 
 - (void)layoutMainTableView {
@@ -299,92 +304,6 @@
     [self.view addSubview:self.syncBottomBtn];
     
 }
-
-//- (void)addDataArray {
-//
-//    // 不可编辑数据只设置dataEditStatus = DATA_EDIT_NO  [此状态默认是可编辑的]
-//    ReceiveInfoModel *model = [[ReceiveInfoModel alloc] init];
-//    model.name = @"阿尔法";
-//    model.gender = @"男";
-//    model.department = @"后勤部";
-//    model.dataStatus = DATAIN_STATUS_DONE;
-//    model.jobnumber = @"12345";
-//    model.dataEditStatus = DATA_EDIT_NO;
-//
-//    // 数据可编辑需设置dataRepeatLogo 重复的数据设置DATA_REPEAT_LOGO_repeat 不重复数据设置DATA_REPEAT_LOGO_noDATA_REPEAT_LOGO_no
-//    ReceiveInfoModel *model1 = [[ReceiveInfoModel alloc] init];
-//    model1.name = @"阿尔法2";
-//    model1.gender = @"男";
-//    model1.department = @"后勤部";
-//    model1.dataStatus = DATAIN_STATUS_DONE;
-//    model1.jobnumber = @"12345";
-//    model1.dataRepeatLogo = DATA_REPEAT_LOGO_repeat;
-//    model1.dataEditStatus = DATA_EDIT_YES;
-//
-//    ReceiveInfoModel *model2 = [[ReceiveInfoModel alloc] init];
-//    model2.name = @"阿尔法2";
-//    model2.gender = @"男";
-//    model2.department = @"后勤部";
-//    model2.dataStatus = DATAIN_STATUS_DONE;
-//    model2.jobnumber = @"12345";
-//    model2.dataRepeatLogo = DATA_REPEAT_LOGO_repeat;
-//
-//    ReceiveInfoModel *model3 = [[ReceiveInfoModel alloc] init];
-//    model3.name = @"阿尔法2";
-//    model3.gender = @"男";
-//    model3.department = @"后勤部";
-//    model3.dataStatus = DATAIN_STATUS_DONE;
-//    model3.jobnumber = @"12345";
-//    model3.dataRepeatLogo = DATA_REPEAT_LOGO_repeat;
-//
-//    ReceiveInfoModel *model4 = [[ReceiveInfoModel alloc] init];
-//    model4.name = @"阿尔法2";
-//    model4.gender = @"男";
-//    model4.department = @"后勤部";
-//    model4.dataStatus = DATAIN_STATUS_DONE;
-//    model4.jobnumber = @"12345";
-//    model4.dataRepeatLogo = DATA_REPEAT_LOGO_repeat;
-//
-//    ReceiveInfoModel *model5 = [[ReceiveInfoModel alloc] init];
-//    model5.name = @"阿尔法2";
-//    model5.gender = @"男";
-//    model5.department = @"后勤部";
-//    model5.dataStatus = DATAIN_STATUS_DONE;
-//    model5.jobnumber = @"12345";
-//    model5.dataRepeatLogo = DATA_REPEAT_LOGO_no;
-//
-//
-//    ReceiveInfoModel *model6 = [[ReceiveInfoModel alloc] init];
-//    model6.name = @"阿尔法2";
-//    model6.gender = @"男";
-//    model6.department = @"后勤部";
-//    model6.dataStatus = DATAIN_STATUS_DONE;
-//    model6.jobnumber = @"12345";
-//    model6.dataRepeatLogo = DATA_REPEAT_LOGO_no;
-//
-//    ReceiveInfoModel *model7 = [[ReceiveInfoModel alloc] init];
-//    model7.name = @"阿尔法2";
-//    model7.gender = @"男";
-//    model7.department = @"后勤部";
-//    model7.dataStatus = DATAIN_STATUS_DONE;
-//    model7.jobnumber = @"12345";
-//    model7.dataRepeatLogo = DATA_REPEAT_LOGO_no;
-//
-//    ReceiveInfoModel *model8 = [[ReceiveInfoModel alloc] init];
-//    model8.name = @"阿尔法2";
-//    model8.gender = @"男";
-//    model8.department = @"后勤部";
-//    model8.dataStatus = DATAIN_STATUS_DONE;
-//    model8.jobnumber = @"12345";
-//    model8.dataRepeatLogo = DATA_REPEAT_LOGO_no;
-//
-//    self.mainDataArr = [NSMutableArray arrayWithArray:@[@[model1,model2,model3,model4],@[model5,model6,model7, model8],@[model,model,model,model]]];
-//
-//    self.fuzhiDataArr = [NSMutableArray arrayWithArray:@[@[[model1 mutableCopy],[model2 mutableCopy],[model3 mutableCopy],[model4 mutableCopy]],@[[model5 mutableCopy],[model6 mutableCopy],[model7 mutableCopy], [model7 mutableCopy]],@[model,model,model,model]]];
-//
-//
-//}
-
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGFloat sectionHeaderHeight = 25;
@@ -757,7 +676,7 @@
         if (model.dataRepeatLogo != DATA_REPEAT_LOGO_ignore) {
             // 忽略的不能点击
             self.indexPath = indexPath;
-            PersonnelModel *personModel = [SynchronizeData personnelModelByDic:model.data];
+            PersonnelModel *personModel = [SynchronizeData personnelModelByDic:model.data isTemp:YES];
             PersonDetailContainerViewController *personDetailVC = [[PersonDetailContainerViewController alloc] init];
             self.personelModel = personModel;
             personDetailVC.personModel = self.personelModel;
@@ -817,113 +736,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 0.01f;
 }
-
-//#pragma mark - 左滑忽略、恢复  已在 MGSwipeTableCellDelegate 代理中实现
-//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-//
-//    ReceivePersonCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-//    if (cell.model.dataEditStatus == DATA_EDIT_NO) {
-//        return NO;
-//    }
-//    else {
-//        return YES;
-//    }
-//
-//}
-
-//- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    weakObjc(self);
-//    ReceivePersonCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-//    if (cell.model.dataRepeatLogo == DATA_REPEAT_LOGO_ignore) {
-//        /// 已经被忽略的cell 需要显示恢复
-//        UITableViewRowAction *action = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"恢 复" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-//            NSInteger index = indexPath.row;
-//            NSInteger section = indexPath.section;
-//            NSArray *array = weakself.mainDataArr[section];
-//            NSArray *referToArray = weakself.fuzhiDataArr[section];
-//            ReceiveInfoModel *referToModel = referToArray[0];
-//            if (referToModel.dataRepeatLogo == DATA_REPEAT_LOGO_repeat) {
-//                // 这个分区是重复数据分区
-//                __block NSInteger tempNum = 0; // 记录在重复数据分区有几个DATA_REPEAT_LOGO_ignore值
-//                [array enumerateObjectsUsingBlock:^(ReceiveInfoModel *model, NSUInteger index, BOOL * _Nonnull stop) {
-//                    if (model.dataRepeatLogo == DATA_REPEAT_LOGO_no) {
-//                        // 如果有最后一个 停止遍历跳出循环
-//                        model.dataRepeatLogo = DATA_REPEAT_LOGO_repeat;
-//                        [model.data setValue:@2 forKey:@"repeatlogo"];
-//                        // *stop = YES;
-//                    }
-//                    if (model.dataRepeatLogo == DATA_REPEAT_LOGO_ignore) {
-//                        tempNum ++;
-//                    }
-//                }];
-//
-//                ReceiveInfoModel *model = array[index];
-//                if (tempNum == array.count) {
-//                    // 如果全部忽略，则恢复的这个显示DATA_REPEAT_LOGO_no
-//                    model.dataRepeatLogo = DATA_REPEAT_LOGO_no;
-//                    [model.data setValue:@0 forKey:@"repeatlogo"];
-//                } else {
-//
-//                    model.dataRepeatLogo = DATA_REPEAT_LOGO_repeat;
-//                    [model.data setValue:@2 forKey:@"repeatlogo"];
-//                }
-//
-//            }
-//            else {
-//                // 这个分区不是重复数据分区 DATA_REPEAT_LOGO_no
-//
-//                ReceiveInfoModel *model = array[index];
-//                model.dataRepeatLogo = DATA_REPEAT_LOGO_no;
-//                [model.data setValue:@0 forKey:@"repeatlogo"];
-//            }
-//
-//
-//            [weakself.mainTableView reloadData];
-//
-//            [self registerAndSendNoti];
-//        }];
-//        action.backgroundColor = skyColor;
-//        return @[action];
-//    }
-//    else {
-//        /// 没有忽略的cell 需要显示忽略
-//        UITableViewRowAction *action = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"忽 略" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-//
-//            NSInteger index = indexPath.row;
-//            NSArray *array = weakself.mainDataArr[indexPath.section];
-//            ReceiveInfoModel *model = array[index];
-//            model.dataRepeatLogo = DATA_REPEAT_LOGO_ignore;
-//            [model.data setValue:@1 forKey:@"repeatlogo"];
-//
-//            __block NSInteger tempNum = 0;  // 记录有几个重复数据（不包括忽略的）
-//            [array enumerateObjectsUsingBlock:^(ReceiveInfoModel *model, NSUInteger index, BOOL * _Nonnull stop) {
-//                if (model.dataRepeatLogo == DATA_REPEAT_LOGO_repeat) {
-//                    tempNum ++;
-//                }
-//                if (tempNum > 2) { // 不需要遍历其他的
-//                    *stop = YES;
-//                }
-//            }];
-//            if (tempNum < 2) {
-//                // 只有一个重复的数据 ==  没有重复的数据
-//                [array enumerateObjectsUsingBlock:^(ReceiveInfoModel *model, NSUInteger index, BOOL * _Nonnull stop) {
-//                    if (model.dataRepeatLogo != DATA_REPEAT_LOGO_ignore) {
-//                        model.dataRepeatLogo = DATA_REPEAT_LOGO_no;
-//                        [model.data setValue:@0 forKey:@"repeatlogo"];
-//                        *stop = YES;
-//                    }
-//                }];
-//            }
-//
-//            [weakself.mainTableView reloadData];
-//
-//            [self registerAndSendNoti];
-//
-//        }];
-//        return @[action];
-//    }
-//
-//}
 
 /**
  注册并发送通知

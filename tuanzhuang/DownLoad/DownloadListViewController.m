@@ -10,9 +10,11 @@
 #import "companyCell.h"
 #import "companyModel.h"
 #import "GetLetter.h"
+#import "DownloadManager.h"
 
-static const CGFloat cellheight = 84;
-static const CGFloat downloadviewheight = 60;
+static const CGFloat cellHeight = 84;
+static const CGFloat downloadViewHeight = 60;
+static const int pageSize = 15;
 
 @interface DownloadListViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,ZZNumberFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIView *topView;
@@ -33,6 +35,14 @@ static const CGFloat downloadviewheight = 60;
 @property (nonatomic, strong) NSTimer * timer;/**<计时器*/
 @property (nonatomic, assign) int times;/**<计时*/
 
+@property (nonatomic, assign) NSInteger currentPage;/**<当前页码*/
+@property (nonatomic, assign) BOOL hasmore;/**<是否还有下一页*/
+
+@property (nonatomic, strong) NSMutableArray * managersArray;/**<"下载数据"解析器数组*/
+@property (nonatomic, strong) DownloadManager * downloadManager;/**<解析下载数据*/
+
+@property (nonatomic, strong) NSURLSessionDataTask * searchTask;/**<搜索/获取列表网络请求任务*/
+@property (nonatomic, strong) NSURLSessionDataTask * downloadTask;/**<下载网络请求任务*/
 @end
 
 @implementation DownloadListViewController
@@ -45,8 +55,7 @@ static const CGFloat downloadviewheight = 60;
     [self addBackButton];
     [self addRightButtonWithTitle:@"多选"];
     self.selectedNum = 0;
-    [self madeData];
-    
+    self.currentPage = 1;
     weakObjc(self);
     /*顶部搜索框相关布局--外部view*/
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -91,11 +100,11 @@ static const CGFloat downloadviewheight = 60;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    _header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(searchCompany)];
+    _header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(dropDownAction)];
     self.tableView.mj_header = _header;
     _header.lastUpdatedTimeLabel.hidden = YES;
     
-    _footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(searchCompany)];
+    _footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(pullUpAction)];
     self.tableView.mj_footer = _footer;
     [_footer setTitle:@"没有可加载的数据" forState:MJRefreshStateNoMoreData];
     
@@ -113,7 +122,7 @@ static const CGFloat downloadviewheight = 60;
         make.left.mas_equalTo(weakself.view);
         make.top.mas_equalTo(weakself.tableView.mas_bottom);
         make.right.mas_equalTo(weakself.view);
-        make.height.mas_equalTo(downloadviewheight);
+        make.height.mas_equalTo(downloadViewHeight);
     }];
     self.downloadBtn.backgroundColor = RGBColor(204, 204, 204);
     self.downloadBtn.enabled = NO;
@@ -122,6 +131,7 @@ static const CGFloat downloadviewheight = 60;
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self searchCompany];
     [companyCell downloadWithBlock:^(NSInteger index) {
         companyModel * model = [self.dataArray objectAtIndex:index];
         model.status = 1;
@@ -129,40 +139,20 @@ static const CGFloat downloadviewheight = 60;
     }];
 }
 
-#pragma mark - 测试数据
--(void)madeData
+
+-(void)viewWillDisappear:(BOOL)animated
 {
-    for (int i=0; i<15; i++) {
-        companyModel * model = [[companyModel alloc] init];
-        model.companyname = [self randomCompanyName];
-        model.uploaddate = @"2017-07-09";
-        model.downloadtimes = @"3";
-        [self.dataArray addObject:model];
+    [super viewWillDisappear:animated];
+    if (_searchTask) {
+        [_searchTask cancel];
+    }
+    if (_downloadTask) {
+        [_searchTask cancel];
+    }
+    if (_downloadManager) {
+        [_downloadManager stop];
     }
 }
-
--(NSString *)randomPersonName
-{
-    NSArray * names = @[@"王小红",@"李小明",@"孙小刚",@"狗蛋儿",@"李二妮",@"王大花",@"李二狗",@"郭大牛",@"赵二狗",@"王二麻子",@"高大头",@"葛二蛋",@"旺财",@"来福",@"小强",@"二饼",@"虎子",@"张三",@"李四",@"李刚",@"钱二虎",@"赵大脑袋",@"欧阳蛋蛋",@"小石头",@"陈铁蛋"];
-    return names[arc4random()%25];
-}
-
--(NSString *)randomCompanyName
-{
-    NSArray * names = @[@"百度",@"阿里巴巴",@"腾讯",@"中国建设银行",@"中国交通银行",@"中国农业银行",@"中国招商银行",@"中国工商银行",@"中国邮政",@"酷特云蓝"];
-    return [NSString stringWithFormat:@"%@%d",names[arc4random()%10],arc4random()%100];
-}
-
--(NSString *)randomId
-{
-    NSString * string = [[NSString alloc] init];
-    NSArray * ids = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
-    for (int i = 0; i < 6; i++) {
-        string = [string stringByAppendingString:ids[arc4random()%10]];
-    }
-    return string;
-}
-
 #pragma mark - 初始化数据
 -(NSMutableArray *)dataArray
 {
@@ -170,6 +160,14 @@ static const CGFloat downloadviewheight = 60;
         _dataArray = [[NSMutableArray alloc] init];
     }
     return _dataArray;
+}
+
+-(NSMutableArray *)managersArray
+{
+    if (_managersArray == nil) {
+        _managersArray = [[NSMutableArray alloc] init];
+    }
+    return _managersArray;
 }
 
 #pragma mark - UI布局
@@ -236,7 +234,7 @@ static const CGFloat downloadviewheight = 60;
     if (self.toSelect) {
         [self changeRightButtonTile:@"完成"];
         [self changeLeftButtonTile:@"全选"];
-        tableview_h = self.tableView.frame.size.height-downloadviewheight;
+        tableview_h = self.tableView.frame.size.height-downloadViewHeight;
     } else {
         [self changeRightButtonTile:@"多选"];
         [self removeLeftBtn];
@@ -250,7 +248,7 @@ static const CGFloat downloadviewheight = 60;
         }
         self.downloadBtn.enabled = NO;
         self.downloadBtn.backgroundColor = RGBColor(204, 204, 204);
-        tableview_h = self.tableView.frame.size.height+downloadviewheight;
+        tableview_h = self.tableView.frame.size.height+downloadViewHeight;
     }
     [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(tableview_h);
@@ -259,12 +257,95 @@ static const CGFloat downloadviewheight = 60;
 }
 
 #pragma mark - 网络请求
+#pragma mark -- “搜索/获取任务列表”网络请求
 -(void)searchCompany
 {
-    [self.tableView.mj_header endRefreshing];
-    [self.tableView.mj_footer endRefreshing];
-    _footer.state = MJRefreshStateNoMoreData;
-    [self.tableView reloadData];
+    [self showLoading];
+    NSString * url = [NSString stringWithFormat:@"%@/bmission/page?",HTTP_HEADER];
+    if (_searchTextfield.text.length > 0) {
+        url = [NSString stringWithFormat:@"%@name=%@&",url,_searchTextfield.text];
+    }
+    url = [NSString stringWithFormat:@"%@orderBy=1&pageSize=%d&currentPage=%ld",url,pageSize,self.currentPage];
+    url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    self.searchTask = [NetworkOperation getWithUrl:url andToken:[UserManager getToken] andSuccess:^(id rootobject) {
+        [self hideLoading];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+        if (self.currentPage == 1) {
+            [self.dataArray removeAllObjects];
+        }
+        NSArray * records = [rootobject valueForKey:@"records"];
+        self.hasmore = [[rootobject valueForKey:@"currentPage"] intValue] < [[rootobject valueForKey:@"totalPages"] intValue];
+        for (NSDictionary * dic in records) {
+            companyModel * model = [[companyModel alloc] init];
+            model.companyname = [dic valueForKey:@"name"];
+            model.updatetime = [dic valueForKey:@"modifiedTime"];
+            model.companyid = [dic valueForKey:@"businessId"];
+            model.downloadtimes = [[dic valueForKey:@"times"] intValue];
+            model.yiliang = [[dic valueForKey:@"isUpload"] boolValue];
+            [self.dataArray addObject:model];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (self.hasmore) {
+                [self.footer setState:MJRefreshStateIdle];
+            } else {
+                [self.footer setState:MJRefreshStateNoMoreData];
+            }
+            [self.tableView reloadData];
+        });
+    } andFailure:^(NSError *error, NSString *errorMessage) {
+        [self hideLoading];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+        [self showHUDMessage:errorMessage];
+    }];
+}
+
+#pragma mark -- "数据下载"网络请求
+-(void)downloadDatas
+{
+    [self showLoading];
+    NSString * missionids = [self needDownloadDatasId];
+    NSString * url = [NSString stringWithFormat:@"%@file/data/%@",HTTP_HEADER,missionids];
+    self.downloadTask = [NetworkOperation getWithUrl:url andToken:[UserManager getToken] andSuccess:^(id rootobject) {
+        
+        NSArray * missionArray = (NSArray *)rootobject;
+        _downloadManager = [[DownloadManager alloc] init];
+        [_downloadManager handleDownloadDatas:missionArray andCover:NO andFailureMissions:^(NSArray *failureArray) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self hideLoading];
+                [self finishDownload:failureArray];
+                [self.tableView reloadData];
+            });
+            
+        }];
+    } andFailure:^(NSError *error, NSString *errorMessage) {
+        [self hideLoading];
+        [self finishDownload:nil];
+        [self.tableView reloadData];
+        NSString * message = @"网络异常！";
+        if (errorMessage.length == 0) {
+            message = @"网络异常！";
+        } else {
+            message = errorMessage;
+        }
+        [self showHUDMessage:message];
+    }];
+}
+
+#pragma mark - 上下拉方法
+#pragma mark -- 上拉加载
+-(void)pullUpAction
+{
+    self.currentPage ++;
+    [self searchCompany];
+}
+
+#pragma mark -- 下拉刷新
+-(void)dropDownAction
+{
+    self.currentPage = 1;
+    [self searchCompany];
 }
 
 #pragma mark - 按钮、手势方法
@@ -288,25 +369,31 @@ static const CGFloat downloadviewheight = 60;
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return cellheight;
+    return cellHeight;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (_toSelect) {
-        companyModel * model = [self.dataArray objectAtIndex:indexPath.row];
-        if (model.status >= 2) {
-            return;
+    companyModel * model = [self.dataArray objectAtIndex:indexPath.row];
+    if (model.status == 4) {
+//        model.status = 1;
+//        [self downloadnotice];
+    } else {
+        if (_toSelect) {
+            if (model.status == 3) {
+                return;
+            }
+            model.selected = !model.selected;
+            if (model.selected) {
+                model.status = 1;
+            } else {
+                model.status = 0;
+            }
+            [self checkSelect];
+            [self.tableView reloadData];
         }
-        model.selected = !model.selected;
-        if (model.selected) {
-            model.status = 1;
-        } else {
-            model.status = 0;
-        }
-        [self checkSelect];
-        [self.tableView reloadData];
     }
+    
 }
 
 #pragma mark - tableviewDatasource
@@ -343,7 +430,7 @@ static const CGFloat downloadviewheight = 60;
 }
 
 #pragma mark - 私有方法
-//检查是否已经全部选中
+#pragma mark -- 检查是否已经全部选中
 -(void)checkSelect
 {
     NSInteger n = 0;
@@ -369,26 +456,50 @@ static const CGFloat downloadviewheight = 60;
     
 }
 
-//下载提示
+#pragma mark -- 下载提示
 -(void)downloadnotice
 {
-    UIAlertController * alert = [UIAlertController alertControllerWithTitle:nil message:@"您确定要下载选中的数据？" preferredStyle:UIAlertControllerStyleAlert];
+    BOOL reload = [self missionExist];
+    NSString * title = reload ? @"下载失败" : @"下载";
+    NSString * message = reload ? @"请删除本地文档后再继续下载" : @"您确定要下载选择的数据？";
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         [self cancleDownload];
     }];
     UIAlertAction * sureAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self prepareDownload];
-        [self.tableView reloadData];
-        [self downloadData];
-        [self startTimer];
+        if (reload) {
+            [self cancleDownload];
+        } else {
+            [self downloadDatas];
+            [self prepareDownload];
+            [self.tableView reloadData];
+        }
     }];
     [sureAction setValue:[UIColor redColor] forKey:@"titleTextColor"];
-    [alert addAction:cancleAction];
+    if (!reload) {
+        [alert addAction:cancleAction];
+    }
     [alert addAction:sureAction];
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-//准备下载
+#pragma mark -- 判断要下载的任务本地是否已存在:如果本地存在(但不在回收站内)返回yes，否则返回no
+-(BOOL)missionExist
+{
+    for (companyModel * model in self.dataArray) {
+        if (model.status == 1) {
+            CompanyModel * originalCompany = [CompanyModel MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"companyid = %@ AND del != YES", model.companyid]];
+            if (originalCompany) {
+                return YES;
+            }
+        }
+        
+    }
+    
+    return NO;
+}
+
+#pragma mark -- 准备下载
 -(void)prepareDownload
 {
     for (int i = 0; i<self.dataArray.count; i++) {
@@ -399,68 +510,52 @@ static const CGFloat downloadviewheight = 60;
     }
 }
 
-//取消准备
+#pragma mark -- 获取需要下载的任务id
+-(NSString *)needDownloadDatasId
+{
+    NSString * ids = @"";
+    for (companyModel * model in self.dataArray) {
+        if (model.status == 1) {
+            ids = [NSString stringWithFormat:@"%@,%@",model.companyid,ids];
+        }
+    }
+    if (ids.length > 1) {
+        ids = [ids substringWithRange:NSMakeRange(0, ids.length-1)];
+    }
+    return ids;
+}
+
+#pragma mark -- 取消准备
 -(void)cancleDownload
 {
     for (int i = 0; i<self.dataArray.count; i++) {
         companyModel * model = [self.dataArray objectAtIndex:i];
-        model.status = 0;
-    }
-}
-
-//标记已下载
--(void)finishDownload
-{
-    for (int i = 0; i<self.dataArray.count; i++) {
-        companyModel * model = [self.dataArray objectAtIndex:i];
-        if (model.status == 2) {
-            model.status = 3;
+        if (model.status < 3) {
+            model.status = 0;
         }
     }
 }
 
--(void)downloadData
+#pragma mark -- 下载结束：failureArray
+-(void)finishDownload:(NSArray *)failureArray
 {
-    CompanyModel * company = [CompanyModel MR_createEntity];
-//    company.companyid = [self randomId];
-    company.companyid = @"123";
-    company.companyname = [self randomCompanyName];
-    company.addtime = [NSDate date];
-    company.lock_status = false;
-    company.configuration = @"1-T,2-CD";
-    
-    for (int i = 0; i < 18; i++) {
-        PersonnelModel *personnel = [PersonnelModel MR_createEntity];
-        personnel.company = company;
-        personnel.name = [self randomPersonName];
-        personnel.department = @"后勤";
-        personnel.companyid = company.companyid;
-//        if (i%2 == 0) {
-//            personnel.personnelid = [self randomId];
-//        }
-        personnel.firstletter = [GetLetter firstLetterOfString:personnel.name];
-        personnel.edittime = [NSDate date];
-        personnel.gender = i%2;
-        personnel.lid = [UserManager getName];
-        personnel.lname = [UserManager getName];
-        personnel.status = i%3;
-    }
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-}
-
-- (void)startTimer
-{
-    _times = 0;
-    _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timefun) userInfo:nil repeats:YES];
-}
-
--(void)timefun{
-    if (_times == 5) {
-        [_timer invalidate];
-        [self finishDownload];
-        [self.tableView reloadData];
-    } else {
-        _times ++;
+    for (int i = 0; i<self.dataArray.count; i++) {
+        companyModel * model = [self.dataArray objectAtIndex:i];
+        if (model.status == 2) {
+            if (!failureArray) {
+                model.status = 4;
+            } else if (failureArray.count > 0) {
+                for (NSString * missionid in failureArray) {
+                    if ([missionid isEqualToString:model.companyid]) {
+                        model.status = 4;
+                    } else {
+                        model.status = 3;
+                    }
+                }
+            } else {
+                model.status = 3;
+            }
+        }
     }
 }
 

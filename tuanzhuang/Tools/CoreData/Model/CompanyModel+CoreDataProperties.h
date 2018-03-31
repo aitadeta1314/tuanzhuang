@@ -2,7 +2,7 @@
 //  CompanyModel+CoreDataProperties.h
 //  tuanzhuang
 //
-//  Created by red on 2018/3/12.
+//  Created by Fenly on 2018/3/27.
 //  Copyright © 2018年 red. All rights reserved.
 //
 //
@@ -20,12 +20,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *companyid;
 @property (nullable, nonatomic, copy) NSString *companyname;
 @property (nullable, nonatomic, copy) NSString *configuration;
+@property (nonatomic) BOOL del;
 @property (nonatomic) BOOL lock_status;
+@property (nullable, nonatomic, copy) NSString *missionname;
+@property (nonatomic) int16_t rev;
 @property (nonatomic) int16_t tb_frequency;
 @property (nullable, nonatomic, copy) NSDate *tb_lasttime;
 @property (nonatomic) int16_t upload_frequency;
 @property (nullable, nonatomic, copy) NSDate *upload_lasttime;
-@property (nonatomic) int16_t rev;
+@property (nullable, nonatomic, copy) NSDate *delTime;
 @property (nullable, nonatomic, retain) NSSet<PersonnelModel *> *personnel;
 
 @end

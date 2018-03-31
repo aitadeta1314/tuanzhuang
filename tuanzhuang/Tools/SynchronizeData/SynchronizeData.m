@@ -13,13 +13,9 @@
 
 #pragma mark - 多点连接
 +(void)multiCreateFile:(CompanyModel *)companymodel{
-    NSURL* url = [SynchronizeData fileUrlWithCompany:companymodel];
-    // 
-    [UserManager setUserInfo:@"syncPlistUrl" value:[url relativePath]];
+    NSString * servicetype = [NSString stringWithFormat:@"RCserviceType%@%@",[UserManager getCname],companymodel.companyid];
+    [UserManager setUserInfo:@"multiType" value:[SynchronizeData MD5ForUpper15Bate:servicetype]];
     [UserManager setUserInfo:@"companyId" value:companymodel.companyid];
-    //
-    //NSString * servicetype = [NSString stringWithFormat:@"RCserviceType%@%@",[UserManager getCname],companymodel.companyid];
-    [UserManager setUserInfo:@"multiType" value:[SynchronizeData MD5ForUpper15Bate:@"randomType"]];
 }
 
 +(void)multiUpdateModel{
@@ -30,7 +26,7 @@
         return;
     }
     [[NSManagedObjectContext MR_defaultContext] MR_saveWithBlock:^(NSManagedObjectContext* localContext) {
-        NSPredicate* sql = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"companyid == '%@' ",companyId]];
+        NSPredicate* sql = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"companyid == '%@' AND del == NO",companyId]];
         CompanyModel* one = [CompanyModel MR_findFirstWithPredicate:sql inContext:localContext];
         one.tb_lasttime = [NSDate date];
         one.tb_frequency = one.tb_frequency + 1;
@@ -56,10 +52,11 @@
     }
 }
 
-+(NSURL *)fileUrlWithCompany:(CompanyModel *)companymodel
++(NSURL *)fileUrlWithCompany:(NSString *)companyid
 {
+    CompanyModel * companymodel = [CompanyModel MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"del == NO AND companyid = %@",companyid]];
     //从数据库获取当前公司的所有人员数据
-    NSPredicate *peopleFilter = [NSPredicate predicateWithFormat:@"status = 2 AND companyid = %@", companymodel.companyid];
+    NSPredicate *peopleFilter = [NSPredicate predicateWithFormat:@"status = 2 AND company = %@", companymodel];
     NSFetchRequest *peopleRequest = [PersonnelModel MR_requestAllWithPredicate:peopleFilter];
     [peopleRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"firstletter"ascending:YES]]];
     NSArray * modelArray = [PersonnelModel MR_executeFetchRequest:peopleRequest];
@@ -72,8 +69,32 @@
         [sourceArray addObject:personnelDic];
     }
     [sourceDic setValue:sourceArray forKey:@"source"];
+    [sourceDic setValue:companymodel.companyid forKey:@"companyid"];
     [sourceDic setValue:[NSNumber numberWithInteger:companymodel.rev] forKey:@"rev"];
     return [SynchronizeData createSyncFile:sourceDic];
+}
+
+
++(NSDictionary *)synchronizeDataWithCompanyid:(NSString *)companyid
+{
+    CompanyModel * companymodel = [CompanyModel MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"del == NO AND companyid = %@",companyid]];
+    //从数据库获取当前公司的所有人员数据
+    NSPredicate *peopleFilter = [NSPredicate predicateWithFormat:@"status = 2 AND company = %@", companymodel];
+    NSFetchRequest *peopleRequest = [PersonnelModel MR_requestAllWithPredicate:peopleFilter];
+    [peopleRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"firstletter"ascending:YES]]];
+    NSArray * modelArray = [PersonnelModel MR_executeFetchRequest:peopleRequest];
+    NSMutableDictionary * sourceDic = [[NSMutableDictionary alloc] init];
+    NSMutableArray * sourceArray = [[NSMutableArray alloc] init];
+    for (PersonnelModel * pmodel in modelArray) {
+        //人员基本数据
+        NSDictionary * personnelDic = [[NSDictionary alloc] init];
+        personnelDic = [self personnelDicByModel:pmodel];
+        [sourceArray addObject:personnelDic];
+    }
+    [sourceDic setValue:sourceArray forKey:@"source"];
+    [sourceDic setValue:companymodel.companyid forKey:@"companyid"];
+    [sourceDic setValue:[NSNumber numberWithInteger:companymodel.rev] forKey:@"rev"];
+    return sourceDic;
 }
 
 #pragma mark - 删除plist文件
@@ -101,14 +122,25 @@
     NSArray * sourceArray = [masterDic valueForKey:@"source"];
     NSDictionary * tmpdic = [sourceArray firstObject];
     NSString * companyid = [tmpdic valueForKey:@"companyid"];
-    [PersonnelModel MR_deleteAllMatchingPredicate:[NSPredicate predicateWithFormat:@"status = 2 AND companyid = %@", companyid]];
+    CompanyModel * companymodel = [CompanyModel MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"companyid = %@ AND del = NO",companyid]];
+    companymodel.rev = [[masterDic valueForKey:@"rev"] integerValue];
+    //先将本地原有的已完成数据删除
+    for (PersonnelModel * personnelmodel in [PersonnelModel MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"company == %@ AND status == 2",companymodel]]) {
+        [personnelmodel MR_deleteEntity];
+    }
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     for (NSDictionary * dic in sourceArray) {
-        [self personnelModelByDic:dic];
+        //再将本地与同步相重复的数据删除
+        PersonnelModel * orgpersonnelmodel1 = [PersonnelModel MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"company = %@ AND name = %@ AND gender = %@ AND department = %@", companymodel,[dic valueForKey:@"name"],[dic valueForKey:@"gender"],[dic valueForKey:@"department"]]];
+        if (orgpersonnelmodel1) {
+            [orgpersonnelmodel1 MR_deleteEntity];
+        }
     }
-    CompanyModel * company = [CompanyModel MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"companyid = %@",companyid]];
-    company.rev = [[masterDic valueForKey:@"rev"] integerValue];
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    for (NSDictionary * dic in sourceArray) {
+        [self personnelModelByDic:dic isTemp:NO];
+    }
+    
 }
 
 #pragma mark - 生成同步servicetype字符串
@@ -187,7 +219,11 @@
         }
         
         if (q-k == 1) {//没有与当前元素重复的，此元素存入不重复数组当中
-            [nonrepeatArray addObject:dic_k];
+            if ([[dic_k valueForKey:@"personnelid"] length] > 0) {
+                [originalArray addObject:dic_k];
+            } else {
+                [nonrepeatArray addObject:dic_k];
+            }
         } else {
             //将本次遍历后重复的数据归为一组，并存入重复的数据数组当中，存入之前要去重（对除了姓名、性别、部门相等外，量体人、编辑时间也相等的数据进行排重）
             NSArray * subArray = [self handleSubArray:[sourceArray subarrayWithRange:NSMakeRange(k, q-k)]];
@@ -226,11 +262,16 @@
     
     NSMutableArray * tmparray = [NSMutableArray arrayWithArray:subarray];
     NSMutableArray * array = [[NSMutableArray alloc] init];
+
     if (personnelid.length > 0) {
         NSMutableDictionary * dic_0 = tmparray[0];
         for (int i = 1; i<tmparray.count; i++) {
             NSMutableDictionary * dic_i = tmparray[i];
-            if ([[dic_i valueForKey:@"edittime"] compare:[dic_0 valueForKey:@"edittime"]] == NSOrderedDescending) {
+            NSDate *editTime = [processingTime dateWithDateString:[dic_i valueForKey:@"edittime"] andFormatString:@"yyyy-MM-dd HH:mm:ss"];
+            
+            NSDate *editTime_0 = [processingTime dateWithDateString:[dic_0 valueForKey:@"edittime"] andFormatString:@"yyyy-MM-dd HH:mm:ss"];
+            
+            if ([editTime compare:editTime_0] == NSOrderedDescending) {
                 dic_0 = dic_i;
             }
         }
@@ -241,7 +282,11 @@
             NSMutableDictionary * dic_0 = tmparray[0];
             for (int i = 1; i < tmparray.count; i++) {
                 NSMutableDictionary * dic_i = tmparray[i];
-                if ([[dic_i valueForKey:@"lid"] isEqualToString:[dic_0 valueForKey:@"lid"]] && [[dic_i valueForKey:@"edittime"] compare:[dic_0 valueForKey:@"edittime"]] == NSOrderedSame) {
+                
+                NSDate *editTime = [processingTime dateWithDateString:[dic_i valueForKey:@"edittime"] andFormatString:@"yyyy-MM-dd HH:mm:ss"];
+                NSDate *editTime_0 = [processingTime dateWithDateString:[dic_0 valueForKey:@"edittime"] andFormatString:@"yyyy-MM-dd HH:mm:ss"];
+                
+                if ([[dic_i valueForKey:@"lid"] isEqualToString:[dic_0 valueForKey:@"lid"]] && [editTime compare:editTime_0] == NSOrderedSame) {
                     [tmparray removeObjectAtIndex:i];
                     i--;
                     continue;
@@ -306,24 +351,18 @@
 }
 
 
-#pragma mark - 人员信息字典转model
-+(PersonnelModel *)personnelModelByDic:(NSDictionary *)dic
+#pragma mark - 人员信息字典转model、同时替换原有数据
++(PersonnelModel *)personnelModelByDic:(NSDictionary *)dic isTemp:(BOOL)istemp
 {
-    /* 暂时注释掉，便于测试
-    NSManagedObjectContext * context = [NSManagedObjectContext MR_context];
-    CompanyModel * company = [CompanyModel MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"companyid = %@", [dic valueForKey:@"companyid"]]];
-    */
-    
-    CompanyModel * company = [CompanyModel MR_findFirst];//测试用
-    
-    
+    CompanyModel * company = [CompanyModel MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"companyid = %@ AND del == NO", [dic valueForKey:@"companyid"]]];
     PersonnelModel * personnelmodel = [PersonnelModel MR_createEntity];
     personnelmodel.company = company;
+    if (istemp) {
+        personnelmodel.istemp = YES;
+    }
     [personnelmodel MR_importValuesForKeysWithObject:dic];
-    
-    
     //成衣品类
-    NSArray * finishcateArray = [[dic valueForKey:@"finishcate"] valueForKey:@"cate"];
+    NSArray * finishcateArray = [[dic valueForKey:@"finishcate"] valueForKey:@"cates"];
     for (NSDictionary * catedic in finishcateArray) {
         CategoryModel * catemodel = [CategoryModel MR_createEntity];
         catemodel.personnel = personnelmodel;
@@ -338,17 +377,30 @@
     }
     
     //净体品类
-    NSArray * netcateArray = [[dic valueForKey:@"netcate"] valueForKey:@"cate"];
+    NSArray * netcateArray = [[dic valueForKey:@"netcate"] valueForKey:@"cates"];
     for (NSDictionary * catedic in netcateArray) {
         CategoryModel * catemodel = [CategoryModel MR_createEntity];
         catemodel.personnel = personnelmodel;
-        [catemodel MR_importValuesForKeysWithObject:catedic];
+        catemodel.cate = [catedic valueForKey:@"cate"];
+        catemodel.count = [[catedic valueForKey:@"count"] integerValue];
+        catemodel.personnelid = [catedic valueForKey:@"personnelid"];
+        catemodel.summerCount = [[catedic valueForKey:@"summerCount"] integerValue];
+        catemodel.winterCount = [[catedic valueForKey:@"winterCount"] integerValue];
+        catemodel.type = [[catedic valueForKey:@"type"] integerValue];
         //净体附加信息
         NSArray * additionArray = [catedic valueForKey:@"addition"];
         for (NSDictionary * additiondic in additionArray) {
             AdditionModel * additionmodel = [AdditionModel MR_createEntity];
-            [additionmodel MR_importValuesForKeysWithObject:additiondic];
             additionmodel.category = catemodel;
+            additionmodel.increase = [[additiondic valueForKey:@"increase"] integerValue];
+            additionmodel.season = [[additiondic valueForKey:@"season"] integerValue];
+            additionmodel.value_clothes = [[additiondic valueForKey:@"value_clothes"] integerValue];
+            additionmodel.value_pants = [[additiondic valueForKey:@"value_pants"] integerValue];
+            additionmodel.value_pleat = [[additiondic valueForKey:@"value_pleat"] integerValue];
+            additionmodel.value_shoulder = [[additiondic valueForKey:@"value_shoulder"] integerValue];
+            additionmodel.value_skirt = [[additiondic valueForKey:@"value_skirt"] integerValue];
+            additionmodel.value_sleeve = [[additiondic valueForKey:@"value_sleeve"] integerValue];
+            additionmodel.value_waist = [[additiondic valueForKey:@"value_waist"] integerValue];
         }
     }
     //净体部位
@@ -358,7 +410,7 @@
         [positionmodel MR_importValuesForKeysWithObject:positiondic];
         positionmodel.personnel = personnelmodel;
     }
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    //[[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     return personnelmodel;
 }
 
@@ -370,7 +422,7 @@
     //净体品类数据
     NSMutableDictionary * netcateDic = [[NSMutableDictionary alloc] init];
     NSMutableArray * netcateSourceArray = [[NSMutableArray alloc] init];
-    for (CategoryModel * cmodel in [CategoryModel MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"type = 0 AND personnelid = %@",pmodel.personnelid]]) {
+    for (CategoryModel * cmodel in [CategoryModel MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"type = 0 AND personnel = %@",pmodel]]) {
         NSMutableDictionary * cateDic = [[NSMutableDictionary alloc] init];
         cateDic = [self dicByModel:cmodel];
         NSMutableArray * additionArray = [[NSMutableArray alloc] init];
@@ -395,9 +447,10 @@
     [netcateDic setValue:positionArray forKey:@"positions"];
     [personnelDic setValue:netcateDic forKey:@"netcate"];
     
+    //成衣品类数据
     NSMutableDictionary * finishcateDic = [[NSMutableDictionary alloc] init];
     NSMutableArray * finishcateSourceArray = [[NSMutableArray alloc] init];
-    for (CategoryModel * cmodel in [CategoryModel MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"type = 1 AND personnelid = %@",pmodel.personnelid]]) {
+    for (CategoryModel * cmodel in [CategoryModel MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"type = 1 AND personnel = %@",pmodel]]) {
         NSMutableDictionary * cateDic = [[NSMutableDictionary alloc] init];
         cateDic = [self dicByModel:cmodel];
         NSMutableArray * positionArray = [[NSMutableArray alloc] init];
@@ -418,7 +471,6 @@
 +(NSMutableDictionary *)dicByModel:(NSManagedObject *)object
 {
     NSArray * allkeys = [[[object entity] attributesByName] allKeys];
-//    NSMutableDictionary * dic = [[NSMutableDictionary alloc] initWithDictionary:[object dictionaryWithValuesForKeys:allkeys]];
     NSMutableDictionary * dic = [[NSMutableDictionary alloc] init];
     for (NSString * key in allkeys) {
         [dic setValue:[object valueForKey:key] forKey:key];

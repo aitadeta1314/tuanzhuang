@@ -11,13 +11,16 @@
 @interface CategoryAddRangeModel : NSObject
 
 @property(nonatomic,strong) NSString *cate;
-@property(nonatomic,strong) NSString *rangeStr;
+@property(nonatomic,strong) NSString *manRange;
+@property(nonatomic,strong) NSString *womenRange;
 @property(nonatomic,assign) NSInteger manValue;
 @property(nonatomic,assign) NSInteger womenValue;
 @property(nonatomic,strong) NSString *type; //无褶、单褶、双褶
 
 @property(nonatomic,strong,readonly) NSArray  *cateArray;
-@property(nonatomic,strong,readonly) NSArray  *rangeArray;
+
+@property(nonatomic,strong,readonly) NSArray *manRangeArray;
+@property(nonatomic,strong,readonly) NSArray *womenRangeArray;
 
 +(NSArray<CategoryAddRangeModel *> *)getCategoryAddRangeArray;
 

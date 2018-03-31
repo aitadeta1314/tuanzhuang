@@ -17,10 +17,10 @@
 }
 
 - (void)cellWithData:(HomeModel *)model searchKeyWords:(NSString *)keywords {
-    _companyNameLb.text = model.companyModel.companyname;
+    _companyNameLb.text = model.companyModel.missionname;
     if (keywords.length>0) {
-        NSMutableAttributedString * attributeString = [[NSMutableAttributedString alloc] initWithString:model.companyModel.companyname];
-        [attributeString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:[model.companyModel.companyname rangeOfString:keywords]];
+        NSMutableAttributedString * attributeString = [[NSMutableAttributedString alloc] initWithString:model.companyModel.missionname];
+        [attributeString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:[model.companyModel.missionname rangeOfString:keywords]];
         [self.companyNameLb setAttributedText:attributeString];
     }
     _totalNumLb.text = model.numberOfPerson;

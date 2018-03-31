@@ -30,6 +30,9 @@ typedef NS_ENUM(NSUInteger, PERSON_DETAIL_STATE) {
 @property(nonatomic,strong) CompanyModel *companyModel;
 @property(nonatomic,strong) PersonnelModel *personModel;
 
+//创建副本
+@property(nonatomic,strong) PersonnelModel *personModel_copy;
+
 @property(nonatomic,assign) int state;
 
 @end

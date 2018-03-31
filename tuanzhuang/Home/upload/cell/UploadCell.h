@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ZZCircleProgress.h"
+#import "UploadModel.h"
 
 @interface UploadCell : UITableViewCell
 
@@ -20,6 +21,6 @@
 @property (strong, nonatomic) UIView *lineView;
 @property (strong, nonatomic) ZZCircleProgress *progressView;
 
--(void)loadData:(CGFloat)i;
+-(void)fillWithModel:(UploadModel *)model;
 
 @end

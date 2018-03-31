@@ -2,7 +2,7 @@
 //  PersonnelModel+CoreDataProperties.m
 //  tuanzhuang
 //
-//  Created by zhang gaotang on 2018/3/9.
+//  Created by zhang gaotang on 2018/3/20.
 //  Copyright © 2018年 red. All rights reserved.
 //
 //
@@ -22,7 +22,9 @@
 @dynamic firstletter;
 @dynamic gender;
 @dynamic height;
+@dynamic history;
 @dynamic ignored;
+@dynamic istemp;
 @dynamic lid;
 @dynamic lname;
 @dynamic mtm;
@@ -33,7 +35,6 @@
 @dynamic specialoptions;
 @dynamic status;
 @dynamic weight;
-@dynamic history;
 @dynamic category;
 @dynamic company;
 @dynamic position;

@@ -68,12 +68,12 @@
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-    self.multipeer.message.subCode_0 = nil;
+//    self.multipeer.message.subCode_0 = nil;
 }
 
 -(void)dealloc{
-    self.multipeer.onRefresh = nil;
-    self.multipeer.onReceive = nil;
+//    self.multipeer.onRefresh = nil;
+//    self.multipeer.onReceive = nil;
 }
 
 #pragma mark - 懒加载
@@ -104,16 +104,20 @@
                 [_multipeer collectCodeValidAction:_synDevice collectCode:code result:^(NSMutableDictionary *dic) {
                     if(timer.isValid){// 超时返回
                         [timer invalidate];
-                        [weakself hideLoading];
                     }else{
                         return;
                     }
                     if([dic[@"msg"] isEqual:@1]){
+                        NSURL* url = [SynchronizeData fileUrlWithCompany:[UserManager getUserInfo:@"companyId"]];
+                        [UserManager setUserInfo:@"syncPlistUrl" value:[url relativePath]];
+                        [weakself hideLoading];
+                        //
                         StartSyncViewController *vc = [[StartSyncViewController alloc] init];
                         vc.device = _synDevice;
                         vc.multipeer = _multipeer;
                         [weakself presentViewController:vc animated:NO completion:^{}];
                     }else{
+                        [weakself hideLoading];
                         UIAlertController* tip = [UIAlertController alertControllerWithTitle:@"" message:@"同步码错误！" preferredStyle:UIAlertControllerStyleAlert];
                         [tip addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {}]];
                         [weakself presentViewController:tip animated:YES completion:nil];
@@ -141,7 +145,7 @@
     UINavigationController* nav = (UINavigationController*)self.presentingViewController;
     HomeViewController* vc = nav.viewControllers[0];
     [self dismissViewControllerAnimated:NO completion:^{
-        [vc.collectionView reloadData];
+        [vc viewWillAppear:YES];
     }];
 }
 

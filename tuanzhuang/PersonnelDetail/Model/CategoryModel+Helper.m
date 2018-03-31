@@ -161,10 +161,12 @@ static NSDictionary *_titleDic;
             NSArray *winterArray = [self.winterAdditionArray subarrayWithRange:NSMakeRange(0, winterCount)];
             
             for (AdditionModel *model in summerArray) {
+                [self removeAdditionObject:model];
                 [model MR_deleteEntity];
             }
             
             for (AdditionModel *model in winterArray) {
+                [self removeAdditionObject:model];
                 [model MR_deleteEntity];
             }
         }
@@ -185,6 +187,15 @@ static NSDictionary *_titleDic;
     
     //发送修改通知
     [[NSNotificationCenter defaultCenter] postNotificationName:KEY_NOTIFICATION_CENTER_PERSON_SIZE_OPERATION object:nil userInfo:userInfo];
+}
+
+#pragma mark - Class Methods
+
+/**
+ * 根据品类编码获取品类名称
+ */
++(NSString *)getNameByCode:(NSString *)code{
+    return [_titleDic objectForKey:code];
 }
 
 @end

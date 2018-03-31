@@ -72,9 +72,7 @@ static NSString * const KEY_ANIMATION_SHOW_HIDDEN = @"key_animation_show_hidden"
 }
 
 -(void)dealloc{
-    if (self.isOpen) {
-        showMenuCount--;
-    }
+    showMenuCount = 0;
 }
 
 

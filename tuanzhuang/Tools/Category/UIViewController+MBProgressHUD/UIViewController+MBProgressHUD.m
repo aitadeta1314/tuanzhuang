@@ -117,10 +117,10 @@ MBProgressHUD *HUD;
 // 确认框
 -(void) confirmDialog:(NSString*)title content:(NSString*)msg result:(void(^)(NSInteger i,id obj))result{
     UIAlertController* vc = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
-    [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+    [vc addAction:[UIAlertAction actionWithTitle:@"否" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         result(0,@"取消");
     }]];
-    [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+    [vc addAction:[UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         result(1,@"确定");
     }]];
     [self presentViewController:vc animated:YES completion:^{}];

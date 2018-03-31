@@ -7,11 +7,12 @@
 //
 
 #import "BodySizeAddtionalViewController.h"
-#import "BodySizeAddtionalTableViewCell.h"
 #import "NSManagedObject+Coping.h"
 #import "PersonnelModel+Helper.h"
 #import "CategoryModel+Helper.h"
 #import "AdditionModel+Helper.h"
+
+#import "AdditionalTableViewCell.h"
 
 @interface BodySizeAddtionalViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -36,6 +37,12 @@
     
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    
+    [self reloadData];
+}
+
 -(void)layoutTableView{
     self.tableView = [[UITableView alloc] init];
     self.tableView.delegate = self;
@@ -47,15 +54,13 @@
         make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
     
-    UINib *cellNib = [UINib nibWithNibName:NSStringFromClass([BodySizeAddtionalTableViewCell class]) bundle:nil];
+    UINib *cellNib = [UINib nibWithNibName:NSStringFromClass([AdditionalTableViewCell class]) bundle:nil];
     
-    [self.tableView registerNib:cellNib forCellReuseIdentifier:NSStringFromClass([BodySizeAddtionalTableViewCell class])];
+    [self.tableView registerNib:cellNib forCellReuseIdentifier:NSStringFromClass([AdditionalTableViewCell class])];
     
     self.tableView.tableFooterView = [[UIView alloc] init];
     
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 46, 0, 46);
-    
-    [self reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -94,14 +99,14 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    BodySizeAddtionalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([BodySizeAddtionalTableViewCell class])];
     
+    AdditionalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([AdditionalTableViewCell class])];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     AdditionModel *addtion = [self.addtionArray objectAtIndex:indexPath.row];
     
-    NSString *title = self.titleArray[indexPath.row];
-    [cell setTitle:title andAddtionModel:addtion];
+    //配置数据
+    [self configAddition:addtion toCell:cell atIndexPath:indexPath];
     
     __weak typeof(self) weakSelf = self;
     
@@ -116,13 +121,19 @@
     return cell;
 }
 
+-(void)configAddition:(AdditionModel *)addition toCell:(AdditionalTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath{
+    
+    NSString *title = self.titleArray[indexPath.row];
+    [cell setTitle:title andAddtionModel:addition];
+}
+
 #pragma mark - UITableView Delegate Methods
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     AdditionModel *addtion = self.addtionArray[indexPath.row];
     
-    return [BodySizeAddtionalTableViewCell getCellHeightByAddition:addtion];
+    return [AdditionalTableViewCell getCellHeightByAddition:addtion];
 }
 
 #pragma mark - ScrollView Delegate Methods
@@ -131,7 +142,7 @@
     NSSet *tempSet = [self.showPickerViews copy];
     
     for (NSNumber *itemNum in tempSet) {
-        BodySizeAddtionalTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[itemNum integerValue] inSection:0]];
+        AdditionalTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[itemNum integerValue] inSection:0]];
         [cell hiddenPickerView];
     }
 }
@@ -157,11 +168,13 @@
         NSInteger index = [self.addtionArray indexOfObject:model];
         NSIndexPath *_indexPath = [NSIndexPath indexPathForRow:index inSection:0];
         [indexPathArray addObject:_indexPath];
+        
+        AdditionalTableViewCell *cell = [self.tableView cellForRowAtIndexPath:_indexPath];
+        
+        [self configAddition:model toCell:cell atIndexPath:_indexPath];
     }
     
-    [self.tableView reloadRowsAtIndexPaths:indexPathArray withRowAnimation:UITableViewRowAnimationNone];
-    
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    //[[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 }
 
 @end

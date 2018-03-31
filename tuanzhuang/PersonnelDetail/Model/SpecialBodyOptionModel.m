@@ -8,6 +8,9 @@
 
 #import "SpecialBodyOptionModel.h"
 
+static NSString * const KEY_SPECIAL_BODY = @"special_body";
+static NSString * const KEY_SPECIAL_BODY_MTM = @"special_body_mtm";
+
 @implementation SpecialBodyOptionModel
 
 +(void)load{
@@ -18,34 +21,50 @@
     }];
 }
 
-+(NSArray *)getSpecialBodyOptions{
++(NSArray *)getSpecialBodyOptions:(BOOL)mtm{
     
     NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:BASIC_DATA_PLIST_FILE_PATH];
     
-    NSArray *modelArray = [SpecialBodyOptionModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:@"special_body"]];
+    NSArray *modelArray;
+    
+    if (mtm) {
+        modelArray = [SpecialBodyOptionModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:KEY_SPECIAL_BODY_MTM]];
+    }else{
+        modelArray = [SpecialBodyOptionModel mj_objectArrayWithKeyValuesArray:[dictionary objectForKey:KEY_SPECIAL_BODY]];
+    }
     
     return modelArray;
 }
 
-+(NSArray *)getSpecialBodyOptions:(BOOL)hasBody andHasClothes:(BOOL)hasClothes{
++(NSArray *)getSpecialBodyOptions:(BOOL)hasBody andHasClothes:(BOOL)hasClothes isMTMData:(BOOL)mtm{
     
-    NSArray *specialOptions = [self getSpecialBodyOptions];
+    NSArray *tempArray = [self getSpecialBodyOptions:mtm];
     
-    NSMutableArray *typeArray = [NSMutableArray arrayWithObjects:@(0), nil];
+    NSMutableArray *types = [NSMutableArray arrayWithObjects:@(SPECIAL_BODY_TYPE_ALL), nil];
     
     if (hasBody) {
-        [typeArray addObject:@(1)];
+        [types addObject:@(SPECIAL_BODY_TYPE_BODY)];
     }
-    
+
     if (hasClothes) {
-        [typeArray addObject:@(2)];
+        [types addObject:@(SPECIAL_BODY_TYPE_CLOTHES)];
     }
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type IN %@",typeArray];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type IN %@",types];
     
-    specialOptions = [specialOptions filteredArrayUsingPredicate:predicate];
+    tempArray = [tempArray filteredArrayUsingPredicate:predicate];
     
-    return  specialOptions;
+    
+    //筛选所有的子选项
+    for (SpecialBodyOptionModel *model in tempArray) {
+        
+        NSArray *options = [model.options filteredArrayUsingPredicate:predicate];
+        
+        model.options = options;
+    }
+    
+    
+    return  tempArray;
 }
 
 @end

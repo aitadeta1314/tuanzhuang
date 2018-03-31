@@ -30,6 +30,8 @@ static const NSTimeInterval DELAY_HIDDEN_PICKERVIEW = 1.0f;
     
 }
 
+@property (weak, nonatomic) IBOutlet UIStackView *stackView;
+
 @property(nonatomic,assign) IBOutlet UILabel *titleLabel;        //品类名
 
 //袖长输入框
@@ -92,20 +94,16 @@ static const NSTimeInterval DELAY_HIDDEN_PICKERVIEW = 1.0f;
     _valueTextFiled.delegate = self;
     
     //setup pickerView
+    weakObjc(self);
     [self.pickerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(_valueTextFiled);
-        make.width.equalTo(_valueTextFiled.mas_width);
+        make.width.equalTo(weakself.contentView.mas_width);
         make.height.mas_equalTo(HEIGHT_PICKERVIEW);
     }];
     self.pickerView.hidden = YES;
     
     //PPNumberButton Delegate
-    [self configPPNumberButton:self.sleevesInputButton];
-    [self configPPNumberButton:self.clotheLongInputButton];
-    [self configPPNumberButton:self.shoulderInputButton];
-    [self configPPNumberButton:self.waistInputButton];
-    [self configPPNumberButton:self.pantsLongInputButton];
-    [self configPPNumberButton:self.skirtLongInputButton];
+    [self setupAllPPNumberButton];
     
     self.pleatButton.layer.cornerRadius = 5.0;
     self.pleatButton.layer.masksToBounds = YES;
@@ -117,32 +115,13 @@ static const NSTimeInterval DELAY_HIDDEN_PICKERVIEW = 1.0f;
     self.winterButton.layer.masksToBounds = YES;
 }
 
-/**
- * 配置PPNumber按钮
- */
--(void)configPPNumberButton:(PPNumberButton *)button{
-    button.delegate = self;
-    button.minValue = 0;
-    button.maxValue = NSIntegerMax;
-    button.displayZeroNumber = NO;
-    button.currentNumber = 0;
-}
-
 #pragma mark - Public Methods
 -(void)setTitle:(NSString *)title andValue:(NSInteger)value andValueRange:(NSArray<NSNumber *> *)rangeArray{
     
     self.titleLabel.text = title;
     self.valueTextFiled.text = [NSString stringWithFormat:@"%ld",value];
     self.rangeArray = rangeArray;
-    
-    if ([self.rangeArray count] == 0) {
-        self.pleatButton.backgroundColor = SEASON_BUTTON_BACKGROUND_COLOR;
-        self.pleatButton.enabled = NO;
-    }else{
-        self.pleatButton.backgroundColor = BUTTON_BACKGROUND_COLOR;
-        self.pleatButton.enabled = YES;
-    }
-    
+
     [self.pickerView reloadAllComponents];
 }
 
@@ -152,24 +131,77 @@ static const NSTimeInterval DELAY_HIDDEN_PICKERVIEW = 1.0f;
 -(void)setTitle:(NSString *)title andAddtionModel:(AdditionModel *)addtion{
     self.addtionModel = addtion;
     
-    self.pleatType = addtion.value_pleat;
-    
-    self.seasonType = addtion.season;
-    
-    self.sleevesInputButton.currentNumber = addtion.value_sleeve;
-    self.clotheLongInputButton.currentNumber = addtion.value_clothes;
-    self.shoulderInputButton.currentNumber = addtion.value_shoulder;
-    self.waistInputButton.currentNumber = addtion.value_waist;
-    self.pantsLongInputButton.currentNumber = addtion.value_pants;
-    self.skirtLongInputButton.currentNumber = addtion.value_skirt;
-    
+    //获取加放量范围
     CategoryAddRangeModel *rangeModel = [CategoryAddRangeModel rangeModelByCategory:addtion.category.cate withPleatType:addtion.value_pleat];
     
-    [self setTitle:title andValue:addtion.increase andValueRange:rangeModel.rangeArray];
+    NSArray *rangeArray;
+    
+    if (addtion.category && addtion.category.personnel && addtion.category.personnel.gender) {
+        rangeArray = rangeModel.manRangeArray;
+    }else{
+        rangeArray = rangeModel.womenRangeArray;
+    }
+    
+    //没有加放量范围设置状态
+    if ([rangeArray count] == 0) {
+        [self configAllPPNumberButtonEnable:NO];
+
+        //季节按钮无效
+        self.seasonType = SEASON_TYPE_NONE;
+        self.winterButton.enabled = NO;
+        self.summerButton.enabled = NO;
+    }else{
+        [self configAllPPNumberButtonEnable:YES];
+
+        self.seasonType = addtion.season;
+        self.winterButton.enabled = YES;
+        self.summerButton.enabled = YES;
+    }
+
+    //根据性别，配置褶皱enable
+    if (0 == self.addtionModel.category.personnel.gender) {
+        [self configEnablePleatButton:NO];
+    }else{
+        [self configEnablePleatButton:YES];
+    }
+    
+    self.pleatType = addtion.value_pleat;
+    
+    [self configNumberButtonDataByAddition:addtion];
+    
+    [self setTitle:title andValue:addtion.increase andValueRange:rangeArray];
     
     [self layoutCustomSubviewsByAddtional:addtion];
     
     [self setupSleevePromptLabelByCategoryCode:addtion.category.cate];
+}
+
+/**
+ * 根据数据模型赋值界面上的数值
+ */
+-(void)configNumberButtonDataByAddition:(AdditionModel *)addition{
+    
+    self.sleevesInputButton.currentNumber = addition.value_sleeve;
+    self.clotheLongInputButton.currentNumber = addition.value_clothes;
+    self.shoulderInputButton.currentNumber = addition.value_shoulder;
+    self.waistInputButton.currentNumber = addition.value_waist;
+    self.pantsLongInputButton.currentNumber = addition.value_pants;
+    self.skirtLongInputButton.currentNumber = addition.value_skirt;
+    
+}
+
+/**
+ * 根据界面上的数值赋值数据模型
+ **/
+-(void)configAdditionFromNumberButtonData:(AdditionModel *)addition{
+    
+    [addition setValue:@(self.clotheLongInputButton.currentNumber) forKey:@"value_clothes"];
+    [addition setValue:@(self.pantsLongInputButton.currentNumber) forKey:@"value_pants"];
+    [addition setValue:@(self.shoulderInputButton.currentNumber) forKey:@"value_shoulder"];
+    [addition setValue:@(self.skirtLongInputButton.currentNumber) forKey:@"value_skirt"];
+    [addition setValue:@(self.sleevesInputButton.currentNumber) forKey:@"value_sleeve"];
+    [addition setValue:@(self.waistInputButton.currentNumber) forKey:@"value_waist"];
+    
 }
 
 #pragma mark - Public Class Methods
@@ -435,13 +467,16 @@ static const NSTimeInterval DELAY_HIDDEN_PICKERVIEW = 1.0f;
     }else{
         self.addtionModel.increase = self.value;
         self.addtionModel.season = self.seasonType;
-        self.addtionModel.value_clothes = self.clotheLongInputButton.currentNumber;
-        self.addtionModel.value_pants = self.pantsLongInputButton.currentNumber;
-        self.addtionModel.value_pleat = self.pleatType;
-        self.addtionModel.value_shoulder = self.shoulderInputButton.currentNumber;
-        self.addtionModel.value_skirt = self.skirtLongInputButton.currentNumber;
-        self.addtionModel.value_sleeve = self.sleevesInputButton.currentNumber;
-        self.addtionModel.value_waist = self.waistInputButton.currentNumber;
+        
+        
+        [self configAdditionFromNumberButtonData:self.addtionModel];
+        [self configNumberButtonDataByAddition:self.addtionModel];
+        
+        //更改褶皱，修改加放量默认值
+        if (self.addtionModel.value_pleat != self.pleatType) {
+            self.addtionModel.value_pleat = self.pleatType;
+            [self.addtionModel resetIncreaseByPleatOption];
+        }
         
         //同步其他的加放量数据
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"season == %d",self.addtionModel.season];
@@ -450,9 +485,8 @@ static const NSTimeInterval DELAY_HIDDEN_PICKERVIEW = 1.0f;
         for (AdditionModel *model in additionSet) {
             if (model != self.addtionModel) {
                 [model copyAttributesFrom:self.addtionModel];
-                
-                [changedAdditions addObject:model];
             }
+            [changedAdditions addObject:model];
         }
     }
     
@@ -460,6 +494,7 @@ static const NSTimeInterval DELAY_HIDDEN_PICKERVIEW = 1.0f;
         self.changedBlock(changedAdditions);
     }
 }
+
 
 /**
  * 根据附加值，布局视图
@@ -547,6 +582,79 @@ static const NSTimeInterval DELAY_HIDDEN_PICKERVIEW = 1.0f;
         
     }
     
+}
+
+-(void)configEnablePleatButton:(BOOL)enable{
+    if (enable) {
+        self.pleatButton.backgroundColor = BUTTON_BACKGROUND_COLOR;
+        self.pleatButton.enabled = YES;
+    }else{
+        self.pleatButton.backgroundColor = SEASON_BUTTON_BACKGROUND_COLOR;
+        self.pleatButton.enabled = NO;
+    }
+}
+
+#pragma mark - Config PPNumber Button
+
+/**
+ * 初始配置所有的PPNumberButton
+ */
+-(void)setupAllPPNumberButton{
+    for (UIView *contentView in self.stackView.arrangedSubviews) {
+        
+        for (UIView *subView in contentView.subviews) {
+            if ([subView isKindOfClass:[PPNumberButton class]]) {
+                PPNumberButton *button = (PPNumberButton *)subView;
+                
+                [self setupPPNumberButton:button];
+                break;
+            }
+        }
+    }
+    
+}
+
+/**
+ * 配置所有的PPNumberButton
+ **/
+-(void)configAllPPNumberButtonEnable:(BOOL)enable{
+    
+    for (UIView *contentView in self.stackView.arrangedSubviews) {
+        
+        for (UIView *subView in contentView.subviews) {
+            if ([subView isKindOfClass:[PPNumberButton class]]) {
+                PPNumberButton *button = (PPNumberButton *)subView;
+                
+                [self enablePPNumberButton:button enable:enable];
+                break;
+            }
+        }
+    }
+}
+
+/**
+ * 配置PPNumber按钮
+ */
+-(void)setupPPNumberButton:(PPNumberButton *)button{
+    button.delegate = self;
+    button.minValue = 0;
+    button.maxValue = NSIntegerMax;
+    button.displayZeroNumber = NO;
+    button.currentNumber = 0;
+}
+
+/**
+ * 按钮有效配置
+ **/
+-(void)enablePPNumberButton:(PPNumberButton *)button enable:(BOOL)enable{
+    
+    if (enable) {
+        button.maxValue = NSIntegerMax;
+        button.editing = YES;
+    }else{
+        button.maxValue = 0;
+        button.editing = NO;
+    }
 }
 
 #pragma mark - Season Button Selected Action

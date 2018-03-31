@@ -8,6 +8,11 @@
 
 #import "PositionSizeRangeModel.h"
 
+static NSString * const KEY_BODY_SIZE = @"body";
+static NSString * const KEY_BODY_SIZE_MTM = @"body_mtm";
+static NSString * const KEY_CLOTHES_SIZE = @"clothes";
+static NSString * const KEY_CLOTHES_SIZE_MTM = @"clothes_mtm";
+
 @implementation PositionSizeRangeModel
 
 
@@ -50,6 +55,19 @@
     return number;
 }
 
+/**
+ * 根据性别获取最大值与最小值
+ **/
+-(void)getRangeMin:(NSInteger *)min andRangeMax:(NSInteger *)max byIsMan:(BOOL)isMan{
+    if (isMan) {
+        *min = self.manMin;
+        *max = self.manMax;
+    }else{
+        *min = self.womanMin;
+        *max = self.womanMax;
+    }
+}
+
 #pragma mark - Public Methods
 /**
  * 针对净体测量品类，是否为必填项
@@ -76,11 +94,17 @@
 /**
  * 获取所有净体尺寸范围
  **/
-+(NSArray<PositionSizeRangeModel *> *)getBodyPositionSizeRangeArray{
++(NSArray<PositionSizeRangeModel *> *)getBodyPositionSizeRangeArrayMTM:(BOOL)mtm{
     
     NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:BASIC_DATA_PLIST_FILE_PATH];
     
-    NSArray *sizeRangeArray = [dictionary objectForKey:@"netbody"];
+    NSArray *sizeRangeArray;
+    
+    if (mtm) {
+        sizeRangeArray = [dictionary objectForKey:KEY_BODY_SIZE_MTM];
+    }else{
+        sizeRangeArray = [dictionary objectForKey:KEY_BODY_SIZE];
+    }
     
     NSArray *modelArray = [PositionSizeRangeModel mj_objectArrayWithKeyValuesArray:sizeRangeArray];
     
@@ -90,11 +114,17 @@
 /**
  * 获取指定的成衣品类的尺寸范围
  ***/
-+(NSArray<PositionSizeRangeModel *> *)getClothesPositionSizeRangeArray:(NSString *)catecode{
++(NSArray<PositionSizeRangeModel *> *)getClothesPositionSizeRangeArray:(NSString *)catecode andMTM:(BOOL)mtm{
     
     NSArray *modelArray;
     
-    NSDictionary *dictionary = [[NSDictionary dictionaryWithContentsOfFile:BASIC_DATA_PLIST_FILE_PATH] objectForKey:@"clothes"];
+    NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:BASIC_DATA_PLIST_FILE_PATH];
+    
+    if (mtm) {
+        dictionary = [dictionary objectForKey:KEY_CLOTHES_SIZE_MTM];
+    }else{
+        dictionary = [dictionary objectForKey:KEY_CLOTHES_SIZE];
+    }
     
     BOOL isExist = [dictionary.allKeys containsObject:[catecode uppercaseString]];
     
@@ -107,7 +137,7 @@
     return modelArray;
 }
 
-+(NSArray<PositionSizeRangeModel *> *)getClothesPositionSizeRangeArray:(NSString *)catecode bySex:(BOOL)isMan{
++(NSArray<PositionSizeRangeModel *> *)getClothesPositionSizeRangeArray:(NSString *)catecode bySex:(BOOL)isMan andMTM:(BOOL)mtm{
     
     NSString *predicateFromatStr;
     if (isMan) {
@@ -118,18 +148,52 @@
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFromatStr];
     
-    NSArray *array = [[self getClothesPositionSizeRangeArray:catecode] filteredArrayUsingPredicate:predicate];
+    NSArray *array = [[self getClothesPositionSizeRangeArray:catecode andMTM:mtm] filteredArrayUsingPredicate:predicate];
     
     return array;
 }
 
 
++(NSArray<PositionSizeRangeModel *> *)getBodyPositionSizeRangeArrayBySex:(BOOL)isMan andMTM:(BOOL)mtm{
+    
+    NSString *predicateFromatStr;
+    if (isMan) {
+        predicateFromatStr  = [NSString stringWithFormat:@"man CONTAINS '-'"];
+    }else{
+        predicateFromatStr = [NSString stringWithFormat:@"woman CONTAINS '-'"];
+    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFromatStr];
+    
+    NSArray *array = [[self getBodyPositionSizeRangeArrayMTM:mtm] filteredArrayUsingPredicate:predicate];
+    
+    return array;
+}
+
+/**
+ * 获取指定部位的尺寸范围
+ **/
++(PositionSizeRangeModel *)getBodyPositionSizeRangeByName:(NSString *)positionName andSex:(BOOL)isMan andMTM:(BOOL)mtm{
+    
+    NSArray *rangeArray  = [self getBodyPositionSizeRangeArrayBySex:isMan andMTM:mtm];
+    
+    PositionSizeRangeModel *positionRangeModel;
+    
+    for (PositionSizeRangeModel *rangeModel in rangeArray) {
+        if ([rangeModel.position isEqualToString:positionName]) {
+            positionRangeModel = rangeModel;
+            break;
+        }
+    }
+    
+    return positionRangeModel;
+}
+
 /**
  * 根据部位的名称获取部位的尺寸范围
  **/
-+(PositionSizeRangeModel *)getBodyPositionSizeRangeByPositionName:(NSString *)positionName{
++(PositionSizeRangeModel *)getBodyPositionSizeRangeByPositionName:(NSString *)positionName andMTM:(BOOL)mtm{
     
-    NSArray *array = [self getBodyPositionSizeRangeArray];
+    NSArray *array = [self getBodyPositionSizeRangeArrayMTM:mtm];
     
     PositionSizeRangeModel *rangeModel;
     
@@ -144,19 +208,32 @@
     
 }
 
-+(NSArray<PositionSizeRangeModel *> *)getBodyPositionSizeRangeArrayBySex:(BOOL)isMan{
+/**
+ * 根据BLCode获取成衣品类的尺寸范围
+ **/
++(PositionSizeRangeModel *)getClothesPositionSizeRange:(NSString *)catecode byBLCode:(NSString *)blcode andMTM:(BOOL)mtm{
     
-    NSString *predicateFromatStr;
-    if (isMan) {
-        predicateFromatStr  = [NSString stringWithFormat:@"man CONTAINS '-'"];
+    NSArray *rangeArray = [self getClothesPositionSizeRangeArray:catecode andMTM:mtm];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"blcode == %@ || wblcode == %@",blcode,blcode];
+    
+    rangeArray = [rangeArray filteredArrayUsingPredicate:predicate];
+    
+    PositionSizeRangeModel *sizeRangeModel;
+    
+    if ([rangeArray count] > 0) {
+        sizeRangeModel = (PositionSizeRangeModel *)[rangeArray objectAtIndex:0];
     }else{
-        predicateFromatStr = [NSString stringWithFormat:@"woman CONTAINS '-'"];
+        rangeArray = [self getClothesPositionSizeRangeArray:catecode andMTM:!mtm];
+        rangeArray = [rangeArray filteredArrayUsingPredicate:predicate];
+        
+        if ([rangeArray count] > 0) {
+            sizeRangeModel = (PositionSizeRangeModel *)[rangeArray objectAtIndex:0];
+        }
     }
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFromatStr];
     
-    NSArray *array = [[self getBodyPositionSizeRangeArray] filteredArrayUsingPredicate:predicate];
+    return sizeRangeModel;
     
-    return array;
 }
 
 @end

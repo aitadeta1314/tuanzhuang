@@ -43,7 +43,9 @@ static const NSInteger MaxColumn_ClothesSize    = 4;
 #define Color_Activity_Button                   RGBColorAlpha(0, 176, 224, 0.8)
 #define Color_No_Activity_Button                RGBColorAlpha(204, 204, 204, 0.8)
 
-@interface PersonSignedViewController ()
+@interface PersonSignedViewController (){
+    CGFloat _height;
+}
 
 @property(nonatomic,strong) UIView      *contentView;
 @property(nonatomic,strong) UITextView  *textView;
@@ -147,6 +149,10 @@ static const NSInteger MaxColumn_ClothesSize    = 4;
     [attributedString appendAttributedString:[self generateAddtion]];
     
     [attributedString appendAttributedString:[self generateClothesSize]];
+    
+    CGFloat width = self.textView.bounds.size.width;
+    
+    _height = [attributedString boundingRectWithSize:CGSizeMake(width, 0) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil].size.height;
     
     self.textView.attributedText = attributedString;
 }
@@ -439,6 +445,7 @@ static const NSInteger MaxColumn_ClothesSize    = 4;
  */
 -(void)reSignAction{
     
+    self.personModel.sign = nil;
     [self.drawView clearImage];
     [self setStatus:SIGN_STATUS_WAITING];
 }
@@ -460,7 +467,7 @@ static const NSInteger MaxColumn_ClothesSize    = 4;
     
     self.personModel.sign = UIImagePNGRepresentation(self.signImage);
     
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    //[[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     
     [self hideLoading];
     
@@ -480,8 +487,9 @@ static const NSInteger MaxColumn_ClothesSize    = 4;
     CGSize size_old = self.contentView.bounds.size;
     CGSize newSize = size_old;
     
-    if (self.textView.contentSize.height > self.view.bounds.size.height) {
+    if (_height > self.view.bounds.size.height) {
         newSize = self.textView.contentSize;
+        newSize.height = _height;
     }
     
     self.view.bounds = CGRectMake(0, 0, newSize.width, newSize.height + TOPNAVIGATIONBAR_H);
@@ -493,7 +501,7 @@ static const NSInteger MaxColumn_ClothesSize    = 4;
     signImage = UIGraphicsGetImageFromCurrentImageContext();
 
     UIGraphicsEndImageContext();
-    
+
     self.view.bounds = frame_old;
     
     return signImage;
@@ -553,7 +561,7 @@ static const NSInteger MaxColumn_ClothesSize    = 4;
     
     NSMutableAttributedString *formatterString = [[NSMutableAttributedString alloc] init];
     
-    NSArray *sizeRangeArray = [PositionSizeRangeModel getBodyPositionSizeRangeArray];
+    NSArray *sizeRangeArray = [PositionSizeRangeModel getBodyPositionSizeRangeArrayBySex:self.personModel.gender andMTM:self.personModel.mtm];
     NSArray *bodyCategoryArray = [self.personModel getCategorySizeType:CategorySizeType_Body];
     
     for (int i=0; i<[sizeRangeArray count]; i++) {
@@ -671,7 +679,7 @@ static const NSInteger MaxColumn_ClothesSize    = 4;
             titleArray[column] = @"衬衫";
         }
         
-        NSArray *rangeArray = [PositionSizeRangeModel getClothesPositionSizeRangeArray:category.cate];
+        NSArray *rangeArray = [PositionSizeRangeModel getClothesPositionSizeRangeArray:category.cate bySex:self.personModel.gender andMTM:self.personModel.mtm];
         
         for (int row = 0; row<[rangeArray count]; row++) {
             

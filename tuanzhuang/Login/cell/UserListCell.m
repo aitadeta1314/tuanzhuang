@@ -53,14 +53,14 @@
 -(UIButton *)delIcon{
     if(!_delIcon){
         UIButton* _delIcon = [[UIButton alloc] init];
-        [_delIcon setImage:[UIImage imageNamed:@"delete_icon"] forState:UIControlStateNormal];
+        [_delIcon setImage:[UIImage imageNamed:@"delete_icon1"] forState:UIControlStateNormal];
         [self addSubview:_delIcon];
         [_delIcon setUserInteractionEnabled:YES];
         [_delIcon addTarget:self action:@selector(delAction) forControlEvents:UIControlEventTouchDown];
         [_delIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.height.mas_equalTo(30);
+            make.width.height.mas_equalTo(20);
             make.right.equalTo(self.mas_right).offset(-20);
-            make.top.equalTo(self).offset(5);
+            make.top.equalTo(self).offset(10);
         }];
     }
     return _delIcon;

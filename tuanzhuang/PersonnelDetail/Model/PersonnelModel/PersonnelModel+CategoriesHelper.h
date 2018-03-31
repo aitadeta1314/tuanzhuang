@@ -16,6 +16,11 @@ typedef NS_ENUM(NSUInteger, CategorySizeType) {
 @interface PersonnelModel (CategoriesHelper)
 
 /**
+ * 是否可配置该品类
+ **/
+-(BOOL)canConfigCategory:(NSString *)categoryCode;
+
+/**
  * 获取指定量体方式的品类
  */
 -(NSArray *)getCategorySizeType:(CategorySizeType)type;

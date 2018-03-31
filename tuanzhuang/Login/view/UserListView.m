@@ -53,7 +53,7 @@
     // 2 点击没有颜色改变
     cell.selected = NO;
     //
-    [self tapRowAction:_list[indexPath.row]];
+    [_dataSource selectUser:_list[indexPath.row]];
 }
 
 #pragma mark - 懒加载
@@ -76,12 +76,6 @@
 -(void)loadData:(NSArray *)arr{
     self.list = arr;
     [_listView reloadData];
-}
-
--(void)tapRowAction:(NSDictionary*)one{
-    NSString* name = [one objectForKey:@"uname"];
-    _dataSource.selectUser = one;
-    _dataSource.userNameText.text = name;
 }
 
 @end

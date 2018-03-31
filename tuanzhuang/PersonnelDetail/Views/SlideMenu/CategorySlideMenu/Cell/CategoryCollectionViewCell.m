@@ -66,6 +66,7 @@
         _numberButton.increaseTitle = @"+";
         _numberButton.decreaseTitle = @"-";
         _numberButton.minValue = 0;
+        _numberButton.maxValue = 30;
         _numberButton.delegate = self;
         _numberButton.longPressSpaceTime = CGFLOAT_MAX;
     }

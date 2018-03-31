@@ -10,6 +10,7 @@
 #import "PersonnelModel+CategoriesHelper.h"
 #import "PersonnelModel+SyncData.h"
 #import "PersonnelModel+Description.h"
+#import "PersonnelModel+Additional.h"
 
 
 FOUNDATION_EXPORT NSString * const ERROR_DESCRIPTION_KEY;
@@ -39,6 +40,11 @@ FOUNDATION_EXPORT NSString * const KEY_ENTITY_USERINFO_NOTIFICATION;
  **/
 -(void)setPersonSatus_Progressing;
 
+/*
+ * 从“已完成”状态恢复到“进行中”状态
+ **/
+-(void)resumePersonSatus_Progressing;
+
 /**
  * 设置修改时间为当前时间
  */
@@ -61,9 +67,15 @@ FOUNDATION_EXPORT NSString * const KEY_ENTITY_USERINFO_NOTIFICATION;
 -(BOOL)validatePerson:(NSError **)error;
 
 /**
+ * 验证量体人员是否进行品类的配置
+ **/
+-(BOOL)validatePersonCategoryConfig:(NSError **)error;
+
+/**
  * 验证净体数据
  **/
 -(BOOL)validateBodySizeData:(NSError **)error;
+
 
 /**
  * 验证成衣数据

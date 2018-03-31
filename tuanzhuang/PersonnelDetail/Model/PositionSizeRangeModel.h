@@ -28,36 +28,49 @@
  */
 -(BOOL)isRequiredForBodySizeCategorys:(NSArray <CategoryModel *> *)categorys;
 
-
 /**
- * 根据部位的名称获取部位的尺寸范围
+ * 根据性别获取最大值与最小值
  **/
-+(PositionSizeRangeModel *)getBodyPositionSizeRangeByPositionName:(NSString *)positionName;
-
+-(void)getRangeMin:(NSInteger *)min andRangeMax:(NSInteger *)max byIsMan:(BOOL)isMan;
 
 #pragma mark - 获取净体尺寸
+
 /**
  * 获取所有净体尺寸范围
  **/
-+(NSArray<PositionSizeRangeModel *> *)getBodyPositionSizeRangeArray;
++(NSArray<PositionSizeRangeModel *> *)getBodyPositionSizeRangeArrayMTM:(BOOL)mtm;
 
 /**
- * 根据性别获取净体尺寸范围
+ * 获取净体尺寸范围
+ * @param isMan 男(YES) 女(NO)
+ * @param mtm 是否使用mtm数据
  **/
-+(NSArray<PositionSizeRangeModel *> *)getBodyPositionSizeRangeArrayBySex:(BOOL)isMan;
++(NSArray<PositionSizeRangeModel *> *)getBodyPositionSizeRangeArrayBySex:(BOOL)isMan andMTM:(BOOL)mtm;
+
+/**
+ * 获取指定部位的尺寸范围
+ **/
++(PositionSizeRangeModel *)getBodyPositionSizeRangeByName:(NSString *)positionName andSex:(BOOL)isMan andMTM:(BOOL)mtm;
 
 #pragma mark - 获取成衣尺寸
 
 /**
  * 获取指定的成衣品类的尺寸范围
  ***/
-+(NSArray<PositionSizeRangeModel *> *)getClothesPositionSizeRangeArray:(NSString *)catecode;
++(NSArray<PositionSizeRangeModel *> *)getClothesPositionSizeRangeArray:(NSString *)catecode andMTM:(BOOL)mtm;
 
 /**
- * 根据性别获取指定的成衣品类的尺寸范围
+ * 获取指定的成衣品类的尺寸范围
+ * @param catecode 成衣的品类
+ * @param isMan     男(YES) 女(NO)
+ * @param mtm       是否使用mtm数据
  ***/
-+(NSArray<PositionSizeRangeModel *> *)getClothesPositionSizeRangeArray:(NSString *)catecode bySex:(BOOL)isMan;
++(NSArray<PositionSizeRangeModel *> *)getClothesPositionSizeRangeArray:(NSString *)catecode bySex:(BOOL)isMan andMTM:(BOOL)mtm;
 
+/**
+ * 根据BLCode获取成衣品类的尺寸范围
+ **/
++(PositionSizeRangeModel *)getClothesPositionSizeRange:(NSString *)catecode byBLCode:(NSString *)blcode andMTM:(BOOL)mtm;
 
 
 @end

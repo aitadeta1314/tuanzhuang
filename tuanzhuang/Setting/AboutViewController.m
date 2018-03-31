@@ -7,11 +7,10 @@
 //
 
 #import "AboutViewController.h"
-#import "SimpleTableCell.h"
+#import "TableRow.h"
 #import "ExplainViewController.h"
 #import "CopyRightViewController.h"
 
-#define simpleCellIdentify @"simpleCellIden"
 @interface AboutViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 /**
@@ -66,7 +65,7 @@
             make.top.equalTo(imageView.mas_bottom).offset(30);
             
         }];
-        versions.text = @"团装APP1.0";
+        versions.text = [NSString stringWithFormat:@"团装APP%@",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
         versions.font = [UIFont boldSystemFontOfSize:14];
         versions.textAlignment = NSTextAlignmentCenter;
         versions.textColor = RGBColor(153, 153, 153);
@@ -90,7 +89,6 @@
         _tableView.dataSource = self;
         _tableView.backgroundColor = RGBColor(245, 245, 245);
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [_tableView registerNib:[UINib nibWithNibName:@"SimpleTableCell" bundle:nil] forCellReuseIdentifier:simpleCellIdentify];
         _tableView.tableHeaderView = self.headerView;
     }
     return _tableView;
@@ -98,7 +96,7 @@
 
 - (NSArray *)itemArr {
     if (!_itemArr) {
-        _itemArr = @[@"版本说明", @"版权信息"];
+        _itemArr = @[@"版本特性", @"版权信息"];
     }
     return _itemArr;
 }
@@ -106,10 +104,26 @@
 #pragma mark - uitableviewDelegate / datasource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    SimpleTableCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleCellIdentify forIndexPath:indexPath];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.listNameLb.text = self.itemArr[indexPath.row];
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    if(cell==nil){
+        cell = [[UITableViewCell alloc] init];
+        cell.layer.borderWidth = 0;
+        TableRow* row = [[TableRow alloc] init];
+        [cell addSubview:row];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [row mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.height.equalTo(cell);
+        }];
+        if(indexPath.row==0){
+            row.text(nil,self.itemArr[indexPath.row],@"").topLine(0).rightIcon(@"enter").bottomLine(40);
+        } else if(indexPath.row==1) {
+            
+            row.text(nil,self.itemArr[indexPath.row],@"").rightIcon(@"enter").bottomLine(0);
+        }
+        
+    }
     return cell;
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -121,13 +135,13 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44;
+    return 46;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger idx = indexPath.row;
     SuperViewController *vc = nil;
-    if ([self.itemArr[idx] isEqualToString:@"版本说明"]) {
+    if ([self.itemArr[idx] isEqualToString:@"版本特性"]) {
         vc = [[ExplainViewController alloc] init];
     }
     else if ([self.itemArr[idx] isEqualToString:@"版权信息"]) {

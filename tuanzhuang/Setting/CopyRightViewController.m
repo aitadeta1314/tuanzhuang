@@ -19,6 +19,10 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor whiteColor];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_W, SCREEN_H - 64)];
+    [self.view addSubview:imageView];
+    imageView.image = [UIImage imageNamed:@"版权信息.png"];
+    
 }
 
 - (void)didReceiveMemoryWarning {

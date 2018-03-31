@@ -2,7 +2,7 @@
 //  PersonnelModel+CoreDataProperties.h
 //  tuanzhuang
 //
-//  Created by zhang gaotang on 2018/3/9.
+//  Created by zhang gaotang on 2018/3/20.
 //  Copyright © 2018年 red. All rights reserved.
 //
 //
@@ -19,11 +19,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *category_config;
 @property (nullable, nonatomic, copy) NSString *companyid;
 @property (nullable, nonatomic, copy) NSString *department;
-@property (nullable, nonatomic, copy) NSDate *edittime;
+@property (nullable, nonatomic, copy) NSString *edittime;
 @property (nullable, nonatomic, copy) NSString *firstletter;
 @property (nonatomic) int16_t gender;
 @property (nonatomic) float height;
+@property (nonatomic) BOOL history;
 @property (nonatomic) BOOL ignored;
+@property (nonatomic) BOOL istemp;
 @property (nullable, nonatomic, copy) NSString *lid;
 @property (nullable, nonatomic, copy) NSString *lname;
 @property (nonatomic) BOOL mtm;
@@ -34,7 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *specialoptions;
 @property (nonatomic) int16_t status;
 @property (nonatomic) float weight;
-@property (nonatomic) BOOL history;
 @property (nullable, nonatomic, retain) NSSet<CategoryModel *> *category;
 @property (nullable, nonatomic, retain) CompanyModel *company;
 @property (nullable, nonatomic, retain) NSSet<PositionModel *> *position;

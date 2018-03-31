@@ -37,9 +37,9 @@
 {
     [super viewWillDisappear:animated];
     [_waterView stop];
-    [_multipeer setStartSyncBack:nil];
-    [_multipeer setOnLose:nil];
-    _multipeer.message.masterCode_1 = nil;
+//    [_multipeer setStartSyncBack:nil];
+//    [_multipeer setOnLose:nil];
+//    _multipeer.message.masterCode_1 = nil;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -125,11 +125,13 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
     //获取观察的新值
     CGFloat value = [change[NSKeyValueChangeNewKey] doubleValue];
+    weakObjc(self);
     dispatch_async(dispatch_get_main_queue(), ^{
         NSLog(@"进度:%f",value);
-        [self step:0 message:[NSString stringWithFormat:@"%0.0f%%",value*100]];
+        [weakself step:0 message:[NSString stringWithFormat:@"%0.0f%%",value*100]];
         if(1==value && 1==_waterView.step){
-            [self step:2 message:nil];
+            [weakself step:2 message:nil];
+            [weakself.progress removeObserver:weakself forKeyPath:@"fractionCompleted"];
         }
     });
 }

@@ -27,6 +27,11 @@
 -(BOOL)copiedOtherContainPerson:(PersonnelModel *)person;
 
 /**
+ * 清除指定公司无用的缓存数据
+ **/
+-(void)clearTempPersonDataByCompany:(CompanyModel *)company;
+
+/**
  * 清除公司公共数据
  **/
 -(void)clearDataByCompanyId:(NSString *)companyId;

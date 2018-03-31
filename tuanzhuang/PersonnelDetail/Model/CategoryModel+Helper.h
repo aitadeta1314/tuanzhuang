@@ -33,6 +33,11 @@
  ***/
 -(void)associatedSetCategoryAddtional;
 
+/**
+ * 根据品类编码获取品类名称
+ */
++(NSString *)getNameByCode:(NSString *)code;
+
 
 
 @end

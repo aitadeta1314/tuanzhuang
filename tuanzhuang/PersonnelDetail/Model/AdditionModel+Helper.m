@@ -9,6 +9,7 @@
 #import "AdditionModel+Helper.h"
 #import "PersonnelModel+Helper.h"
 #import "CategoryAddRangeModel.h"
+#import "PositionSizeRangeModel.h"
 
 static NSArray *_clothesLongArray;  //后衣长
 static NSArray *_sleeveLongArray;   //袖长
@@ -23,14 +24,15 @@ static NSDictionary *_positionDic;  //属性对应的量体部位
 static NSDictionary *_validatePositionDic;//验证量体部位
 
 @implementation AdditionModel (Helper)
+
 +(void)load{
     [super load];
     
     _clothesLongArray = @[Category_Code_A,Category_Code_CY,Category_Code_CD,Category_Code_W,Category_Code_C];
     
-    _sleeveLongArray = @[Category_Code_CY,Category_Code_CD];
+    _sleeveLongArray = @[Category_Code_CY,Category_Code_CD,Category_Code_A,Category_Code_W];
     
-    _pleatOptionArray = @[Category_Code_B,Category_Code_D];
+    _pleatOptionArray = @[Category_Code_B];
     
     _shoulderArray = @[Category_Code_A,Category_Code_CY,Category_Code_CD,Category_Code_C,Category_Code_W];
     
@@ -51,8 +53,10 @@ static NSDictionary *_validatePositionDic;//验证量体部位
                      };
     
     _validatePositionDic = @{
-                             Category_Code_CY:@"短袖长",   //长袖衬衣：不同步更新“短袖长”
-                             Category_Code_CD:@"袖长"     //短袖衬衣：不同步更新“袖长”
+                             Category_Code_CY:@[@"短袖长"],    //长袖衬衣：不同步更新“短袖长”
+                             Category_Code_A:@[@"短袖长"],     //西服：不同步更新“短袖长”
+                             Category_Code_W:@[@"短袖长"],     //大衣：不同步更新“短袖长”
+                             Category_Code_CD:@[@"袖长"]      //短袖衬衣：不同步更新“袖长”
                              };
 }
 
@@ -149,13 +153,11 @@ static NSDictionary *_validatePositionDic;//验证量体部位
     
     PersonnelModel *person = self.category.personnel;
     NSString *categoryCode = self.category.cate;
-    
-    NSInteger sex = person.gender;
-    
-    int pleat = CLOTHES_PLEAT_TYPE_NONE;
+
+    int pleat = CLOTHES_PLEAT_TYPE_NONE;    //女：默认“无褶”
     if ([categoryCode isEqualToString:Category_Code_B]) {
-        if (1 == sex) {
-            pleat = CLOTHES_PLEAT_TYPE_SINGLE;
+        if (PERSON_GENDER_MAN == person.gender) {
+            pleat = CLOTHES_PLEAT_TYPE_SINGLE;  //男：默认“单褶”
         }
     }
     
@@ -173,7 +175,7 @@ static NSDictionary *_validatePositionDic;//验证量体部位
             
             BOOL validate = [AdditionModel validateSyncPositioin:key inCategory:categoryCode];
             
-            if (validate) {
+            if (validate && size) {
                 [self setValue:@(size) forKey:properyName];
             }
             
@@ -183,11 +185,30 @@ static NSDictionary *_validatePositionDic;//验证量体部位
     CategoryAddRangeModel *rangeModel = [CategoryAddRangeModel rangeModelByCategory:categoryCode withPleatType:pleat];
     
     //赋值默认的加放量
-    if (0 == sex) {
+    if (PERSON_GENDER_WOMEN == person.gender) {
         self.increase = rangeModel.womenValue;
     }else{
         self.increase = rangeModel.manValue;
     }
+}
+
+/**
+ * 褶皱变更重置默认加放量
+ */
+-(void)resetIncreaseByPleatOption{
+    
+    PersonnelModel *person = self.category.personnel;
+    NSString *categoryCode = self.category.cate;
+    
+    CategoryAddRangeModel *rangeModel = [CategoryAddRangeModel rangeModelByCategory:categoryCode withPleatType:self.value_pleat];
+    
+    //赋值默认的加放量
+    if (PERSON_GENDER_WOMEN == person.gender) {
+        self.increase = rangeModel.womenValue;
+    }else{
+        self.increase = rangeModel.manValue;
+    }
+    
 }
 
 /**
@@ -213,15 +234,66 @@ static NSDictionary *_validatePositionDic;//验证量体部位
         changed = NO;
     }
     
+    //男性 针对 “西裙”品类：无修改
+    if (PERSON_GENDER_MAN == self.category.personnel.gender && [self.category.cate isEqualToString:Category_Code_D]) {
+        changed = NO;
+    }
+    
     return changed;
     
 }
 
 -(void)setValue:(id)value forKey:(NSString *)key{
     
-    if ([self shouldChangedValueBykey:key]) {
+    if ([self shouldChangedValueBykey:key] && [self validatePositionSizeRangeValue:value forKey:key]) {
+        
         [super setValue:value forKey:key];
+        
     }
+    
+}
+
+/**
+ * 验证部位是否在范围内
+ **/
+-(BOOL)validatePositionSizeRangeValue:(id)value forKey:(NSString *)key{
+    
+    BOOL isPass = YES;
+    
+    for (NSString *positionName in _positionDic.allKeys) {
+        NSString *keyName = [_positionDic objectForKey:positionName];
+        NSString *categoryCode = self.category.cate;
+        BOOL isMan = NO;
+        BOOL isMTM = NO;
+        
+        if (self.category && self.category.personnel) {
+            isMan = self.category.personnel.gender;
+            isMTM = self.category.personnel.mtm;
+        }
+        
+        if ([keyName isEqualToString:key] && [[self class] validateSyncPositioin:positionName inCategory:categoryCode]) {
+            
+            //获取指定部位的尺寸范围
+            PositionSizeRangeModel *rangeModel = [PositionSizeRangeModel getBodyPositionSizeRangeByName:positionName andSex:isMan andMTM:isMTM];
+            
+            if (rangeModel) {
+                NSInteger min = 0;
+                NSInteger max = 0;
+                
+                [rangeModel getRangeMin:&min andRangeMax:&max byIsMan:isMan];
+                
+                NSInteger size = [value integerValue];
+                
+                if (size != 0 && (size < min || size > max)) {
+                    isPass = NO;
+                }
+                
+                break;
+            }
+        }
+    }
+    
+    return isPass;
     
 }
 
@@ -258,13 +330,13 @@ static NSDictionary *_validatePositionDic;//验证量体部位
     
     BOOL validate = YES;
     
-    for (NSString *code in _validatePositionDic.allKeys) {
+    if ([_validatePositionDic.allKeys containsObject:categoryCode]) {
         
-        NSString *validate_position = [_validatePositionDic objectForKey:code];
+        NSArray *positionNameArray = [_validatePositionDic objectForKey:categoryCode];
         
-        if ([code isEqualToString:categoryCode] && [positionName isEqualToString:validate_position]) {
+        if ([positionNameArray containsObject:positionName]) {
+            //该量体部位：不能同步到加放量附加信息中
             validate = NO;
-            break;
         }
         
     }
